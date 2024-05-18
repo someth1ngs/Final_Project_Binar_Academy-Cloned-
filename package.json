@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start": "node ./api/index.js",
-    "dev": "nodemon ./api/index.js"
+    "dev": "nodemon ./api/index.js",
+    "postinstall": "prisma generate"
   },
   "dependencies": {
     "@prisma/client": "5.14.0",
