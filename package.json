@@ -2,6 +2,9 @@
   "name": "binar-project",
   "version": "0.0.0",
   "private": true,
+  "prisma": {
+    "seed": "node prisma/seeders/seed.js"
+  },
   "scripts": {
     "start": "node ./api/index.js",
     "dev": "nodemon ./api/index.js",
@@ -9,6 +12,7 @@
   },
   "dependencies": {
     "@prisma/client": "5.14.0",
+    "bcrypt": "^5.1.1",
     "cookie-parser": "~1.4.4",
     "cors": "^2.8.5",
     "debug": "~2.6.9",
