@@ -1,5 +1,8 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const { JWT_SECRET } = process.env;
 
 exports.getUser = async (req, res, next) => {
   try {
@@ -60,6 +63,52 @@ exports.addUser = async (req, res, next) => {
         user: response,
       },
     });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// function login
+exports.login = async (req, res, next) => {
+  try {
+    let { email, password } = req.body;
+
+    if (!email || !password) {
+      return res.status(400).json({
+        status: false,
+        message: 'Missing required field',
+        data: null
+      });
+    };
+
+    let user = await prisma.user.findFirst({ where: { email } });
+
+    if (!user) {
+      return res.status(401).json({
+        status: false,
+        message: 'Account not found.',
+        data: null
+      });
+    };
+
+    let isPasswordCorrect = await bcrypt.compare(password, user.password);
+
+    if (!isPasswordCorrect) {
+      return res.status(400).json({
+        status: false,
+        message: 'Invalid password.',
+        data: null
+      });
+    };
+    delete user.password
+
+    let token = jwt.sign(user, JWT_SECRET);
+    return res.status(200).json({
+      status: true,
+      message: 'User logged in success',
+      data: { ...user, token }
+    });
+
   } catch (error) {
     next(error);
   }
