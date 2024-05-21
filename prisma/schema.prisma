@@ -15,11 +15,52 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
+enum ROLE {
+  USER
+  ADMIN
+}
+
 model User {
-  id       Int    @id @default(autoincrement())
-  name     String
-  email    String @unique
-  password String
+  id            String         @id @default(uuid())
+  name          String
+  email         String         @unique
+  password      String
+  is_verified   Boolean        @default(false)
+  role          ROLE           @default(USER)
+  profile       Profile?
+  notifications Notification[]
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
 
   @@map("users")
+}
+
+model Profile {
+  id         String   @id @default(uuid())
+  user_id    String   @unique
+  user       User     @relation(fields: [user_id], references: [id])
+  address    String
+  phone      String
+  image      String
+  occupation String
+  birthdate  DateTime
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("profiles")
+}
+
+model Notification {
+  id      String  @id @default(uuid())
+  title   String
+  message String
+  is_read Boolean @default(false)
+  user    User    @relation(fields: [user_id], references: [id])
+  user_id String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("notifications")
 }
