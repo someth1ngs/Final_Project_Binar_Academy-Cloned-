@@ -25,10 +25,12 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
+const options = { customCssUrl: "/api-docs/swagger-ui.css", customSiteTitle: "The Words That I Know API - Swagger" };
 // Swagger
 const file = fs.readFileSync(`${__dirname}/api-docs.yaml`, "utf-8");
 const swaggerDocument = yaml.parse(file);
-app.use(`/api-docs`, express.static("node_modules/swagger-ui-dist/", { index: false }), swaggerUI.serve, swaggerUI.setup(swaggerDocument));
+app.use(`/api-docs`, swaggerUI.serve);
+app.get("/api-docs", swaggerUI.setup(swaggerDocument, options));
 
 // Route
 app.use("/api/v1", indexRouter);
