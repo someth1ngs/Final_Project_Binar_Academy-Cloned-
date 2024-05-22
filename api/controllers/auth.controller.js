@@ -99,6 +99,16 @@ exports.login = async (req, res, next) => {
         data: null,
       });
     }
+    if (!user.is_verified) {
+      delete user.password;
+      return res.status(401).json({
+        status: false,
+        message: "Account is not verified yet.",
+        data: {
+          user,
+        },
+      });
+    }
 
     let isPasswordCorrect = await bcrypt.compare(password, user.password);
 
@@ -269,10 +279,10 @@ exports.forgotPassword = async (req, res, next) => {
     if (!user) {
       return res.status(404).json({
         status: false,
-        message: 'Email not registered!',
-        data: null
+        message: "Email not registered!",
+        data: null,
       });
-    };
+    }
 
     const token = jwt.sign({ id: user.id, password: user.password }, JWT_SECRET, {
       expiresIn: "15m",
@@ -282,10 +292,9 @@ exports.forgotPassword = async (req, res, next) => {
 
     return res.status(200).json({
       status: true,
-      message: 'Link reset password has been sent to your email. Please check your email!',
-      data: sentMail
+      message: "Link reset password has been sent to your email. Please check your email!",
+      data: null,
     });
-
   } catch (error) {
     next(error);
   }
@@ -299,40 +308,39 @@ exports.resetPassword = async (req, res, next) => {
     if (!token || !password || !confirm) {
       return res.status(400).json({
         status: false,
-        message: 'Missing required field',
-        data: null
+        message: "Missing required field",
+        data: null,
       });
-    };
+    }
 
     if (password !== confirm) {
       return res.status(400).json({
         status: false,
-        message: 'Password doesnt match',
-        data: null
+        message: "Password doesnt match",
+        data: null,
       });
-    };
+    }
 
     let hashPassword = await bcrypt.hash(password, 10);
     jwt.verify(token, JWT_SECRET, async (err, decoded) => {
       if (err) {
         return res.status(403).json({
           status: false,
-          message: 'Invalid token'
+          message: "Invalid token",
         });
-      };
+      }
 
       let updatePassword = await prisma.user.update({
         where: { id: decoded.id },
-        data: { password: hashPassword }
+        data: { password: hashPassword },
       });
 
       return res.status(200).json({
         status: true,
-        message: 'Password successfull has been reset',
-        data: updatePassword
+        message: "Password successfull has been reset",
+        data: null,
       });
-    })
-
+    });
   } catch (error) {
     next(error);
   }

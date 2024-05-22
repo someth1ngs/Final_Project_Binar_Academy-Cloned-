@@ -5,6 +5,9 @@ const path = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const cors = require("cors");
+const yaml = require("yaml");
+const swaggerUI = require("swagger-ui-express");
+const fs = require("fs");
 
 const indexRouter = require("./routes/index");
 
@@ -22,6 +25,10 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
+// Swagger
+const file = fs.readFileSync("./api-docs.yaml", "utf-8");
+const swaggerDocument = yaml.parse(file);
+app.use(`/api-docs`, swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 // Route
 app.use("/api/v1", indexRouter);
 
