@@ -4,6 +4,7 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+<<<<<<< HEAD
 importers:
 
   .:
@@ -53,6 +54,57 @@ importers:
       yaml:
         specifier: ^2.4.2
         version: 2.4.2
+=======
+dependencies:
+  '@prisma/client':
+    specifier: 5.14.0
+    version: 5.14.0(prisma@5.14.0)
+  bcrypt:
+    specifier: ^5.1.1
+    version: 5.1.1
+  cookie-parser:
+    specifier: ~1.4.4
+    version: 1.4.6
+  cors:
+    specifier: ^2.8.5
+    version: 2.8.5
+  debug:
+    specifier: ~2.6.9
+    version: 2.6.9
+  dotenv:
+    specifier: ^16.4.5
+    version: 16.4.5
+  ejs:
+    specifier: ^3.1.10
+    version: 3.1.10
+  express:
+    specifier: ~4.16.1
+    version: 4.16.4
+  googleapis:
+    specifier: ^137.1.0
+    version: 137.1.0
+  jsonwebtoken:
+    specifier: ^9.0.2
+    version: 9.0.2
+  morgan:
+    specifier: ~1.9.1
+    version: 1.9.1
+  nodemailer:
+    specifier: ^6.9.13
+    version: 6.9.13
+  prisma:
+    specifier: ^5.14.0
+    version: 5.14.0
+  swagger-ui-dist:
+    specifier: ^5.17.12
+    version: 5.17.12
+  swagger-ui-express:
+    specifier: ^5.0.0
+    version: 5.0.0(express@4.16.4)
+  yaml:
+    specifier: ^2.4.2
+    version: 2.4.2
+>>>>>>> 4cea252d9c83a23dda0936b7d44cebc3307607f4
 
 packages:
 
