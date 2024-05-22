@@ -7,13 +7,21 @@ const { JWT_SECRET } = process.env;
 
 exports.getUser = async (req, res, next) => {
   try {
-    const users = await prisma.user.findMany({});
+    const users = await prisma.user.findMany({
+      select: {
+        id: true,
+        email: true,
+        name: true,
+        is_verified: true,
+        role: true,
+      },
+    });
 
     return res.status(200).json({
       status: true,
       message: "Successfully get users data",
       data: {
-        users,
+        users: users,
       },
     });
   } catch (error) {
