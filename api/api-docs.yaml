@@ -1,7 +1,7 @@
 openapi: 3.0.1
 info:
-  title: API DOCUMENTATION
-  description: API Documentation for Challenge 6 about Post and Deploy
+  title: NGEFLY.COM
+  description: API Documentation for NGEFLY.COM
   version: 1.0.1
   contact:
     email: adewanggan@gmail.com
@@ -15,9 +15,9 @@ paths:
   /auth/register:
     post:
       tags:
-        - "Users"
+        - "Auth"
       summary: Register
-      description: Mendaftarkan account baru kedalam database untuk sebuah akses
+      description: Register a new account into the database for access
       requestBody:
         required: true
         content:
@@ -110,13 +110,78 @@ paths:
                     example: Missing required field
                   data:
                     example: ~
+  /auth/verify/send:
+    post:
+      tags:
+        - "Auth"
+      summary: Verify Send
+      description: Send an Email to Verify
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: dewangga@gmail.com
+        
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Mail sent. Please check your email
+                  data:
+                    example: ~
+
+        404:
+          description: Account not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Account not found.
+                  data:
+                    example: ~
+
+        409:
+          description: Account already verified.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Account already verified.
+                  data:
+                    example: ~
 
   /auth/login:
     post:
       tags:
-        - "Users"
+        - "Auth"
       summary: Login
-      description: Login account untuk meminta token
+      description: Login account to request a token
       requestBody:
         required: true
         content:
@@ -187,13 +252,16 @@ paths:
                     type: boolean
                     example: false
                   message:
-                    type: string
-                    example: Missing required field
+                    anyOf:
+                      - type: string
+                        example: Missing required field
+                      - type: string
+                        example: Invalid password.
                   data:
                     example: ~
 
         401:
-          description: Incorrect password
+          description: Account is not verified yet.
           content:
             application/json:
               schema:
@@ -204,9 +272,36 @@ paths:
                     example: false
                   message:
                     type: string
-                    example: Invalid password.
+                    example: Account is not verified yet.
                   data:
-                    example: ~
+                    type: object
+                    properties:
+                      user:
+                        type: object
+                        properties:
+                          id:
+                            type: string
+                            example: a9bc30c4-9408-454b-8815-92ee6cbf46d7
+                          name:
+                            type: string
+                            example: dewangga
+                          email:
+                            type: string
+                            example: dewangga@gmail.com
+                          is_verified:
+                            type: boolean
+                            example: false
+                          role:
+                            type: string
+                            example: USER
+                          createdAt:
+                            type: string
+                            format: datetime
+                            example: "2024-05-22T04:05:11.993Z"
+                          updatedAt:
+                            type: string
+                            format: datetime
+                            example: "2024-05-22T04:05:11.993Z"
 
         404:
           description: User not found
