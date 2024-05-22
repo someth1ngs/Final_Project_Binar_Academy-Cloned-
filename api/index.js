@@ -28,7 +28,7 @@ app.use(express.static(path.join(__dirname, "public")));
 // Swagger
 const file = fs.readFileSync(`${__dirname}/api-docs.yaml`, "utf-8");
 const swaggerDocument = yaml.parse(file);
-app.use(`/api-docs`, swaggerUI.serve, swaggerUI.setup(swaggerDocument));
+app.use(`/api-docs`, express.static("node_modules/swagger-ui-dist/", { index: false }), swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 
 // Route
 app.use("/api/v1", indexRouter);

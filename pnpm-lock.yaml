@@ -44,6 +44,9 @@ dependencies:
   prisma:
     specifier: ^5.14.0
     version: 5.14.0
+  swagger-ui-dist:
+    specifier: ^5.17.12
+    version: 5.17.12
   swagger-ui-express:
     specifier: ^5.0.0
     version: 5.0.0(express@4.16.4)
