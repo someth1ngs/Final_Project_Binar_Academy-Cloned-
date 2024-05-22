@@ -48,7 +48,7 @@ exports.addUser = async (req, res, next) => {
     });
 
     if (duplicate) {
-      return res.status(400).json({
+      return res.status(409).json({
         status: false,
         message: "Email already used",
         data: null,
