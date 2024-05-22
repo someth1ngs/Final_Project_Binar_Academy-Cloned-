@@ -29,7 +29,7 @@ jobs:
         run: |
           export DATABASE_URL="${{secrets.DATABASE_URL_STAGING}}"
           export DIRECT_URL="${{secrets.DIRECT_URL_STAGING}}"
-          npx prisma migrate dev
+          npx prisma migrate reset
       - name: Pull Vercel Environment Information
         run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
       - name: Build Project Artifacts
