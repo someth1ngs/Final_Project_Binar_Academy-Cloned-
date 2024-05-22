@@ -176,6 +176,7 @@ paths:
                   data:
                     example: ~
 
+
   /auth/login:
     post:
       tags:
