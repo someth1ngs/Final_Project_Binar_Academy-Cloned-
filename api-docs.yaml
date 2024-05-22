@@ -165,7 +165,7 @@ paths:
                             example: false
                           token:
                             type: string
-                            example: 
+                            example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdGF0dXMiOnRydWUsIm1lc3NhZ2UiOiJVc2VyIGxvZ2dlZCBpbiBzdWNjZXNzIiwiZGF0YSI6eyJ1c2VyIjp7ImlkIjoiYTliYzMwYzQtOTQwOC00NTRiLTg4MTUtOTJlZTZjYmY0NmQ3IiwibmFtZSI6ImRld2FuZ2dhIiwiZW1haWwiOiJkZXdhbmdnYUBnbWFpbC5jb20iLCJpc192ZXJpZmllZCI6ZmFsc2V9fX0.nQCJSmf9aNfA9rCILwhSfw3nHacmfyijUCz8T9d2nAY
                           
 
         400:
