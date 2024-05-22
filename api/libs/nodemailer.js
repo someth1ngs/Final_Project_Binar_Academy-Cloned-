@@ -41,6 +41,43 @@ exports.sendVerifyEmail = async (userData, token) => {
   }
 };
 
+exports.sendResetPassword = async (userData, token) => {
+  try {
+    const accessToken = await oauth2Client.getAccessToken();
+    const transporter = nodemailer.createTransport({
+      service: "Gmail",
+      auth: {
+        type: "OAuth2",
+        user: process.env.EMAIL_SENDER,
+        clientId: GOOGLE_CLIENT_ID,
+        clientSecret: GOOGLE_CLIENT_SECRET,
+        refreshToken: GOOGLE_REFRESH_TOKEN,
+        accessToken: accessToken,
+      },
+    });
+
+    let url = `${process.env.FE_URL}/resetpassword/${token}`;
+    let html = await getHTML("link-reset.ejs", { name: userData.name, verify_url: url });
+
+    const mailOptions = {
+      from: process.env.EMAIL_SENDER,
+      to: userData.email,
+      subject: "NgeFly - Reset Password",
+      html: html,
+    };
+
+    const info = await transporter.sendMail(mailOptions);
+    console.log("Email sent: " + info.response);
+    return {
+      status: true,
+      message: "Success to Send Email",
+    };
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
 const getHTML = (fileName, data) => {
   return new Promise((resolve, reject) => {
     const path = `${__dirname}/../../views/templates/${fileName}`;
