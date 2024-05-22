@@ -148,24 +148,32 @@ paths:
                   data:
                     type: object
                     properties:
-                      user:
-                        type: object
-                        properties:
-                          id:
-                            type: string
-                            example: a9bc30c4-9408-454b-8815-92ee6cbf46d7
-                          name:
-                            type: string
-                            example: dewangga
-                          email:
-                            type: string
-                            example: dewangga@gmail.com
-                          is_verified:
-                            type: boolean
-                            example: false
-                          token:
-                            type: string
-                            example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdGF0dXMiOnRydWUsIm1lc3NhZ2UiOiJVc2VyIGxvZ2dlZCBpbiBzdWNjZXNzIiwiZGF0YSI6eyJ1c2VyIjp7ImlkIjoiYTliYzMwYzQtOTQwOC00NTRiLTg4MTUtOTJlZTZjYmY0NmQ3IiwibmFtZSI6ImRld2FuZ2dhIiwiZW1haWwiOiJkZXdhbmdnYUBnbWFpbC5jb20iLCJpc192ZXJpZmllZCI6ZmFsc2V9fX0.nQCJSmf9aNfA9rCILwhSfw3nHacmfyijUCz8T9d2nAY
+                      id:
+                        type: string
+                        example: 5a33647a-4f3d-4287-aba1-650b92a7a253
+                      name:
+                        type: string
+                        example: Admin
+                      email:
+                        type: string
+                        example: admin@admin.com
+                      is_verified:
+                        type: boolean
+                        example: true
+                      role:
+                        type: string
+                        example: ADMIN
+                      createdAt:
+                        type: string
+                        format: datetime
+                        example: "2024-05-22T04:03:20.510Z"
+                      updatedAt:
+                        type: string
+                        format: datetime
+                        example: "2024-05-22T04:03:20.510Z"
+                      token:
+                        type: string
+                        example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVhMzM2NDdhLTRmM2QtNDI4Ny1hYmExLTY1MGI5MmE3YTI1MyIsIm5hbWUiOiJBZG1pbiIsImVtYWlsIjoiYWRtaW5AYWRtaW4uY29tIiwiaXNfdmVyaWZpZWQiOnRydWUsInJvbGUiOiJBRE1JTiIsImNyZWF0ZWRBdCI6IjIwMjQtMDUtMjJUMDQ6MDM6MjAuNTEwWiIsInVwZGF0ZWRBdCI6IjIwMjQtMDUtMjJUMDQ6MDM6MjAuNTEwWiIsImlhdCI6MTcxNjM1NzMxMH0.DX5JBe_qs5gD2jwzcSUAOEdpYxal0PZafYIhFEeV5Uc
                           
 
         400:
