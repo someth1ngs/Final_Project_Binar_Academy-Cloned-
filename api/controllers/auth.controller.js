@@ -2,6 +2,7 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const { sendVerifyEmail } = require("../libs/nodemailer");
 const { JWT_SECRET } = process.env;
 
 exports.getUser = async (req, res, next) => {
@@ -84,7 +85,7 @@ exports.login = async (req, res, next) => {
     let user = await prisma.user.findFirst({ where: { email } });
 
     if (!user) {
-      return res.status(401).json({
+      return res.status(404).json({
         status: false,
         message: "Account not found.",
         data: null,
@@ -157,6 +158,94 @@ exports.register = async (req, res, next) => {
         user: user,
       },
     });
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.sendVerify = async (req, res, next) => {
+  try {
+    const { email } = req.body;
+
+    const user = await prisma.user.findUnique({
+      where: {
+        email: email,
+      },
+    });
+
+    if (!user) {
+      return res.status(404).json({
+        status: false,
+        message: "Account not found.",
+        data: null,
+      });
+    }
+    if (user.is_verified) {
+      return res.status(409).json({
+        status: false,
+        message: "Account already verified.",
+        data: null,
+      });
+    }
+
+    user.verify = true;
+
+    const token = jwt.sign(user, JWT_SECRET, {
+      expiresIn: "15m",
+    });
+    const sendMail = await sendVerifyEmail(user, token);
+    return res.status(200).json({
+      status: false,
+      message: "Mail sent. Please check your email",
+      data: null,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.verifyEmail = async (req, res, next) => {
+  try {
+    const { token } = req.params;
+
+    try {
+      const decode = jwt.verify(token, JWT_SECRET);
+
+      if (!decode.verify) {
+        return res.status(401).json({
+          status: false,
+          message: "Invalid verify email token.",
+          data: null,
+        });
+      }
+
+      const user = await prisma.user.update({
+        where: {
+          id: decode.id,
+          email: decode.email,
+        },
+        data: {
+          is_verified: true,
+        },
+      });
+      delete user.password;
+
+      const tokenLogin = jwt.sign(user, JWT_SECRET);
+      return res.status(200).json({
+        status: false,
+        message: "Verify Success. You're account is now verified",
+        data: {
+          user,
+          token: tokenLogin,
+        },
+      });
+    } catch (error) {
+      return res.status(401).json({
+        status: false,
+        message: "Invalid token",
+        data: null,
+      });
+    }
   } catch (error) {
     next(error);
   }
