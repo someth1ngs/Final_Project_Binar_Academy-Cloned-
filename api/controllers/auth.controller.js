@@ -2,7 +2,7 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const { sendVerifyEmail } = require("../libs/nodemailer");
+const { sendVerifyEmail, sendResetPassword } = require("../libs/nodemailer");
 const { JWT_SECRET } = process.env;
 
 exports.getUser = async (req, res, next) => {
@@ -121,6 +121,7 @@ exports.login = async (req, res, next) => {
     next(error);
   }
 };
+
 exports.register = async (req, res, next) => {
   try {
     const { name, email, password } = req.body;
@@ -254,6 +255,84 @@ exports.verifyEmail = async (req, res, next) => {
         data: null,
       });
     }
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.forgotPassword = async (req, res, next) => {
+  try {
+    const { email } = req.body;
+
+    let user = await prisma.user.findUnique({ where: { email } });
+
+    if (!user) {
+      return res.status(404).json({
+        status: false,
+        message: 'Email not registered!',
+        data: null
+      });
+    };
+
+    const token = jwt.sign({ id: user.id, password: user.password }, JWT_SECRET, {
+      expiresIn: "15m",
+    });
+
+    const sentMail = await sendResetPassword(user, token);
+
+    return res.status(200).json({
+      status: true,
+      message: 'Link reset password has been sent to your email. Please check your email!',
+      data: sentMail
+    });
+
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.resetPassword = async (req, res, next) => {
+  try {
+    const { token } = req.params;
+    const { password, confirm } = req.body;
+
+    if (!token || !password || !confirm) {
+      return res.status(400).json({
+        status: false,
+        message: 'Missing required field',
+        data: null
+      });
+    };
+
+    if (password !== confirm) {
+      return res.status(400).json({
+        status: false,
+        message: 'Password doesnt match',
+        data: null
+      });
+    };
+
+    let hashPassword = await bcrypt.hash(password, 10);
+    jwt.verify(token, JWT_SECRET, async (err, decoded) => {
+      if (err) {
+        return res.status(403).json({
+          status: false,
+          message: 'Invalid token'
+        });
+      };
+
+      let updatePassword = await prisma.user.update({
+        where: { id: decoded.id },
+        data: { password: hashPassword }
+      });
+
+      return res.status(200).json({
+        status: true,
+        message: 'Password successfull has been reset',
+        data: updatePassword
+      });
+    })
+
   } catch (error) {
     next(error);
   }
