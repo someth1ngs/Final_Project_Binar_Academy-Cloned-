@@ -30,7 +30,7 @@ const options = { customCssUrl: "/api-docs/swagger-ui.css", customSiteTitle: "Th
 const file = fs.readFileSync(`${__dirname}/api-docs.yaml`, "utf-8");
 const swaggerDocument = yaml.parse(file);
 app.use(`/api-docs`, swaggerUI.serve);
-app.get("/api-docs", swaggerUI.setup(swaggerDocument, options));
+app.get("/api-docs", swaggerUI.setup(swaggerDocument, { customJs: ["/api-docs/swagger-ui-bundle.js", "/api-docs/swagger-ui-standalone-preset.js"], customfavIcon: "/api-docs/favicon-32x32.png", ...options }));
 
 // Route
 app.use("/api/v1", indexRouter);
