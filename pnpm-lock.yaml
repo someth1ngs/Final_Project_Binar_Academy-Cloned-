@@ -506,7 +506,7 @@ snapshots:
       - supports-color
 
   '@prisma/client@5.14.0(prisma@5.14.0)':
-    dependencies:
+    optionalDependencies:
       prisma: 5.14.0
 
   '@prisma/debug@5.14.0': {}
