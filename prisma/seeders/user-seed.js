@@ -10,6 +10,9 @@ async function UserSeeder() {
         password: await bcrypt.hash("admin123", 10),
         role: "ADMIN",
         is_verified: true,
+        profile: {
+          create: {},
+        },
       },
       {
         name: "User",
@@ -17,18 +20,19 @@ async function UserSeeder() {
         password: await bcrypt.hash("user123", 10),
         role: "USER",
         is_verified: true,
+        profile: {
+          create: {},
+        },
       },
     ];
-    await prisma.user
-      .createMany({
-        data: data,
-      })
-      .then(() => {
-        resolve("Successfully insert user seed");
-      })
-      .catch((error) => {
-        reject(error);
+    for (item of data) {
+      await prisma.user.create({
+        data: item,
+        include: {
+          profile: true,
+        },
       });
+    }
   });
 }
 

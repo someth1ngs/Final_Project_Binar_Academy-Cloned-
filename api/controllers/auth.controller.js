@@ -60,6 +60,14 @@ exports.addUser = async (req, res, next) => {
         name,
         email,
         password,
+        profile: {
+          create: {
+            image: "http://url.com",
+          },
+        },
+      },
+      include: {
+        profile: true,
       },
     });
 
@@ -165,7 +173,11 @@ exports.register = async (req, res, next) => {
         name,
         email,
         password: encryptedPassword,
+        profile: {
+          create: {},
+        },
       },
+      include: true,
     });
 
     delete user.password;

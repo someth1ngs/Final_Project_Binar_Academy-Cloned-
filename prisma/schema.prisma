@@ -36,14 +36,14 @@ model User {
 }
 
 model Profile {
-  id         String   @id @default(uuid())
-  user_id    String   @unique
-  user       User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
-  address    String
-  phone      String
-  image      String
-  occupation String
-  birthdate  DateTime
+  id         String    @id @default(uuid())
+  user_id    String    @unique
+  user       User      @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  address    String?
+  phone      String?
+  image      String?
+  occupation String?
+  birthdate  DateTime?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
