@@ -14,100 +14,195 @@ tags:
 paths:
   /auth/register:
     post:
-        tags:
-          - "Users"
-        summary: register new account for Login and Post
-        description: mendaftarkan account baru kedalam database untuk sebuah akses
-        requestBody:
-          required: true
+      tags:
+        - "Users"
+      summary: Register
+      description: Mendaftarkan account baru kedalam database untuk sebuah akses
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: dewangga
+                email:
+                  type: string
+                  example: dewangga@gmail.com
+                password:
+                  type: string
+                  example: "12345"
+
+      responses:
+        201:
+          description: Success
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  name:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
                     type: string
-                    example: dewangga
-                  email:
-                    type: string
-                    example: dewangga@gmail.com
-                  password:
-                    type: string
-                    example: "12345"
+                    example: Successfully created account
+                  data:
+                    type: object
+                    properties:
+                      user:
+                        type: object
+                        properties:
+                          id:
+                            type: string
+                            example: a9bc30c4-9408-454b-8815-92ee6cbf46d7
+                          name:
+                            type: string
+                            example: dewangga
+                          email:
+                            type: string
+                            example: dewangga@gmail.com
+                          is_verified:
+                            type: boolean
+                            example: false
+                          role:
+                            type: string
+                            example: USER
+                          createdAt:
+                            type: string
+                            format: datetime
+                            example: "2024-05-22T04:05:11.993Z"
+                          updatedAt:
+                            type: string
+                            format: datetime
+                            example: "2024-05-22T04:05:11.993Z"
 
-        responses:
-          201:
-            description: Success
-            content:
-              application/json:
-                schema:
-                  type: object
-                  properties:
-                    status:
-                      type: boolean
-                      example: true
-                    message:
-                      type: string
-                      example: Successfully created account
-                    data:
-                      type: object
-                      properties:
-                        user:
-                          type: object
-                          properties:
-                            id:
-                              type: string
-                              example: a9bc30c4-9408-454b-8815-92ee6cbf46d7
-                            name:
-                              type: string
-                              example: dewangga
-                            email:
-                              type: string
-                              example: dewangga@gmail.com
-                            is_verified:
-                              type: boolean
-                              example: false
-                            role:
-                              type: string
-                              example: USER
-                            createdAt:
-                              type: string
-                              format: datetime
-                              example: "2024-05-22T04:05:11.993Z"
-                            updatedAt:
-                              type: string
-                              format: datetime
-                              example: "2024-05-22T04:05:11.993Z"
+        409:
+          description: Email has already been used!
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Email already used
+                  data:
+                    example: ~
 
+        400:
+          description: Input must be required
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Missing required field
+                  data:
+                    example: ~
+
+  /auth/login:
+    post:
+      tags:
+        - "Users"
+      summary: Login
+      description: Login account untuk meminta token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: dewangga
+                email:
+                  type: string
+                  example: dewangga@gmail.com
+                password:
+                  type: string
+                  example: "12345"
+
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: User logged in success
+                  data:
+                    type: object
+                    properties:
+                      user:
+                        type: object
+                        properties:
+                          id:
+                            type: string
+                            example: a9bc30c4-9408-454b-8815-92ee6cbf46d7
                           
-          409:
-            description: Email has already been used!
-            content:
-              application/json:
-                schema:
-                  type: object
-                  properties:
-                    status:
-                      type: boolean
-                      example: false
-                    message:
-                      type: string
-                      example: Email already used
-                    data:
-                      example: ~
 
-          400:
-            description: Input must be required
-            content:
-              application/json:
-                schema:
-                  type: object
-                  properties:
-                    status:
-                      type: boolean
-                      example: false
-                    message:
-                      type: string
-                      example: Missing required field
-                    data:
-                      example: ~
+        400:
+          description: Input must be required
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Missing required field
+                  data:
+                    example: ~
+
+        401:
+          description: Incorrect password
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Invalid password.
+                  data:
+                    example: ~
+
+        404:
+          description: User not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Account not found.
+                  data:
+                    example: ~
