@@ -228,10 +228,7 @@ exports.sendVerify = async (req, res, next) => {
     return res.status(200).json({
       status: true,
       message: "Mail sent. Please check your email",
-      data: {
-        user,
-        token,
-      },
+      data: token,
     });
   } catch (error) {
     next(error);
