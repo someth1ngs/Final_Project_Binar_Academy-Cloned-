@@ -7,7 +7,7 @@ info:
     email: adewanggan@gmail.com
 servers:
   - url: http://localhost:3000/api/v1
-  - url: https://binar-project-backend.vercel.app/api/v1
+  - url: https://binar-project-backend-staging.vercel.app/api/v1
 tags:
   - name: Auth
     description: Everything about your Authentication
@@ -127,7 +127,7 @@ paths:
                 email:
                   type: string
                   example: dumpfile978@gmail.com
-        
+
       responses:
         200:
           description: Success
@@ -507,7 +507,7 @@ paths:
                             type: string
                             format: datetime
                             example: "2024-05-22T04:05:11.993Z"
-                      
+
                       token:
                         type: string
                         example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjNlNTEyMmUyLWJjYzktNDRiOC1iMzg3LTUxYjMwY2JiMmM4ZiIsIm5hbWUiOiJkZXdhbmdnYSIsImVtYWlsIjoiZHVtcGZpbGU5NzhAZ21haWwuY29tIiwicGFzc3dvcmQiOiIkMmIkMTAkS1Z6YjlPM3o1V09PQmJqWE9oWTFVT2tlRk51VHNVaUU3UXB5YnduckdKVmlFNjdTb2hTUG0iLCJpc192ZXJpZmllZCI6ZmFsc2UsInJvbGUiOiJVU0VSIiwiY3JlYXRlZEF0IjoiMjAyNC0wNS0yMlQxNDo1NDo0NC4wMzNaIiwidXBkYXRlZEF0IjoiMjAyNC0wNS0yMlQxNDo1NDo0NC4wMzNaIiwidmVyaWZ5Ijp0cnVlLCJpYXQiOjE3MTYzODk2ODksImV4cCI6MTcxNjM5MDU4OX0.CnFBZ2SXn1zABkC0eP_whplhmmmFlFOAGCoowIN7KD4
