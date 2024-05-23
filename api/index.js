@@ -25,7 +25,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
-const options = { customCssUrl: "/api-docs/swagger-ui.css", customSiteTitle: "The Words That I Know API - Swagger" };
+const options = { customCssUrl: "/api-docs/swagger-ui.css", customSiteTitle: "NgeFly Documentation API" };
+
 // Swagger
 const file = fs.readFileSync(`${__dirname}/api-docs.yaml`, "utf-8");
 const swaggerDocument = yaml.parse(file);
