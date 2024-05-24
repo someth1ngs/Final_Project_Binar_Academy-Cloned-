@@ -194,10 +194,10 @@ paths:
               properties:
                 email:
                   type: string
-                  example: dewangga@gmail.com
+                  example: user@user.com
                 password:
                   type: string
-                  example: "12345"
+                  example: "user123"
 
       responses:
         200:
@@ -599,3 +599,68 @@ paths:
                     example: Profile not found
                   data:
                     example: ~
+
+      security:
+      - bearerAuth: []
+
+    put:
+      tags:
+        - "Profile"
+      summary: Edit Profile
+      description: Endpoint for Edit Profile
+      parameters:
+      - schema:
+          type: string
+        name: user_id
+        in: path
+        required: true
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: User
+                address:
+                  type: string
+                  example: "Jalan user"
+                phone:
+                  type: string
+                  example: "123456789"
+                occupation:
+                  type: string
+                  example: "USER"
+                birthdate:
+                  type: string
+                  example: "2010-10-10"
+
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Successfully edited profile data
+                  data:
+                    example: ~
+
+      security:
+      - bearerAuth: []
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
