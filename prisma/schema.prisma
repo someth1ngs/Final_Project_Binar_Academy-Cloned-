@@ -54,7 +54,6 @@ model Profile {
   user       User      @relation(fields: [user_id], references: [id], onDelete: Cascade)
   address    String?
   phone      String?
-  image      String?
   occupation String?
   birthdate  DateTime?
 
@@ -137,6 +136,7 @@ model Passenger {
   name        String
   birthdate   DateTime
   identity_id String
+  citizenship String
   category_id String
   category    Category @relation(fields: [category_id], references: [id], onDelete: Cascade)
   booking_id  String
