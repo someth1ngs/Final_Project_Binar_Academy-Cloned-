@@ -224,6 +224,7 @@ exports.sendVerify = async (req, res, next) => {
     const token = jwt.sign(user, JWT_SECRET, {
       expiresIn: "15m",
     });
+    
     const sendMail = await sendVerifyEmail(user, token);
     return res.status(200).json({
       status: true,
