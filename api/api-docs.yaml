@@ -654,6 +654,58 @@ paths:
                     example: Successfully edited profile data
                   data:
                     example: ~
+        
+        403:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: You are not authorized to edit this profile
+                  data:
+                    example: ~
+
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Profile not found for this user
+                  data:
+                    example: ~
+
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    anyOf:
+                      - type: string
+                        example: Failed to update profile
+                      - type: string
+                        example: Failed to update user name
+                  data:
+                    example: ~
+
 
       security:
       - bearerAuth: []
