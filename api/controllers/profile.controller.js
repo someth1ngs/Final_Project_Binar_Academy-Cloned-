@@ -5,6 +5,14 @@ exports.getProfile = async (req, res, next) => {
   try {
     const { user_id } = req.params;
 
+    if (user_id !== req.user_data.id) {
+      return res.status(403).json({
+        status: false,
+        message: "You are not authorized to see this profile",
+        data: null,
+      });
+    }
+
     const user = await prisma.user.findUnique({
       where: {
         id: user_id,
