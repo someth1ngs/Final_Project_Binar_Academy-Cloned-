@@ -49,7 +49,7 @@ exports.getProfile = async (req, res, next) => {
 exports.editProfile = async (req, res, next) => {
   try {
     const { user_id } = req.params;
-    const { address, phone, occupation, birthdate } = req.body;
+    const { name, address, phone, occupation, birthdate } = req.body;
 
     const user = await prisma.user.findUnique({
       where: {
@@ -93,13 +93,31 @@ exports.editProfile = async (req, res, next) => {
       });
     }
 
+    const editUserName = await prisma.user.update({
+      where: {
+        id: user_id,
+      },
+      data: {
+        name: name,
+      },
+    });
+
+    if (!editUserName) {
+      return res.status(500).json({
+        status: false,
+        message: "Failed to update user name",
+      });
+    }
+
     return res.status(200).json({
       status: true,
       message: "Successfully edited profile data",
-      data: editProfile,
+      data: null
     });
   } catch (error) {
     next(error);
   }
 };
+
+
 

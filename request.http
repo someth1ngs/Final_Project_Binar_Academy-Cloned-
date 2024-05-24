@@ -58,6 +58,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjFjMmM5YjMzL
 Content-Type: application/json
 
 {
+  "name": "User",
   "address": "Jalan user",
   "phone": "123456789",
   "occupation": "USER",
