@@ -511,6 +511,25 @@ paths:
                         type: string
                         example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjNlNTEyMmUyLWJjYzktNDRiOC1iMzg3LTUxYjMwY2JiMmM4ZiIsIm5hbWUiOiJkZXdhbmdnYSIsImVtYWlsIjoiZHVtcGZpbGU5NzhAZ21haWwuY29tIiwicGFzc3dvcmQiOiIkMmIkMTAkS1Z6YjlPM3o1V09PQmJqWE9oWTFVT2tlRk51VHNVaUU3UXB5YnduckdKVmlFNjdTb2hTUG0iLCJpc192ZXJpZmllZCI6ZmFsc2UsInJvbGUiOiJVU0VSIiwiY3JlYXRlZEF0IjoiMjAyNC0wNS0yMlQxNDo1NDo0NC4wMzNaIiwidXBkYXRlZEF0IjoiMjAyNC0wNS0yMlQxNDo1NDo0NC4wMzNaIiwidmVyaWZ5Ijp0cnVlLCJpYXQiOjE3MTYzODk2ODksImV4cCI6MTcxNjM5MDU4OX0.CnFBZ2SXn1zABkC0eP_whplhmmmFlFOAGCoowIN7KD4
 
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    anyOf:
+                      - type: string
+                        example: Invalid verify email token.
+                      - type: string
+                        example: Invalid token
+                  data:
+                    example: ~
+
   /profile/{user_id}:
     get:
       tags:
