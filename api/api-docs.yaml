@@ -1,13 +1,13 @@
 openapi: 3.0.1
 info:
-  title: API DOCUMENTATION
-  description: API Documentation for Challenge 6 about Post and Deploy
+  title: NGEFLY.COM
+  description: API Documentation for NGEFLY.COM
   version: 1.0.1
   contact:
     email: adewanggan@gmail.com
 servers:
   - url: http://localhost:3000/api/v1
-  - url: https://binar-project-backend.vercel.app/api/v1
+  - url: https://binar-project-backend-staging.vercel.app/api/v1
 tags:
   - name: Auth
     description: Everything about your Authentication
@@ -15,9 +15,9 @@ paths:
   /auth/register:
     post:
       tags:
-        - "Users"
+        - "Auth"
       summary: Register
-      description: Mendaftarkan account baru kedalam database untuk sebuah akses
+      description: Register a new account into the database for access
       requestBody:
         required: true
         content:
@@ -111,12 +111,78 @@ paths:
                   data:
                     example: ~
 
+  /auth/verify/send:
+    post:
+      tags:
+        - "Auth"
+      summary: Verify Send
+      description: Send an Email to Verify
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: dumpfile978@gmail.com
+
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Mail sent. Please check your email
+                  data:
+                    example: ~
+
+        404:
+          description: Account not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Account not found.
+                  data:
+                    example: ~
+
+        409:
+          description: Account already verified.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Account already verified.
+                  data:
+                    example: ~
+
   /auth/login:
     post:
       tags:
-        - "Users"
+        - "Auth"
       summary: Login
-      description: Login account untuk meminta token
+      description: Login account to request a token
       requestBody:
         required: true
         content:
@@ -174,7 +240,6 @@ paths:
                       token:
                         type: string
                         example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVhMzM2NDdhLTRmM2QtNDI4Ny1hYmExLTY1MGI5MmE3YTI1MyIsIm5hbWUiOiJBZG1pbiIsImVtYWlsIjoiYWRtaW5AYWRtaW4uY29tIiwiaXNfdmVyaWZpZWQiOnRydWUsInJvbGUiOiJBRE1JTiIsImNyZWF0ZWRBdCI6IjIwMjQtMDUtMjJUMDQ6MDM6MjAuNTEwWiIsInVwZGF0ZWRBdCI6IjIwMjQtMDUtMjJUMDQ6MDM6MjAuNTEwWiIsImlhdCI6MTcxNjM1NzMxMH0.DX5JBe_qs5gD2jwzcSUAOEdpYxal0PZafYIhFEeV5Uc
-                          
 
         400:
           description: Input must be required
@@ -187,13 +252,16 @@ paths:
                     type: boolean
                     example: false
                   message:
-                    type: string
-                    example: Missing required field
+                    anyOf:
+                      - type: string
+                        example: Missing required field
+                      - type: string
+                        example: Invalid password.
                   data:
                     example: ~
 
         401:
-          description: Incorrect password
+          description: Account is not verified yet.
           content:
             application/json:
               schema:
@@ -204,9 +272,36 @@ paths:
                     example: false
                   message:
                     type: string
-                    example: Invalid password.
+                    example: Account is not verified yet.
                   data:
-                    example: ~
+                    type: object
+                    properties:
+                      user:
+                        type: object
+                        properties:
+                          id:
+                            type: string
+                            example: a9bc30c4-9408-454b-8815-92ee6cbf46d7
+                          name:
+                            type: string
+                            example: dewangga
+                          email:
+                            type: string
+                            example: dewangga@gmail.com
+                          is_verified:
+                            type: boolean
+                            example: false
+                          role:
+                            type: string
+                            example: USER
+                          createdAt:
+                            type: string
+                            format: datetime
+                            example: "2024-05-22T04:05:11.993Z"
+                          updatedAt:
+                            type: string
+                            format: datetime
+                            example: "2024-05-22T04:05:11.993Z"
 
         404:
           description: User not found
@@ -223,3 +318,196 @@ paths:
                     example: Account not found.
                   data:
                     example: ~
+
+  /auth/forgotpassword:
+    post:
+      tags:
+        - "Auth"
+      summary: Forget Password
+      description: Send Email to Forget a Password
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: hamadakinose@gmail.com
+
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Link reset password has been sent to your email. Please check your email!
+                  data:
+                    example: ~
+
+        404:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Email not registered!
+                  data:
+                    example: ~
+
+  /auth/resetpassword/{token}:
+    post:
+      tags:
+        - "Auth"
+      summary: Reset Password
+      description: Send Email
+      parameters:
+        - schema:
+            type: string
+          name: token
+          in: path
+          required: true
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                password:
+                  type: string
+                  example: "123"
+                confirm:
+                  type: string
+                  example: "123"
+
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Password successfull has been reset
+                  data:
+                    example: ~
+
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    anyOf:
+                      - type: string
+                        example: Missing required field
+                      - type: string
+                        example: Password doesnt match
+                  data:
+                    example: ~
+
+        403:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    anyOf:
+                      - type: string
+                        example: Missing required field
+                      - type: string
+                        example: Password doesnt match
+                  data:
+                    example: ~
+
+  /auth/verify/{token}:
+    put:
+      tags:
+        - "Auth"
+      summary: Verify
+      description: Verify
+      parameters:
+        - schema:
+            type: string
+          name: token
+          in: path
+          required: true
+
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Verify Success. You're account is now verified
+                  data:
+                    type: object
+                    properties:
+                      user:
+                        type: object
+                        properties:
+                          id:
+                            type: string
+                            example: a9bc30c4-9408-454b-8815-92ee6cbf46d7
+                          name:
+                            type: string
+                            example: dewangga
+                          email:
+                            type: string
+                            example: dewangga@gmail.com
+                          is_verified:
+                            type: boolean
+                            example: false
+                          role:
+                            type: string
+                            example: USER
+                          createdAt:
+                            type: string
+                            format: datetime
+                            example: "2024-05-22T04:05:11.993Z"
+                          updatedAt:
+                            type: string
+                            format: datetime
+                            example: "2024-05-22T04:05:11.993Z"
+
+                      token:
+                        type: string
+                        example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjNlNTEyMmUyLWJjYzktNDRiOC1iMzg3LTUxYjMwY2JiMmM4ZiIsIm5hbWUiOiJkZXdhbmdnYSIsImVtYWlsIjoiZHVtcGZpbGU5NzhAZ21haWwuY29tIiwicGFzc3dvcmQiOiIkMmIkMTAkS1Z6YjlPM3o1V09PQmJqWE9oWTFVT2tlRk51VHNVaUU3UXB5YnduckdKVmlFNjdTb2hTUG0iLCJpc192ZXJpZmllZCI6ZmFsc2UsInJvbGUiOiJVU0VSIiwiY3JlYXRlZEF0IjoiMjAyNC0wNS0yMlQxNDo1NDo0NC4wMzNaIiwidXBkYXRlZEF0IjoiMjAyNC0wNS0yMlQxNDo1NDo0NC4wMzNaIiwidmVyaWZ5Ijp0cnVlLCJpYXQiOjE3MTYzODk2ODksImV4cCI6MTcxNjM5MDU4OX0.CnFBZ2SXn1zABkC0eP_whplhmmmFlFOAGCoowIN7KD4

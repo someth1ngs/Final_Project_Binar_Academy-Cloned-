@@ -226,9 +226,9 @@ exports.sendVerify = async (req, res, next) => {
     });
     const sendMail = await sendVerifyEmail(user, token);
     return res.status(200).json({
-      status: false,
+      status: true,
       message: "Mail sent. Please check your email",
-      data: null,
+      data: token,
     });
   } catch (error) {
     next(error);
@@ -263,7 +263,7 @@ exports.verifyEmail = async (req, res, next) => {
 
       const tokenLogin = jwt.sign(user, JWT_SECRET);
       return res.status(200).json({
-        status: false,
+        status: true,
         message: "Verify Success. You're account is now verified",
         data: {
           user,

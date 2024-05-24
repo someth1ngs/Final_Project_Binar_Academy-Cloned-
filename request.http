@@ -3,8 +3,8 @@ POST http://localhost:3000/api/v1/auth/login
 Content-Type: application/json
 
 {
-    "email":"adiirwn10@gmail.com",
-    "password":"adi123"
+    "email":"hamadakinose@gmail.com",
+    "password":"12345"
 }
 
 ### register users
@@ -12,7 +12,35 @@ POST http://localhost:3000/api/v1/auth/register
 Content-Type: application/json
 
 {
-    "name": "Adi Irawan",
-    "email": "adiirwn10@gmail.com",
-    "password": "adi123"
+    "name": "test",
+    "email": "test@gmail.com",
+    "password": "12345"
+}
+
+###
+POST http://localhost:3000/api/v1/auth/verify/send
+Content-Type: application/json
+
+{
+    "email": "hamadakinose@gmail.com"
+}
+
+###
+PUT http://localhost:3000/api/v1/auth/verify/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc4NmMyZWQxLTc5MzYtNDg5Yy1hOTI5LTQ1ZDQ2ZGEwZmIwNSIsIm5hbWUiOiJkZXdhbmdnYSIsImVtYWlsIjoiaGFtYWRha2lub3NlQGdtYWlsLmNvbSIsInBhc3N3b3JkIjoiJDJiJDEwJG82WjNBbmRRZDYzbTdCNHZ2RWpWRmV6WU1qNjhKazZ2eVhkc1FFV2Q5Y05PR0xRRUhvNExhIiwiaXNfdmVyaWZpZWQiOmZhbHNlLCJyb2xlIjoiVVNFUiIsImNyZWF0ZWRBdCI6IjIwMjQtMDUtMjJUMTM6MjY6MTAuMDYxWiIsInVwZGF0ZWRBdCI6IjIwMjQtMDUtMjJUMTM6MjY6MTAuMDYxWiIsInZlcmlmeSI6dHJ1ZSwiaWF0IjoxNzE2Mzg0NTc5LCJleHAiOjE3MTYzODU0Nzl9.PwTKPh5jpwt68sjNLHyNDfzkKNnJm_Bzs-BwkoClad0
+
+###
+POST http://localhost:3000/api/v1/auth/forgotpassword
+Content-Type: application/json
+
+{
+    "email": "hamadakinose@gmail.com"
+}
+
+###
+POST http://localhost:3000/api/v1/auth/resetpassword/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc4NmMyZWQxLTc5MzYtNDg5Yy1hOTI5LTQ1ZDQ2ZGEwZmIwNSIsInBhc3N3b3JkIjoiJDJiJDEwJG82WjNBbmRRZDYzbTdCNHZ2RWpWRmV6WU1qNjhKazZ2eVhkc1FFV2Q5Y05PR0xRRUhvNExhIiwiaWF0IjoxNzE2Mzg0ODEwLCJleHAiOjE3MTYzODU3MTB9.9-oL_3PxZIRQKNrr5Rwz7fO9rX9j0TWQ3iM-zQlBCgg
+Content-Type: application/json
+
+{
+    "password": "123",
+    "confirm": "123"
 }
