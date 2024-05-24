@@ -33,6 +33,7 @@ exports.getProfile = async (req, res, next) => {
       return res.status(404).json({
         status: false,
         message: "Profile not found",
+        data: null,
       });
     }
 
@@ -64,6 +65,7 @@ exports.editProfile = async (req, res, next) => {
       return res.status(404).json({
         status: false,
         message: "Profile not found for this user",
+        data: null,
       });
     }
 
@@ -71,9 +73,10 @@ exports.editProfile = async (req, res, next) => {
       return res.status(403).json({
         status: false,
         message: "You are not authorized to edit this profile",
+        data: null,
       });
     }
-    
+
     const editProfile = await prisma.profile.update({
       where: {
         id: user.profile.id,
@@ -90,6 +93,7 @@ exports.editProfile = async (req, res, next) => {
       return res.status(500).json({
         status: false,
         message: "Failed to update profile",
+        data: null
       });
     }
 
@@ -106,18 +110,16 @@ exports.editProfile = async (req, res, next) => {
       return res.status(500).json({
         status: false,
         message: "Failed to update user name",
+        data: null
       });
     }
 
     return res.status(200).json({
       status: true,
       message: "Successfully edited profile data",
-      data: null
+      data: null,
     });
   } catch (error) {
     next(error);
   }
 };
-
-
-

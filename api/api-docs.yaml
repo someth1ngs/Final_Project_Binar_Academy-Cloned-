@@ -11,6 +11,8 @@ servers:
 tags:
   - name: Auth
     description: Everything about your Authentication
+  - name: Profile
+    description: Everything about your Profile
 paths:
   /auth/register:
     post:
@@ -79,22 +81,6 @@ paths:
                             format: datetime
                             example: "2024-05-22T04:05:11.993Z"
 
-        409:
-          description: Email has already been used!
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  status:
-                    type: boolean
-                    example: false
-                  message:
-                    type: string
-                    example: Email already used
-                  data:
-                    example: ~
-
         400:
           description: Input must be required
           content:
@@ -108,6 +94,22 @@ paths:
                   message:
                     type: string
                     example: Missing required field
+                  data:
+                    example: ~
+
+        409:
+          description: Email has already been used!
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Email already used
                   data:
                     example: ~
 
@@ -426,14 +428,14 @@ paths:
                   message:
                     anyOf:
                       - type: string
-                        example: Missing required field
+                        example: Invalid Token
                       - type: string
                         example: Password doesnt match
                   data:
                     example: ~
 
         403:
-          description: Bad Request
+          description: Forbidden
           content:
             application/json:
               schema:
@@ -443,11 +445,8 @@ paths:
                     type: boolean
                     example: false
                   message:
-                    anyOf:
-                      - type: string
-                        example: Missing required field
-                      - type: string
-                        example: Password doesnt match
+                    type: string
+                    example: Invalid Token
                   data:
                     example: ~
 
@@ -511,3 +510,92 @@ paths:
                       token:
                         type: string
                         example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjNlNTEyMmUyLWJjYzktNDRiOC1iMzg3LTUxYjMwY2JiMmM4ZiIsIm5hbWUiOiJkZXdhbmdnYSIsImVtYWlsIjoiZHVtcGZpbGU5NzhAZ21haWwuY29tIiwicGFzc3dvcmQiOiIkMmIkMTAkS1Z6YjlPM3o1V09PQmJqWE9oWTFVT2tlRk51VHNVaUU3UXB5YnduckdKVmlFNjdTb2hTUG0iLCJpc192ZXJpZmllZCI6ZmFsc2UsInJvbGUiOiJVU0VSIiwiY3JlYXRlZEF0IjoiMjAyNC0wNS0yMlQxNDo1NDo0NC4wMzNaIiwidXBkYXRlZEF0IjoiMjAyNC0wNS0yMlQxNDo1NDo0NC4wMzNaIiwidmVyaWZ5Ijp0cnVlLCJpYXQiOjE3MTYzODk2ODksImV4cCI6MTcxNjM5MDU4OX0.CnFBZ2SXn1zABkC0eP_whplhmmmFlFOAGCoowIN7KD4
+
+  /profile/{user_id}:
+    get:
+      tags:
+        - "Profile"
+      summary: Get user and profile
+      description: Get detail on Users as well as Profile
+      parameters:
+        - schema:
+            type: string
+          name: user_id
+          in: path
+          required: true
+
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Successfully get profile data
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: 1c2c9b33-d237-46fb-b4a8-1f188d1b1276
+                      email:
+                        type: string
+                        example: user@user.com
+                      name:
+                        type: string
+                        example: User
+                      is_verified:
+                        type: boolean
+                        example: true
+                      role:
+                        type: string
+                        example: USER
+                      profile:
+                        type: object
+                        properties:
+                          id:
+                            type: string
+                            example: 8cf9bb7f-be36-4941-b4bb-f198d63c194c
+                          address:
+                            type: string
+                            example: Jalan user
+                          phone:
+                            type: string
+                            example: "123456789"
+                          occupation:
+                            type: string
+                            example: USER
+                          birthdate:
+                            type: string
+                            format: datetime
+                            example: "2010-10-10T00:00:00.000Z"
+                          createdAt:
+                            type: string
+                            format: datetime
+                            example: "2024-05-24T07:41:31.421Z"
+                          updatedAt:
+                            type: string
+                            format: datetime
+                            example: "2024-05-24T12:35:54.760Z"
+
+        404:
+          description: Profile not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Profile not found
+                  data:
+                    example: ~
