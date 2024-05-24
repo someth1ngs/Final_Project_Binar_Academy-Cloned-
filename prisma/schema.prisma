@@ -6,13 +6,13 @@
 
 generator client {
   provider      = "prisma-client-js"
-  binaryTargets = ["native", "rhel-openssl-3.0.x"] // komentari jika menggunakan database local
+  // binaryTargets = ["native", "rhel-openssl-3.0.x"] // komentari jika menggunakan database local
 }
 
 datasource db {
   provider  = "postgresql"
   url       = env("DATABASE_URL")
-  directUrl = env("DIRECT_URL") // komentari jika menggunakan database local
+  // directUrl = env("DIRECT_URL") // komentari jika menggunakan database local
 }
 
 enum ROLE {
@@ -54,7 +54,6 @@ model Profile {
   user       User      @relation(fields: [user_id], references: [id], onDelete: Cascade)
   address    String?
   phone      String?
-  image      String?
   occupation String?
   birthdate  DateTime?
 

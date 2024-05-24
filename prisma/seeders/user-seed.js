@@ -11,7 +11,12 @@ async function UserSeeder() {
         role: "ADMIN",
         is_verified: true,
         profile: {
-          create: {},
+          create: {
+            address: "Jalan admin",
+            phone: "1234567890",
+            occupation: "Administrator",
+            birthdate: new Date('2000-01-01'),
+          },
         },
       },
       {
@@ -21,7 +26,12 @@ async function UserSeeder() {
         role: "USER",
         is_verified: true,
         profile: {
-          create: {},
+          create: {
+            address: "Jalan user",
+            phone: "0987654321",
+            occupation: "User",
+            birthdate: new Date('2010-10-10'),
+          },
         },
       },
     ];

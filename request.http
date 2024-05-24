@@ -3,8 +3,8 @@ POST http://localhost:3000/api/v1/auth/login
 Content-Type: application/json
 
 {
-    "email":"hamadakinose@gmail.com",
-    "password":"12345"
+    "email":"admin@admin.com",
+    "password":"admin123"
 }
 
 ### register users
@@ -44,3 +44,23 @@ Content-Type: application/json
     "password": "123",
     "confirm": "123"
 }
+
+### GET PROFILES BY USER_ID
+GET http://localhost:3000/api/v1/profile/1c2c9b33-d237-46fb-b4a8-1f188d1b1276
+
+### GET ALL USER (BY ADMIN)
+GET http://localhost:3000/api/v1/auth/
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjE5ZDBkMTc4LTNiZTgtNGQ4OS04NGFkLTJlYmRhZWI2YTY1YyIsIm5hbWUiOiJBZG1pbiIsImVtYWlsIjoiYWRtaW5AYWRtaW4uY29tIiwiaXNfdmVyaWZpZWQiOnRydWUsInJvbGUiOiJBRE1JTiIsImNyZWF0ZWRBdCI6IjIwMjQtMDUtMjRUMDc6MjY6NDQuMDcwWiIsInVwZGF0ZWRBdCI6IjIwMjQtMDUtMjRUMDc6MjY6NDQuMDcwWiIsImlhdCI6MTcxNjUzNjM5OX0.0G9mTy9AFLy09Dabz_ohr7cx3KAQkllINuRnLqzwNMA
+
+### UPDATE PROFILES BY USER_ID
+PUT http://localhost:3000/api/v1/profile/1c2c9b33-d237-46fb-b4a8-1f188d1b1276
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjFjMmM5YjMzLWQyMzctNDZmYi1iNGE4LTFmMTg4ZDFiMTI3NiIsIm5hbWUiOiJVc2VyIiwiZW1haWwiOiJ1c2VyQHVzZXIuY29tIiwiaXNfdmVyaWZpZWQiOnRydWUsInJvbGUiOiJVU0VSIiwiY3JlYXRlZEF0IjoiMjAyNC0wNS0yNFQwNzo0MTozMS40MjFaIiwidXBkYXRlZEF0IjoiMjAyNC0wNS0yNFQwNzo0MTozMS40MjFaIiwiaWF0IjoxNzE2NTM3NTAyfQ.4jyHGITL29ZDHzM1KiLYQiygeHWUkUT2SHwoacrtcv4
+Content-Type: application/json
+
+{
+  "address": "Jalan user",
+  "phone": "123456789",
+  "occupation": "USER",
+  "birthdate": "2010-10-10"
+}
+
