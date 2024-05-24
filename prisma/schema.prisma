@@ -83,7 +83,7 @@ model Airport {
   name      String
   city      String
   country   String
-  visited   Int
+  visited   Int      @default(0)
   arrives   Flight[] @relation(name: "arrive")
   departure Flight[] @relation(name: "departure")
 
@@ -97,7 +97,8 @@ model Plane {
   id                   String   @id @default(uuid())
   plane_code           String
   airline              String
-  capacity             Int
+  baggage              Int      @default(15)
+  cabin_baggage        Int      @default(5)
   economy_seat         Int
   premium_economy_seat Int
   business_seat        Int
@@ -112,7 +113,7 @@ model Plane {
 
 model Category {
   id         String      @id @default(uuid())
-  type       String
+  type       String      @unique
   discount   Int
   passengers Passenger[]
   createdAt  DateTime    @default(now())
