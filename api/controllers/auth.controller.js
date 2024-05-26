@@ -3,6 +3,7 @@ const prisma = new PrismaClient();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { sendVerifyEmail, sendResetPassword } = require("../libs/nodemailer");
+const { addNotification } = require("../libs/notification");
 const { JWT_SECRET } = process.env;
 
 exports.getUser = async (req, res, next) => {
@@ -182,6 +183,8 @@ exports.register = async (req, res, next) => {
 
     delete user.password;
 
+    await addNotification("Welcome!", "Your account has been added", user.id);
+
     return res.status(201).json({
       status: true,
       message: "Successfully created account",
@@ -224,7 +227,7 @@ exports.sendVerify = async (req, res, next) => {
     const token = jwt.sign(user, JWT_SECRET, {
       expiresIn: "15m",
     });
-    
+
     const sendMail = await sendVerifyEmail(user, token);
     return res.status(200).json({
       status: true,
@@ -263,6 +266,7 @@ exports.verifyEmail = async (req, res, next) => {
       delete user.password;
 
       const tokenLogin = jwt.sign(user, JWT_SECRET);
+      await addNotification("Verify Email", "Verify Email Sukses", decode.id);
       return res.status(200).json({
         status: true,
         message: "Verify Success. You're account is now verified",
@@ -272,6 +276,7 @@ exports.verifyEmail = async (req, res, next) => {
         },
       });
     } catch (error) {
+      console.log(error);
       return res.status(401).json({
         status: false,
         message: "Invalid token",
@@ -347,6 +352,8 @@ exports.resetPassword = async (req, res, next) => {
         where: { id: decoded.id },
         data: { password: hashPassword },
       });
+
+      await addNotification("Reset password", "Reset password berhasil", decoded.id);
 
       return res.status(200).json({
         status: true,
