@@ -66,8 +66,11 @@ Content-Type: application/json
   "birthdate": "2010-10-10"
 }
 
-### GET ALL USER (BY ADMIN)
+###
 GET http://localhost:3000/api/v1/notification/a234a6df-7b0d-4971-8f8a-f00f221f72f1
 
-### GET ALL USER (BY ADMIN)
+###
 GET http://localhost:3000/api/v1/notification/a234a6df-7b0d-4971-8f8a-f00f221f72f1/read
+
+###
+GET http://localhost:3000/api/v1/tax
