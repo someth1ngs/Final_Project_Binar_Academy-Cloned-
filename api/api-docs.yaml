@@ -13,6 +13,8 @@ tags:
     description: Everything about your Authentication
   - name: Profile
     description: Everything about your Profile
+  - name: Notification
+    description: Everything about your Notification
 paths:
   /auth/register:
     post:
@@ -729,6 +731,109 @@ paths:
       security:
       - bearerAuth: []
 
+  /notification/{user_id}:
+    get:
+      tags:
+        - "Notification"
+      summary: GET Notification
+      description: To GET All Notification for User, specified by User_id
+      parameters:
+      - schema:
+          type: string
+        name: user_id
+        in: path
+        required: true
+
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Get notifications successfull.
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          example: 25085ba9-d2c7-48db-9d30-7ea5b2e816e8
+                        title:
+                          type: string
+                          example: Verify Email
+                        message:
+                          type: string
+                          example: Verify Email Sukses
+                        is_read:
+                          type: boolean
+                          example: false
+                        user_id:
+                          type: string
+                          example: a234a6df-7b0d-4971-8f8a-f00f221f72f1
+                        createdAt:
+                          type: string
+                          example: "2024-05-26T08:32:39.321Z"
+                        updatedAt:
+                          type: string
+                          example: "2024-05-26T08:34:21.521Z"
+
+        404:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Notifications not found.
+                  data:
+                    example: ~
+
+  /notification/{user_id}/read:
+    get:
+      tags:
+        - "Notification"
+      summary: GET Notification
+      description: To GET All Notification for User, specified by User_id
+      parameters:
+      - schema:
+          type: string
+        name: user_id
+        in: path
+        required: true
+
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Notification marked as read
+                  data:
+                    type: object
+                    properties:
+                      count:
+                        type: integer
+                        example: 2
 components:
   securitySchemes:
     bearerAuth:
