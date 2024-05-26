@@ -805,8 +805,8 @@ paths:
     get:
       tags:
         - "Notification"
-      summary: GET Notification
-      description: To GET All Notification for User, specified by User_id
+      summary: Read Notification
+      description: to make all notification (specified by User_id) read
       parameters:
       - schema:
           type: string
