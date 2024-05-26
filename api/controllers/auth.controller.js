@@ -183,6 +183,8 @@ exports.register = async (req, res, next) => {
 
     delete user.password;
 
+    await addNotification("Welcome!", "Your account has been added", user.id);
+
     return res.status(201).json({
       status: true,
       message: "Successfully created account",
