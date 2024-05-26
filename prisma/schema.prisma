@@ -5,14 +5,14 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider      = "prisma-client-js"
-  binaryTargets = ["native", "rhel-openssl-3.0.x"] // komentari jika menggunakan database local
+  provider = "prisma-client-js"
+  // binaryTargets = ["native", "rhel-openssl-3.0.x"] // komentari jika menggunakan database local
 }
 
 datasource db {
-  provider  = "postgresql"
-  url       = env("DATABASE_URL")
-  directUrl = env("DIRECT_URL") // komentari jika menggunakan database local
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  // directUrl = env("DIRECT_URL") // komentari jika menggunakan database local
 }
 
 enum ROLE {
@@ -30,6 +30,12 @@ enum CLASS {
 enum FLIGHT_TYPE {
   DOMESTIC
   INTERNATIONAL
+}
+
+enum STATUS_PAID {
+  ISSUED
+  UNPAID
+  CANCELLED
 }
 
 model User {
@@ -78,13 +84,14 @@ model Notification {
 }
 
 model Airport {
-  id        String   @id @default(uuid())
-  name      String
-  city      String
-  country   String
-  visited   Int      @default(0)
-  arrives   Flight[] @relation(name: "arrive")
-  departure Flight[] @relation(name: "departure")
+  id           String   @id @default(uuid())
+  airport_code String   @unique
+  name         String
+  city         String
+  country      String
+  visited      Int      @default(0)
+  arrives      Flight[] @relation(name: "arrive")
+  departure    Flight[] @relation(name: "departure")
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -94,7 +101,7 @@ model Airport {
 
 model Plane {
   id                   String   @id @default(uuid())
-  plane_code           String
+  plane_code           String   @unique
   airline              String
   baggage              Int      @default(15)
   cabin_baggage        Int      @default(5)
@@ -149,19 +156,22 @@ model Passenger {
 }
 
 model Flight {
-  id             String         @id @default(uuid())
-  plane_id       String
-  plane          Plane          @relation(fields: [plane_id], references: [id], onDelete: Cascade)
-  from_id        String
-  to_id          String
-  from           Airport        @relation(fields: [from_id], references: [id], onDelete: Cascade, name: "departure")
-  to             Airport        @relation(fields: [to_id], references: [id], onDelete: Cascade, name: "arrive")
-  departureAt    DateTime
-  arriveAt       DateTime
-  flight_type    FLIGHT_TYPE
-  flight_classes Flight_Class[]
-  createdAt      DateTime       @default(now())
-  updatedAt      DateTime       @updatedAt
+  id                 String         @id @default(uuid())
+  plane_code         String
+  plane              Plane          @relation(fields: [plane_code], references: [plane_code], onDelete: Cascade)
+  from_code          String
+  to_code            String
+  from               Airport        @relation(fields: [from_code], references: [airport_code], onDelete: Cascade, name: "departure")
+  to                 Airport        @relation(fields: [to_code], references: [airport_code], onDelete: Cascade, name: "arrive")
+  departureAt        DateTime
+  arriveAt           DateTime
+  is_return          Boolean        @default(false)
+  return_departureAt DateTime?
+  return_arriveAt    DateTime?
+  flight_type        FLIGHT_TYPE
+  flight_classes     Flight_Class[]
+  createdAt          DateTime       @default(now())
+  updatedAt          DateTime       @updatedAt
 
   @@map("flights")
 }
@@ -182,11 +192,12 @@ model Flight_Class {
 }
 
 model Payment {
-  id            String   @id @default(uuid())
+  id            String      @id @default(uuid())
   user_id       String
-  user          User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  user          User        @relation(fields: [user_id], references: [id], onDelete: Cascade)
   total_payment Int
-  status        Boolean  @default(false)
+  qr_url        String
+  status        STATUS_PAID @default(UNPAID)
   expiredAt     DateTime
   booking       Booking?
 
@@ -204,7 +215,8 @@ model Booking {
   flight_class_id String
   flight_class    Flight_Class @relation(fields: [flight_class_id], references: [id], onDelete: Cascade)
   total_seat      Int
-  ticket_price    Int
+  total_price     Int
+  include_return  Boolean      @default(false)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
