@@ -15,6 +15,10 @@ tags:
     description: Everything about your Profile
   - name: Notification
     description: Everything about your Notification
+  - name: Tax
+    description: Everything about your Tax
+  - name: Category
+    description: Everything about your Category
 paths:
   /auth/register:
     post:
@@ -871,7 +875,49 @@ paths:
                       updatedAt:
                         type: string
                         example: "2024-05-26T08:31:58.054Z"
-                        
+
+  /category:
+    get:
+      tags:
+        - "Category"
+      summary: Get all Category
+      description: Get All Category exist in Database
+
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Successfully retrieved categories data
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          example: 4ba4e269-1b22-4a07-977a-beb4870d4d00
+                        type:
+                          type: string
+                          example: adult
+                        discount:
+                          type: integer
+                          example: 0
+                        createdAt:
+                          type: string
+                          example: "2024-05-26T08:31:58.007Z"
+                        updatedAt:
+                          type: string
+                          example: "2024-05-26T08:31:58.007Z"
+
 components:
   securitySchemes:
     bearerAuth:
