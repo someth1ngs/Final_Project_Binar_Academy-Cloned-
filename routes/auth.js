@@ -12,6 +12,6 @@ router.post("/verify/send", sendVerify);
 router.put("/verify/:token", verifyEmail);
 router.post("/forgotpassword", forgotPassword);
 router.post("/resetpassword/:token", resetPassword);
-router.post("/changepassword", middleware, changePassword);
+router.put("/changepassword", middleware, changePassword);
 
 module.exports = router;
