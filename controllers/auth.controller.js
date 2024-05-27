@@ -302,15 +302,20 @@ exports.forgotPassword = async (req, res, next) => {
       });
     }
 
-    const token = jwt.sign({ id: user.id, password: user.password }, JWT_SECRET, {
-      expiresIn: "15m",
-    });
+    const token = jwt.sign(
+      { id: user.id, password: user.password },
+      JWT_SECRET,
+      {
+        expiresIn: "15m",
+      }
+    );
 
     const sentMail = await sendResetPassword(user, token);
 
     return res.status(200).json({
       status: true,
-      message: "Link reset password has been sent to your email. Please check your email!",
+      message:
+        "Link reset password has been sent to your email. Please check your email!",
       data: null,
     });
   } catch (error) {
@@ -353,7 +358,11 @@ exports.resetPassword = async (req, res, next) => {
         data: { password: hashPassword },
       });
 
-      await addNotification("Reset password", "Reset password berhasil", decoded.id);
+      await addNotification(
+        "Reset password",
+        "Reset password berhasil",
+        decoded.id
+      );
 
       return res.status(200).json({
         status: true,
@@ -361,6 +370,58 @@ exports.resetPassword = async (req, res, next) => {
         data: null,
       });
     });
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.changePassword = async (req, res, next) => {
+  try {
+    const user_id = req.user_data.id;
+    const { password, confirm } = req.body;
+
+    if (!user_id) {
+      return res.status(403).json({
+        status: false,
+        message: "You are not authorized to change this users account",
+        data: null,
+      });
+    }
+
+    if (!password || !confirm) {
+      return res.status(400).json({
+        status: false,
+        message: "Missing required field",
+        data: null,
+      });
+    }
+
+    if (password !== confirm) {
+      return res.status(400).json({
+        status: false,
+        message: "Password doesnt match",
+        data: null,
+      });
+    }
+
+    let hashPassword = await bcrypt.hash(password, 10);
+    let changePassword = await prisma.user.update({
+      where: { id: user_id },
+      data: { password: hashPassword },
+    });
+
+    await addNotification(
+      "Change password",
+      "Ganti password berhasil",
+      user_id
+    );
+
+    return res.status(200).json({
+      status: true,
+      message: "Password successfull has been reset",
+      data: null,
+    });
+
   } catch (error) {
     next(error);
   }
