@@ -8,8 +8,9 @@ exports.getNotification = async (req, res, next) => {
 
         if (!user_id) {
             return res.status(404).json({
-                status: true,
-                message: 'Notifications not found.'
+                status: false,
+                message: 'Notifications not found.',
+                data: null
             })
         }
 
