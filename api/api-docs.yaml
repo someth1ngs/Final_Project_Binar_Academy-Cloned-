@@ -834,6 +834,44 @@ paths:
                       count:
                         type: integer
                         example: 2
+
+  /tax:
+    get:
+      tags:
+        - "Tax"
+      summary: Get Tax
+      description: Get Taxes
+
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Get tax successfull.
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 1
+                      percent:
+                        type: integer
+                        example: 5
+                      createdAt:
+                        type: string
+                        example: "2024-05-26T08:31:58.054Z"
+                      updatedAt:
+                        type: string
+                        example: "2024-05-26T08:31:58.054Z"
+                        
 components:
   securitySchemes:
     bearerAuth:
