@@ -383,7 +383,7 @@ exports.changePassword = async (req, res, next) => {
     if (!user_id) {
       return res.status(403).json({
         status: false,
-        message: "You are not authorized to change this users account",
+        message: "You are not authorized to change this users password",
         data: null,
       });
     }
@@ -418,7 +418,7 @@ exports.changePassword = async (req, res, next) => {
 
     return res.status(200).json({
       status: true,
-      message: "Password successfull has been reset",
+      message: "Password successfully changed",
       data: null,
     });
 
