@@ -918,6 +918,22 @@ paths:
                           type: string
                           example: "2024-05-26T08:31:58.007Z"
 
+        404:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Data Category not found.
+                  data:
+                    example: ~
+
   /category/{category_id}:
     get:
       tags:
@@ -966,6 +982,22 @@ paths:
                       passengers:
                         type: array
                         example: []
+        
+        404:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Data Category not found.
+                  data:
+                    example: ~
 
 components:
   securitySchemes:

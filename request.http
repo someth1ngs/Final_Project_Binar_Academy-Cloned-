@@ -79,4 +79,4 @@ GET http://localhost:3000/api/v1/tax
 GET http://localhost:3000/api/v1/category/
 
 ###
-GET http://localhost:3000/api/v1/category/4ba4e269-1b22-4a07-977a-beb4870d4d00
+GET http://localhost:3000/api/v1/category/4b4e269-1b22-4a07-977a-beb4870d4d00
