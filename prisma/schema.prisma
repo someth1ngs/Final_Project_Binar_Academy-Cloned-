@@ -90,6 +90,7 @@ model Airport {
   city         String
   country      String
   visited      Int      @default(0)
+  image_url    String
   arrives      Flight[] @relation(name: "arrive")
   departure    Flight[] @relation(name: "departure")
 

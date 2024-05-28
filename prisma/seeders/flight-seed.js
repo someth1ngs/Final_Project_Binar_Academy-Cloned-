@@ -1,5 +1,5 @@
 const { PrismaClient } = require("@prisma/client");
-const { addingDays } = require("../../api/libs/date-fns");
+const { addingDays } = require("../../libs/date-fns");
 const prisma = new PrismaClient();
 async function FlightSeeder() {
   return new Promise(async (resolve, reject) => {
