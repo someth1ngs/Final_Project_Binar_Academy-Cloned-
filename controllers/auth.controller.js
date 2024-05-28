@@ -369,34 +369,32 @@ exports.resetPassword = async (req, res, next) => {
 
 exports.googleLogin = async (req, res, next) => {
   try {
+    // GET ACCESS TOKEN
     const { access_token } = req.body;
 
     if (!access_token) {
-      if (!access_token) {
-        return res.status(400).json({
-          status: false,
-          message: "Missing required field",
-          data: null,
-        });
-      }
+      return res.status(400).json({
+        status: false,
+        message: "Missing required field",
+        data: null,
+      });
     }
 
+    // GET GOOGLE DATA USING ACCESS TOKEN
     const googleData = await axios.get(`https://www.googleapis.com/oauth2/v3/userinfo?access_token=${access_token}`);
 
+    // UPSERT USER DATA IN CASE USER ALREADY EXIST
     const user = await prisma.user.upsert({
       where: {
         email: googleData?.data?.email,
       },
       update: {
-        email: googleData?.data?.email,
         name: googleData?.data?.name,
-        password: "",
-        is_verified: true,
       },
       create: {
         email: googleData?.data?.email,
         name: googleData?.data?.name,
-        password: "",
+        password: await bcrypt.hash(googleData?.data?.sub, 10),
         is_verified: true,
         profile: {
           create: {},
@@ -404,10 +402,13 @@ exports.googleLogin = async (req, res, next) => {
       },
     });
 
+    // DELETE USER PASSWORD FROM VARIABLE
     delete user.password;
 
+    // CREATE TOKEN
     const token = jwt.sign(user, JWT_SECRET);
 
+    // RETURN
     return res.status(200).json({
       status: true,
       message: "Successfully login with Google",
