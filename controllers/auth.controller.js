@@ -4,6 +4,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { sendVerifyEmail, sendResetPassword } = require("../libs/nodemailer");
 const { addNotification } = require("../libs/notification");
+const { default: axios } = require("axios");
 const { JWT_SECRET } = process.env;
 
 exports.getUser = async (req, res, next) => {
@@ -360,6 +361,60 @@ exports.resetPassword = async (req, res, next) => {
         message: "Password successfull has been reset",
         data: null,
       });
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.googleLogin = async (req, res, next) => {
+  try {
+    const { access_token } = req.body;
+
+    if (!access_token) {
+      if (!access_token) {
+        return res.status(400).json({
+          status: false,
+          message: "Missing required field",
+          data: null,
+        });
+      }
+    }
+
+    const googleData = await axios.get(`https://www.googleapis.com/oauth2/v3/userinfo?access_token=${access_token}`);
+
+    const user = await prisma.user.upsert({
+      where: {
+        email: googleData?.data?.email,
+      },
+      update: {
+        email: googleData?.data?.email,
+        name: googleData?.data?.name,
+        password: "",
+        is_verified: true,
+      },
+      create: {
+        email: googleData?.data?.email,
+        name: googleData?.data?.name,
+        password: "",
+        is_verified: true,
+        profile: {
+          create: {},
+        },
+      },
+    });
+
+    delete user.password;
+
+    const token = jwt.sign(user, JWT_SECRET);
+
+    return res.status(200).json({
+      status: true,
+      message: "Successfully login with Google",
+      data: {
+        user,
+        token,
+      },
     });
   } catch (error) {
     next(error);
