@@ -10,19 +10,10 @@ exports.filterFlight = async (req) => {
     };
   }
 
-  const startOfDay = new Date(departureAt);
-  startOfDay.setHours(0, 0, 0, 0);
-
-  const endOfDay = new Date(departureAt);
-  endOfDay.setHours(23, 59, 59, 999);
-
   const where = {
     from_code: from_code,
     to_code: to_code,
-    departureAt: {
-      gte: startOfDay,
-      lte: endOfDay,
-    },
+
     flight_classes: {
       some: {
         available_seats: {
@@ -32,6 +23,18 @@ exports.filterFlight = async (req) => {
       },
     },
   };
+
+  if (departureAt) {
+    const startOfDay = new Date(departureAt);
+    startOfDay.setHours(0, 0, 0, 0);
+
+    const endOfDay = new Date(departureAt);
+    endOfDay.setHours(23, 59, 59, 999);
+    where.departureAt = {
+      gte: startOfDay,
+      lte: endOfDay,
+    };
+  }
 
   if (is_return) {
     if (!return_departureAt) {
