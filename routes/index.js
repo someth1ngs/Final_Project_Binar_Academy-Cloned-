@@ -8,6 +8,7 @@ const airportRoute = require("./airport");
 const taxRoute = require("./tax");
 const categoryRoute = require("./category");
 const flightRoute = require("./flight");
+const bookingsRoute = require("./bookings");
 
 /* GET home page. */
 router.use("/auth", authRoute);
@@ -18,5 +19,6 @@ router.use("/airport", airportRoute);
 router.use("/tax", taxRoute);
 router.use("/category", categoryRoute);
 router.use("/flight", flightRoute);
+router.use("/bookings", bookingsRoute);
 
 module.exports = router;
