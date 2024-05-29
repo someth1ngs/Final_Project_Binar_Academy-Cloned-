@@ -6,7 +6,7 @@ async function FlightSeeder() {
     const departureAt = addingDays(30, 10, 5);
     const arriveAt = addingDays(30, 11, 20);
     const return_departureAt = addingDays(37, 12, 10);
-    const return_arriveAt = addingDays(30, 13, 5);
+    const return_arriveAt = addingDays(37, 13, 5);
     try {
       const deleteFlight = await prisma.flight.deleteMany({});
       const generateFlightData = (planeData, airportData) => {
