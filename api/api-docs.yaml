@@ -15,6 +15,10 @@ tags:
     description: Everything about your Profile
   - name: Notification
     description: Everything about your Notification
+  - name: Tax
+    description: Everything about your Tax
+  - name: Category
+    description: Everything about your Category
 paths:
   /auth/register:
     post:
@@ -532,6 +536,82 @@ paths:
                   data:
                     example: ~
 
+  /auth/changepassword:
+    put:
+      tags:
+        - "Auth"
+      summary: Change Password
+      description: Change Password by Token (Header)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                password:
+                  type: string
+                  example: "123"
+                confirm:
+                  type: string
+                  example: "123"
+
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Password successfully changed
+                  data:
+                    type: string
+                    example: ~
+
+        400:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    anyOf:
+                      - type: string
+                        example: Missing required field
+                      - type: string
+                        example: Password doesnt match
+                  data:
+                    example: ~
+
+        403:
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: You are not authorized to change this users password
+                  data:
+                    example: ~
+
+      security:
+      - bearerAuth: []
+
   /profile/{user_id}:
     get:
       tags:
@@ -871,7 +951,130 @@ paths:
                       updatedAt:
                         type: string
                         example: "2024-05-26T08:31:58.054Z"
-                        
+
+  /category:
+    get:
+      tags:
+        - "Category"
+      summary: Get all Category
+      description: Get All Category exist in Database
+
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Successfully retrieved categories data
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          example: 4ba4e269-1b22-4a07-977a-beb4870d4d00
+                        type:
+                          type: string
+                          example: adult
+                        discount:
+                          type: integer
+                          example: 0
+                        createdAt:
+                          type: string
+                          example: "2024-05-26T08:31:58.007Z"
+                        updatedAt:
+                          type: string
+                          example: "2024-05-26T08:31:58.007Z"
+
+        404:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Data Category not found.
+                  data:
+                    example: ~
+
+  /category/{category_id}:
+    get:
+      tags:
+        - "Category"
+      summary: Get Category
+      description: Get Category specified by category_id
+      parameters:
+      - schema:
+          type: string
+        name: category_id
+        in: path
+        required: true
+
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Successfully retrieved categories data by id.
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: 4ba4e269-1b22-4a07-977a-beb4870d4d00
+                      type:
+                        type: string
+                        example: adult
+                      discount:
+                        type: integer
+                        example: 0
+                      createdAt:
+                        type: string
+                        example: "2024-05-26T08:31:58.007Z"
+                      updatedAt:
+                        type: string
+                        example: "2024-05-26T08:31:58.007Z"
+                      passengers:
+                        type: array
+                        example: []
+        
+        404:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Data Category not found.
+                  data:
+                    example: ~
+
 components:
   securitySchemes:
     bearerAuth:
