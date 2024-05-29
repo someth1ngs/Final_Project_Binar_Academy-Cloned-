@@ -3,14 +3,15 @@ const { addingDays } = require("../../libs/date-fns");
 const prisma = new PrismaClient();
 async function FlightSeeder() {
   return new Promise(async (resolve, reject) => {
-    const departureAt = addingDays(30, 10, 5);
-    const arriveAt = addingDays(30, 11, 20);
-    const return_departureAt = addingDays(37, 12, 10);
-    const return_arriveAt = addingDays(37, 13, 5);
     try {
       const deleteFlight = await prisma.flight.deleteMany({});
-      const generateFlightData = (planeData, airportData) => {
-        const flightData = [];
+      const flightData = [];
+
+      const generateFlightData = (planeData, airportData, addDays) => {
+        const departureAt = addingDays(30 + addDays, 10, 5);
+        const arriveAt = addingDays(30 + addDays, 11, 20);
+        const return_departureAt = addingDays(37 + addDays, 12, 10);
+        const return_arriveAt = addingDays(37 + addDays, 13, 5);
 
         planeData.forEach((plane) => {
           // Choose random airports
@@ -39,11 +40,14 @@ async function FlightSeeder() {
           });
         });
 
-        return flightData;
+        return;
       };
       const planeData = await prisma.plane.findMany({});
       const airportData = await prisma.airport.findMany({});
-      const flightData = generateFlightData(planeData, airportData);
+
+      for (let i = 0; i <= 2; i++) {
+        generateFlightData(planeData, airportData, i * 15);
+      }
 
       for (item of flightData) {
         const getPlaneData = await prisma.plane.findUnique({
