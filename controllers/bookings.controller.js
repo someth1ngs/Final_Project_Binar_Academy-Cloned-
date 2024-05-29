@@ -197,7 +197,7 @@ exports.getBookingsById = async (req, res, next) => {
     // looping untuk cek pada saat tiket expired, status paid menjadi cancelled
     if (bookings.payment.status === 'UNPAID' && bookings.payment.expiredAt < new Date()) {
       await prisma.payment.update({
-        where: { id: booking.payment.id },
+        where: { id: bookings.payment.id },
         data: { status: 'CANCELLED' },
       });
       bookings.payment.status = 'CANCELLED';
