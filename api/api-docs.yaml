@@ -1423,8 +1423,8 @@ paths:
     get:
       tags:
         - "Flight"
-      summary: Get Most Favorited Flights
-      description: Get Most Favorited Flights
+      summary: Get Flights by id
+      description: Get Flights by id
       parameters:
         - schema:
             type: string
