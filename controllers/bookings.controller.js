@@ -105,7 +105,6 @@ exports.createBookings = async (req, res, next) => {
   }
 };
 
-
 exports.getBookings = async (req, res, next) => {
   try {
     const { page = 1 } = req.query;
@@ -126,6 +125,9 @@ exports.getBookings = async (req, res, next) => {
           passengers: true,
           flight_class: true,
         },
+        orderBy: {
+          updatedAt: "desc",
+        },
       }),
 
       prisma.booking.count({
@@ -139,12 +141,12 @@ exports.getBookings = async (req, res, next) => {
 
     // looping untuk cek pada saat tiket expired, status paid menjadi cancelled
     for (const booking of bookings) {
-      if (booking.payment.status === 'UNPAID' && booking.payment.expiredAt < new Date()) {
+      if (booking.payment.status === "UNPAID" && booking.payment.expiredAt < new Date()) {
         await prisma.payment.update({
           where: { id: booking.payment.id },
-          data: { status: 'CANCELLED' }
+          data: { status: "CANCELLED" },
         });
-        booking.payment.status = 'CANCELLED';
+        booking.payment.status = "CANCELLED";
       }
     }
 
@@ -153,9 +155,9 @@ exports.getBookings = async (req, res, next) => {
     if (!bookings) {
       return res.status(404).json({
         status: false,
-        message: 'Data bookings not found.',
-        data: null
-      })
+        message: "Data bookings not found.",
+        data: null,
+      });
     }
 
     return res.status(200).json({
@@ -182,33 +184,32 @@ exports.getBookingsById = async (req, res, next) => {
       include: {
         payment: true,
         passengers: true,
-        flight_class: true
+        flight_class: true,
       },
     });
 
     if (!bookings) {
       return res.status(404).json({
         status: false,
-        message: 'Data bookings not found.',
-        data: null
+        message: "Data bookings not found.",
+        data: null,
       });
-    };
+    }
 
     // looping untuk cek pada saat tiket expired, status paid menjadi cancelled
-    if (bookings.payment.status === 'UNPAID' && bookings.payment.expiredAt < new Date()) {
+    if (bookings.payment.status === "UNPAID" && bookings.payment.expiredAt < new Date()) {
       await prisma.payment.update({
         where: { id: bookings.payment.id },
-        data: { status: 'CANCELLED' },
+        data: { status: "CANCELLED" },
       });
-      bookings.payment.status = 'CANCELLED';
+      bookings.payment.status = "CANCELLED";
     }
 
     return res.status(200).json({
       status: true,
-      message: 'Successfully retrieved booking data',
-      data: bookings
+      message: "Successfully retrieved booking data",
+      data: bookings,
     });
-
   } catch (error) {
     next(error);
   }
