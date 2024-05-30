@@ -1654,7 +1654,7 @@ paths:
             schema:
               type: object
               properties:
-                flight_classes:
+                flight_class_id:
                   type: string
                   example: 73b9b84b-2997-4eb0-b9c1-46ea8f0f11bb
                 total_price:
@@ -1663,7 +1663,7 @@ paths:
                 include_return:
                   type: boolean
                   example: false
-                passengers:
+                passangers:
                   type: array
                   items:
                     type: object
@@ -1820,6 +1820,24 @@ paths:
                             type: string
                             format: datetime
                             example: "2024-05-29T15:39:04.106Z"
+        404:
+          description: Category not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    anyOf:
+                      - type: string
+                        example: Category "baby" not found
+                      - type: string
+                        example: Created Booking Failed.
+                  data:
+                    example: ~
 
       security:
       - bearerAuth: []
@@ -1981,6 +1999,22 @@ paths:
                         type: integer
                         example: 3
 
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Data bookings not found.
+                  data:
+                    example: ~
+
       security:
       - bearerAuth: []
 
@@ -2130,7 +2164,23 @@ paths:
                             type: string
                             format: datetime
                             example: "2024-05-29T15:39:04.106Z"
-                        
+        
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Data bookings not found.
+                  data:
+                    example: ~
+
       security:
       - bearerAuth: []
 
