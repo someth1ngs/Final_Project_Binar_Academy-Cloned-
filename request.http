@@ -3,8 +3,8 @@ POST http://localhost:3000/api/v1/auth/login
 Content-Type: application/json
 
 {
-    "email":"hamadakinose@gmail.com",
-    "password":"123"
+    "email":"admin@admin.com",
+    "password":"admin123"
 }
 
 ### register users
@@ -98,3 +98,32 @@ Content-Type: application/json
 {
     "access_token": "ya29.a0AXooCgsJUw2LZB7y5pTKZK7NPEUM7ehfBs-6AaF6Jj3MsOPT1ih4NoemDxDBR2KETaS2YulZ62IuPcmtsE_04vOfsL85qhdKFysCDunvrGAdwh68huXM7_42leXW0tlKlk4hWO64nYNYqsJjVoYvaKCEVfqP-TOBmCDOaCgYKAVMSARISFQHGX2Mixra-LLm6wRoWlIQNS_wAyw0171"
 }
+
+### 
+POST http://localhost:3000/api/v1/bookings/
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijk4NWNiMjcwLThjMjktNGU5Mi1hZmE4LTFhNGY5ODY0ZTdlOSIsIm5hbWUiOiJEZXdhbmdnYSBOYW5kYSBBcmp1bmEiLCJlbWFpbCI6ImFkZXdhbmdnYW5AZ21haWwuY29tIiwiaXNfdmVyaWZpZWQiOnRydWUsInJvbGUiOiJVU0VSIiwiY3JlYXRlZEF0IjoiMjAyNC0wNS0yOVQxNTozOToxMy45MDdaIiwidXBkYXRlZEF0IjoiMjAyNC0wNS0yOVQxNTozOToxMy45MDdaIiwiaWF0IjoxNzE2OTk3MTUzfQ.Abn8XtQbYVTjVsClVNbGR_PC5nHlHtOmIhUUQ7AJxgg
+Content-Type: application/json
+
+{
+  "flight_class_id": "067b0c74-3b82-4a07-9fca-9c060abe2e85",
+  "total_price": 24000000,
+  "include_return": false,
+  "passangers": [
+    {
+      "name": "adi irawan",
+      "birthdate": "2003-09-13",
+      "identity_id": "KTP",
+      "citizenship": "Indonesia",
+      "category_id": "2f6ad05d-5658-4480-b2b5-f731a85b49cf"
+    }
+  ]
+}
+
+### Get Flights Request
+GET http://localhost:3000/api/v1/flight/
+
+### Get Flights Request
+GET http://localhost:3000/api/v1/flight/favorite
+
+### Get Flights Request
+GET http://localhost:3000/api/v1/flight/d33eb61c-47a0-4153-b526-bd4d8d49f46b

@@ -19,6 +19,8 @@ tags:
     description: Everything about your Tax
   - name: Category
     description: Everything about your Category
+  - name: Flight
+    description: Everything about your Flight
 paths:
   /auth/register:
     post:
@@ -1157,6 +1159,486 @@ paths:
                   data:
                     example: ~
                         
+  /flight/:
+    get:
+      tags:
+        - "Flight"
+      summary: Get Flight
+      description: Get All Flight
+
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Successfully get flights data
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: 4ba4e269-1b22-4a07-977a-beb4870d4d00
+        
+        400:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Error.code
+                  data:
+                    example: ~
+
+  /flight/favorite:
+    get:
+      tags:
+        - "Flight"
+      summary: Get Most Favorited Flights
+      description: Get Most Favorited Flights
+
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Successfully get data
+                  data:
+                    type: object
+                    properties:
+                      flights:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id: 
+                              type: string
+                              example: d33eb61c-47a0-4153-b526-bd4d8d49f46b
+                            plane_code: 
+                              type: string
+                              example: LA-202
+                            from_code: 
+                              type: string
+                              example: JOG
+                            to_code: 
+                              type: string
+                              example: HLP
+                            departureAt: 
+                              type: string
+                              format: datetime
+                              example: "2024-06-29T01:44:04.000Z"
+                            arriveAt: 
+                              type: string
+                              format: datetime
+                              example: "2024-06-29T02:59:04.000Z"
+                            is_return: 
+                              type: boolean
+                              example: false
+                            return_departureAt: 
+                              type: string
+                              example: null
+                            return_arriveAt: 
+                              type: string
+                              example: null
+                            flight_type: 
+                              type: string
+                              example: DOMESTIC
+                            createdAt: 
+                              type: string
+                              format: datetime
+                              example: "2024-05-29T15:39:04.106Z"
+                            updatedAt: 
+                              type: string
+                              format: datetime
+                              example: "2024-05-29T15:39:04.106Z"
+                            from:
+                              type: object
+                              properties:
+                                id: 
+                                  type: string
+                                  example: bbc9d23e-d0a8-4cc6-8708-16315dd9e85d
+                                airport_code: 
+                                  type: string
+                                  example: JOG
+                                name: 
+                                  type: string
+                                  example: Adisucipto International Airport
+                                city: 
+                                  type: string
+                                  example: Yogyakarta
+                                country: 
+                                  type: string
+                                  example: Indonesia
+                                visited: 
+                                  type: integer
+                                  example: 0
+                                image_url: 
+                                  type: string
+                                  example: https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Yogyakarta_Indonesia_Tugu-Yogyakarta-02.jpg/1200px-Yogyakarta_Indonesia_Tugu-Yogyakarta-02.jpg
+                                createdAt: 
+                                  type: string
+                                  format: datetime
+                                  example: "2024-05-29T15:39:03.947Z"
+                                updatedAt: 
+                                  type: string
+                                  format: datetime
+                                  example: "2024-05-29T15:39:03.947Z"
+                            to:
+                              type: object
+                              properties:
+                                id: 
+                                  type: string
+                                  example: 67bf0cf3-5e30-48df-bbff-ad178171adbc
+                                airport_code: 
+                                  type: string
+                                  example: HLP
+                                name: 
+                                  type: string
+                                  example: Halim Perdanakusuma International Airport
+                                city: 
+                                  type: string
+                                  example: Jakarta
+                                country: 
+                                  type: string
+                                  example: Indonesia
+                                visited: 
+                                  type: integer
+                                  example: 0
+                                image_url: 
+                                  type: string
+                                  example: https://dynamic-media-cdn.tripadvisor.com/media/photo-o/15/c3/d2/54/jakarta-amazing-tour.jpg?w=600&h=500&s=1
+                                createdAt: 
+                                  type: string
+                                  format: datetime
+                                  example: "2024-05-29T15:39:03.947Z"
+                                updatedAt: 
+                                  type: string
+                                  format: datetime
+                                  example: "2024-05-29T15:39:03.947Z"
+                            plane:
+                              type: object
+                              properties:
+                                id: 
+                                  type: string
+                                  example: 6c9690df-4c1a-4781-8e2d-ba7ac2eef053
+                                plane_code: 
+                                  type: string
+                                  example: LA-202
+                                airline: 
+                                  type: string
+                                  example: Lion Air
+                                baggage: 
+                                  type: integer
+                                  example: 15
+                                cabin_baggage: 
+                                  type: integer
+                                  example: 5
+                                economy_seat: 
+                                  type: integer
+                                  example: 60
+                                premium_economy_seat: 
+                                  type: integer
+                                  example: 20
+                                business_seat: 
+                                  type: integer
+                                  example: 10
+                                first_class_seat: 
+                                  type: integer
+                                  example: 7
+                                createdAt: 
+                                  type: string
+                                  format: datetime
+                                  example: "2024-05-29T15:39:04.016Z"
+                                updatedAt: 
+                                  type: string
+                                  format: datetime
+                                  example: "2024-05-29T15:39:04.016Z"
+                            flight_classes:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  id: 
+                                    type: string
+                                    example: 73b9b84b-2997-4eb0-b9c1-46ea8f0f11bb
+                                  flight_id: 
+                                    type: string
+                                    example: d33eb61c-47a0-4153-b526-bd4d8d49f46b
+                                  name: 
+                                    type: string
+                                    example: ECONOMY
+                                  price: 
+                                    type: integer
+                                    example: 1000000
+                                  available_seats: 
+                                    type: integer
+                                    example: 60
+                                  createdAt: 
+                                    type: string
+                                    format: datetime
+                                    example: "2024-05-29T15:39:04.106Z"
+                                  updatedAt: 
+                                    type: string
+                                    format: datetime
+                                    example: "2024-05-29T15:39:04.106Z"
+        
+        400:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Error.code
+                  data:
+                    example: ~
+
+  /flight/{flight_id}:
+    get:
+      tags:
+        - "Flight"
+      summary: Get Most Favorited Flights
+      description: Get Most Favorited Flights
+      parameters:
+        - schema:
+            type: string
+          name: flight_id
+          in: path
+          required: true
+
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Successfully get flight data
+                  data:
+                    type: object
+                    properties:
+                      flights:
+                        type: object
+                        properties:
+                          id: 
+                            type: string
+                            example: d33eb61c-47a0-4153-b526-bd4d8d49f46b
+                          plane_code: 
+                            type: string
+                            example: LA-202
+                          from_code: 
+                            type: string
+                            example: JOG
+                          to_code: 
+                            type: string
+                            example: HLP
+                          departureAt: 
+                            type: string
+                            format: datetime
+                            example: "2024-06-29T01:44:04.000Z"
+                          arriveAt: 
+                            type: string
+                            format: datetime
+                            example: "2024-06-29T02:59:04.000Z"
+                          is_return: 
+                            type: boolean
+                            example: false
+                          return_departureAt: 
+                            type: string
+                            example: ~
+                          return_arriveAt: 
+                            type: string
+                            example: ~
+                          flight_type: 
+                            type: string
+                            example: DOMESTIC
+                          createdAt: 
+                            type: string
+                            format: datetime
+                            example: "2024-05-29T15:39:04.106Z"
+                          updatedAt: 
+                            type: string
+                            format: datetime
+                            example: "2024-05-29T15:39:04.106Z"
+                          from:
+                            type: object
+                            properties:
+                              id: 
+                                type: string
+                                example: bbc9d23e-d0a8-4cc6-8708-16315dd9e85d
+                              airport_code: 
+                                type: string
+                                example: JOG
+                              name: 
+                                type: string
+                                example: Adisucipto International Airport
+                              city: 
+                                type: string
+                                example: Yogyakarta
+                              country: 
+                                type: string
+                                example: Indonesia
+                              visited: 
+                                type: integer
+                                example: 0
+                              image_url: 
+                                type: string
+                                example: https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Yogyakarta_Indonesia_Tugu-Yogyakarta-02.jpg/1200px-Yogyakarta_Indonesia_Tugu-Yogyakarta-02.jpg
+                              createdAt: 
+                                type: string
+                                format: datetime
+                                example: "2024-05-29T15:39:03.947Z"
+                              updatedAt: 
+                                type: string
+                                format: datetime
+                                example: "2024-05-29T15:39:03.947Z"
+                          to:
+                            type: object
+                            properties:
+                              id: 
+                                type: string
+                                example: 67bf0cf3-5e30-48df-bbff-ad178171adbc
+                              airport_code: 
+                                type: string
+                                example: HLP
+                              name: 
+                                type: string
+                                example: Halim Perdanakusuma International Airport
+                              city: 
+                                type: string
+                                example: Jakarta
+                              country: 
+                                type: string
+                                example: Indonesia
+                              visited: 
+                                type: integer
+                                example: 0
+                              image_url: 
+                                type: string
+                                example: https://dynamic-media-cdn.tripadvisor.com/media/photo-o/15/c3/d2/54/jakarta-amazing-tour.jpg?w=600&h=500&s=1
+                              createdAt: 
+                                type: string
+                                format: datetime
+                                example: "2024-05-29T15:39:03.947Z"
+                              updatedAt: 
+                                type: string
+                                format: datetime
+                                example: "2024-05-29T15:39:03.947Z"
+                          plane:
+                            type: object
+                            properties:
+                              id: 
+                                type: string
+                                example: 6c9690df-4c1a-4781-8e2d-ba7ac2eef053
+                              plane_code: 
+                                type: string
+                                example: LA-202
+                              airline: 
+                                type: string
+                                example: Lion Air
+                              baggage: 
+                                type: integer
+                                example: 15
+                              cabin_baggage: 
+                                type: integer
+                                example: 5
+                              economy_seat: 
+                                type: integer
+                                example: 60
+                              premium_economy_seat: 
+                                type: integer
+                                example: 20
+                              business_seat: 
+                                type: integer
+                                example: 10
+                              first_class_seat: 
+                                type: integer
+                                example: 7
+                              createdAt: 
+                                type: string
+                                format: datetime
+                                example: "2024-05-29T15:39:04.016Z"
+                              updatedAt: 
+                                type: string
+                                format: datetime
+                                example: "2024-05-29T15:39:04.016Z"
+                          flight_classes:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                id: 
+                                  type: string
+                                  example: 73b9b84b-2997-4eb0-b9c1-46ea8f0f11bb
+                                flight_id: 
+                                  type: string
+                                  example: d33eb61c-47a0-4153-b526-bd4d8d49f46b
+                                name: 
+                                  type: string
+                                  example: ECONOMY
+                                price: 
+                                  type: integer
+                                  example: 1000000
+                                available_seats: 
+                                  type: integer
+                                  example: 60
+                                createdAt: 
+                                  type: string
+                                  format: datetime
+                                  example: "2024-05-29T15:39:04.106Z"
+                                updatedAt: 
+                                  type: string
+                                  format: datetime
+                                  example: "2024-05-29T15:39:04.106Z"
+        
+        400:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Error.code
+                  data:
+                    example: ~
+
 components:
   securitySchemes:
     bearerAuth:
