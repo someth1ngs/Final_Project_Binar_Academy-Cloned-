@@ -21,6 +21,8 @@ tags:
     description: Everything about your Category
   - name: Flight
     description: Everything about your Flight
+  - name: Booking
+    description: Everything about your Booking
 paths:
   /auth/register:
     post:
@@ -1638,6 +1640,499 @@ paths:
                     example: Error.code
                   data:
                     example: ~
+
+  /bookings/:
+    post:
+      tags:
+        - "Bookings"
+      summary: Create a Booking
+      description: Create a Booking
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                flight_classes:
+                  type: string
+                  example: 73b9b84b-2997-4eb0-b9c1-46ea8f0f11bb
+                total_price:
+                  type: integer
+                  example: 24000000
+                include_return:
+                  type: boolean
+                  example: false
+                passengers:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                        example: Adi Irawan
+                      birthdate:
+                        type: string
+                        example: "2003-09-13"
+                      identity_id:
+                        type: string
+                        example: KTP
+                      citizenship:
+                        type: string
+                        example: Indonesia
+                      category_id:
+                        type: string
+                        example: c30c1aaa-b00f-4e42-bdbd-79a54166c817
+      
+      responses:
+        201:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Successfully created booking
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: 93e52099-aef2-42a6-ad8e-97abe6829ec4
+                      payment_id:
+                        type: string
+                        example: 2c9e21dc-1d6d-4486-8125-3bc7b50f377b
+                      flight_classes_id:
+                        type: string
+                        example: 73b9b84b-2997-4eb0-b9c1-46ea8f0f11bb
+                      total_seat:
+                        type: integer
+                        example: 1
+                      total_price:
+                        type: integer
+                        example: 24000000
+                      include_return: 
+                        type: boolean
+                        example: false
+                      createdAt: 
+                        type: string
+                        format: datetime
+                        example: "2024-05-30T15:03:55.157Z"
+                      updatedAt: 
+                        type: string
+                        format: datetime
+                        example: "2024-05-30T15:03:55.157Z"
+                      passengers:
+                        type: array
+                        items: 
+                          type: object
+                          properties:
+                            id: 
+                              type: string
+                              example: c5824e80-4ac4-4c2f-aa28-8c41b7ac9cb7
+                            name: 
+                              type: string
+                              example: adi irawan
+                            birthdate: 
+                              type: string
+                              format: datetime
+                              example: "2003-09-13T00:00:00.000Z"
+                            identity_id: 
+                              type: string
+                              example: KTP
+                            citizenship: 
+                              type: string
+                              example: Indonesia
+                            category_id: 
+                              type: string
+                              example: c30c1aaa-b00f-4e42-bdbd-79a54166c817
+                            booking_id: 
+                              type: string
+                              example: 93e52099-aef2-42a6-ad8e-97abe6829ec4
+                            createdAt: 
+                              type: string
+                              format: datetime
+                              example: "2024-05-30T15:03:55.157Z"
+                            updatedAt: 
+                              type: string
+                              format: datetime
+                              example: "2024-05-30T15:03:55.157Z"
+
+                      payment:
+                        type: object
+                        properties:
+                          id: 
+                            type: string
+                            example: 2c9e21dc-1d6d-4486-8125-3bc7b50f377b
+                          user_id: 
+                            type: string
+                            example: 985cb270-8c29-4e92-afa8-1a4f9864e7e9
+                          total_payment: 
+                            type: integer
+                            example: 24000000
+                          qr_url: 
+                            type: string
+                            example: https://ik.imagekit.io/dewangga/71eb1260-09ec-453a-9804-93f3a9c62525_qrcode_yrh1phE_U.png
+                          status: 
+                            type: string
+                            example: UNPAID
+                          expiredAt: 
+                            type: string
+                            format: datetime
+                            example: "2024-05-30T15:18:55.152Z"
+                          createdAt: 
+                            type: string
+                            format: datetime
+                            example: "2024-05-30T15:03:55.157Z"
+                          updatedAt: 
+                            type: string
+                            format: datetime
+                            example: "2024-05-30T15:03:55.157Z"
+
+                      flight_class:
+                        type: object
+                        properties:
+                          id: 
+                            type: string
+                            example: 73b9b84b-2997-4eb0-b9c1-46ea8f0f11bb
+                          flight_id: 
+                            type: string
+                            example: d33eb61c-47a0-4153-b526-bd4d8d49f46b
+                          name: 
+                            type: string
+                            example: ECONOMY
+                          price: 
+                            type: integer
+                            example: 1000000
+                          available_seats: 
+                            type: integer
+                            example: 60
+                          createdAt: 
+                            type: string
+                            format: datetime
+                            example: "2024-05-29T15:39:04.106Z"
+                          updatedAt: 
+                            type: string
+                            format: datetime
+                            example: "2024-05-29T15:39:04.106Z"
+
+      security:
+      - bearerAuth: []
+
+    get:
+      tags:
+        - "Bookings"
+      summary: Get all Booking's user
+      description: Get a Booking specified by user token
+      
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Successfully retrieved bookings data
+                  data:
+                    type: object
+                    properties:
+                      bookings:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: string
+                              example: 93e52099-aef2-42a6-ad8e-97abe6829ec4
+                            payment_id:
+                              type: string
+                              example: 2c9e21dc-1d6d-4486-8125-3bc7b50f377b
+                            flight_classes_id:
+                              type: string
+                              example: 73b9b84b-2997-4eb0-b9c1-46ea8f0f11bb
+                            total_seat:
+                              type: integer
+                              example: 1
+                            total_price:
+                              type: integer
+                              example: 24000000
+                            include_return: 
+                              type: boolean
+                              example: false
+                            createdAt: 
+                              type: string
+                              format: datetime
+                              example: "2024-05-30T15:03:55.157Z"
+                            updatedAt: 
+                              type: string
+                              format: datetime
+                              example: "2024-05-30T15:03:55.157Z"
+                            payment:
+                              type: object
+                              properties:
+                                id: 
+                                  type: string
+                                  example: c5824e80-4ac4-4c2f-aa28-8c41b7ac9cb7
+                                user_id: 
+                                  type: string
+                                  example: 985cb270-8c29-4e92-afa8-1a4f9864e7e9
+                                total_payment: 
+                                  type: integer
+                                  example: 24000000
+                                qr_url: 
+                                  type: string
+                                  example: https://ik.imagekit.io/dewangga/b95181e5-83ad-4ca6-a3b0-7cb931ebf667_qrcode_IHzpOsG88.png
+                                status: 
+                                  type: string
+                                  example: UNPAID
+                                expiredAt:
+                                  type: string
+                                  format: datetime
+                                  example: "2024-05-30T15:38:47.355Z"
+                                createdAt: 
+                                  type: string
+                                  format: datetime
+                                  example: "2024-05-30T15:03:55.157Z"
+                                updatedAt: 
+                                  type: string
+                                  format: datetime
+                                  example: "2024-05-30T15:03:55.157Z"
+
+                            passengers:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  id: 
+                                    type: string
+                                    example: 2c9e21dc-1d6d-4486-8125-3bc7b50f377b
+                                  name: 
+                                    type: string
+                                    example: adi irawan
+                                  birthdate: 
+                                    type: string
+                                    example: "2003-09-13T00:00:00.000Z"
+                                  identity_id: 
+                                    type: string
+                                    example: KTP
+                                  citizenship: 
+                                    type: string
+                                    example: Indonesia
+                                  category_id: 
+                                    type: string
+                                    example: c30c1aaa-b00f-4e42-bdbd-79a54166c817
+                                  booking_id: 
+                                    type: string
+                                    example: e02d6d1d-8917-4d92-bdda-64777f147f5c
+                                  createdAt: 
+                                    type: string
+                                    format: datetime
+                                    example: "2024-05-30T15:23:47.357Z"
+                                  updatedAt: 
+                                    type: string
+                                    format: datetime
+                                    example: "2024-05-30T15:23:47.357Z"
+
+                            flight_class:
+                              type: object
+                              properties:
+                                id: 
+                                  type: string
+                                  example: 73b9b84b-2997-4eb0-b9c1-46ea8f0f11bb
+                                flight_id: 
+                                  type: string
+                                  example: d33eb61c-47a0-4153-b526-bd4d8d49f46b
+                                name: 
+                                  type: string
+                                  example: ECONOMY
+                                price: 
+                                  type: integer
+                                  example: 1000000
+                                available_seats: 
+                                  type: integer
+                                  example: 60
+                                createdAt: 
+                                  type: string
+                                  format: datetime
+                                  example: "2024-05-29T15:39:04.106Z"
+                                updatedAt: 
+                                  type: string
+                                  format: datetime
+                                  example: "2024-05-29T15:39:04.106Z"
+
+                      page:
+                        type: integer
+                        example: 1
+                      total_pages:
+                        type: integer
+                        example: 1
+                      total_items:
+                        type: integer
+                        example: 3
+
+      security:
+      - bearerAuth: []
+
+  /bookings/{booking_id}:
+    get:
+      tags:
+        - "Bookings"
+      summary: Get Booking specified by booking_id
+      description: Get Booking specified by booking_id
+      parameters:
+      - schema:
+          type: string
+        name: booking_id
+        in: path
+        required: true
+
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Successfully retrieved booking data
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: 93e52099-aef2-42a6-ad8e-97abe6829ec4
+                      payment_id:
+                        type: string
+                        example: 2c9e21dc-1d6d-4486-8125-3bc7b50f377b
+                      flight_classes_id:
+                        type: string
+                        example: 73b9b84b-2997-4eb0-b9c1-46ea8f0f11bb
+                      total_seat:
+                        type: integer
+                        example: 1
+                      total_price:
+                        type: integer
+                        example: 24000000
+                      include_return: 
+                        type: boolean
+                        example: false
+                      createdAt: 
+                        type: string
+                        format: datetime
+                        example: "2024-05-30T15:03:55.157Z"
+                      updatedAt: 
+                        type: string
+                        format: datetime
+                        example: "2024-05-30T15:03:55.157Z"
+                      payment:
+                        type: object
+                        properties:
+                          id: 
+                            type: string
+                            example: 2c9e21dc-1d6d-4486-8125-3bc7b50f377b
+                          user_id: 
+                            type: string
+                            example: 985cb270-8c29-4e92-afa8-1a4f9864e7e9
+                          total_payment: 
+                            type: integer
+                            example: 24000000
+                          qr_url: 
+                            type: string
+                            example: https://ik.imagekit.io/dewangga/71eb1260-09ec-453a-9804-93f3a9c62525_qrcode_yrh1phE_U.png
+                          status: 
+                            type: string
+                            example: CANCELLED
+                          expiredAt:
+                            type: string
+                            format: datetime
+                            example: "2024-05-30T15:18:55.152Z"
+                          createdAt: 
+                            type: string
+                            format: datetime
+                            example: "2024-05-30T15:03:55.157Z"
+                          updatedAt: 
+                            type: string
+                            format: datetime
+                            example: "2024-05-30T15:19:46.595Z"
+                      passengers:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id: 
+                              type: string
+                              example: c5824e80-4ac4-4c2f-aa28-8c41b7ac9cb7
+                            name: 
+                              type: string
+                              example: adi irawan
+                            birthdate: 
+                              type: string
+                              example: "2003-09-13T00:00:00.000Z"
+                            identity_id: 
+                              type: string
+                              example: KTP
+                            citizenship: 
+                              type: string
+                              example: Indonesia
+                            category_id: 
+                              type: string
+                              example: c30c1aaa-b00f-4e42-bdbd-79a54166c817
+                            booking_id: 
+                              type: string
+                              example: 93e52099-aef2-42a6-ad8e-97abe6829ec4
+                            createdAt: 
+                              type: string
+                              format: datetime
+                              example: "2024-05-30T15:03:55.157Z"
+                            updatedAt: 
+                              type: string
+                              format: datetime
+                              example: "2024-05-30T15:03:55.157Z"
+                      flight_class:
+                        type: object
+                        properties:
+                          id: 
+                            type: string
+                            example: 73b9b84b-2997-4eb0-b9c1-46ea8f0f11bb
+                          flight_id: 
+                            type: string
+                            example: d33eb61c-47a0-4153-b526-bd4d8d49f46b
+                          name: 
+                            type: string
+                            example: ECONOMY
+                          price: 
+                            type: integer
+                            example: 1000000
+                          available_seats: 
+                            type: integer
+                            example: 60
+                          createdAt: 
+                            type: string
+                            format: datetime
+                            example: "2024-05-29T15:39:04.106Z"
+                          updatedAt: 
+                            type: string
+                            format: datetime
+                            example: "2024-05-29T15:39:04.106Z"
+                        
+      security:
+      - bearerAuth: []
 
 components:
   securitySchemes:
