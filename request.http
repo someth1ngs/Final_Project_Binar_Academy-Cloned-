@@ -128,7 +128,7 @@ GET http://localhost:3000/api/v1/bookings/93e52099-aef2-42a6-ad8e-97abe6829ec4
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijk4NWNiMjcwLThjMjktNGU5Mi1hZmE4LTFhNGY5ODY0ZTdlOSIsIm5hbWUiOiJEZXdhbmdnYSBOYW5kYSBBcmp1bmEiLCJlbWFpbCI6ImFkZXdhbmdnYW5AZ21haWwuY29tIiwiaXNfdmVyaWZpZWQiOnRydWUsInJvbGUiOiJVU0VSIiwiY3JlYXRlZEF0IjoiMjAyNC0wNS0yOVQxNTozOToxMy45MDdaIiwidXBkYXRlZEF0IjoiMjAyNC0wNS0zMFQxNDo1ODowMS41MDFaIiwiaWF0IjoxNzE3MDgxMDgxfQ.b52Acyzh-gjZAiEuU5XI-tlDjaWrTRFh8msC6mq1Gvk
 
 ### Get Flights Request
-GET http://localhost:3000/api/v1/flight/
+GET http://localhost:3000/api/v1/flight?to=HLP&p=1&sc=FIRST_CLASS&page=1
 
 ### Get Most Favorited Flights
 GET http://localhost:3000/api/v1/flight/favorite

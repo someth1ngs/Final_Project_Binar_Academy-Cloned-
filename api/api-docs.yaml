@@ -1161,12 +1161,41 @@ paths:
                   data:
                     example: ~
                         
-  /flight/:
+  /flight:
     get:
       tags:
         - "Flight"
       summary: Get Flight
       description: Get All Flight
+      parameters:
+        - in: query
+          name: to
+          schema:
+            type: string
+          required: true
+          description: Destination airport code
+          example: HLP
+        - in: query
+          name: p
+          schema:
+            type: integer
+            default: 1
+          description: Number of passengers
+          example: 1
+        - in: query
+          name: sc
+          schema:
+            type: string
+          required: true
+          description: Seat class
+          example: FIRST_CLASS
+        - in: query
+          name: page
+          schema:
+            type: integer
+            default: 1
+          description: Page number for pagination
+          example: 1
 
       responses:
         200:
@@ -1185,12 +1214,93 @@ paths:
                   data:
                     type: object
                     properties:
-                      id:
-                        type: string
-                        example: 4ba4e269-1b22-4a07-977a-beb4870d4d00
-        
+                      flights:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: string
+                              example: 4f1a6c25-d900-4de5-88c9-563144d8ce3d
+                            plane_code:
+                              type: string
+                              example: LH-1616
+                            from_code:
+                              type: string
+                              example: ICN
+                            to_code:
+                              type: string
+                              example: HLP
+                            departureAt:
+                              type: string
+                              format: date-time
+                              example: "2024-06-29T01:44:04.000Z"
+                            arriveAt:
+                              type: string
+                              format: date-time
+                              example: "2024-06-29T02:59:04.000Z"
+                            is_return:
+                              type: boolean
+                              example: false
+                            return_departureAt:
+                              type: string
+                              format: datetime
+                              example: ~
+                            return_arriveAt:
+                              type: string
+                              format: datetime
+                              example: ~
+                            flight_type:
+                              type: string
+                              example: INTERNATIONAL
+                            createdAt:
+                              type: string
+                              format: date-time
+                              example: "2024-05-29T15:39:04.202Z"
+                            updatedAt:
+                              type: string
+                              format: date-time
+                              example: "2024-05-29T15:39:04.202Z"
+                            flight_classes:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  id:
+                                    type: string
+                                    example: 1f2c44d8-fb2b-47bf-9a40-00a46ad8977a
+                                  flight_id:
+                                    type: string
+                                    example: 4f1a6c25-d900-4de5-88c9-563144d8ce3d
+                                  name:
+                                    type: string
+                                    example: FIRST_CLASS
+                                  price:
+                                    type: integer
+                                    example: 10000000
+                                  available_seats:
+                                    type: integer
+                                    example: 7
+                                  createdAt:
+                                    type: string
+                                    format: datetime
+                                    example: "2024-05-29T15:39:04.202Z"
+                                  updatedAt:
+                                    type: string
+                                    format: datetime
+                                    example: "2024-05-29T15:39:04.202Z"
+                      page:
+                        type: integer
+                        example: 1
+                      total_pages:
+                        type: integer
+                        example: 1
+                      total_items:
+                        type: integer
+                        example: 2
+
         400:
-          description: Success
+          description: Missing required field
           content:
             application/json:
               schema:
@@ -1201,7 +1311,7 @@ paths:
                     example: false
                   message:
                     type: string
-                    example: Error.code
+                    example: Missing required Field
                   data:
                     example: ~
 
@@ -1225,7 +1335,7 @@ paths:
                     example: true
                   message:
                     type: string
-                    example: Successfully get data
+                    example: Successfully get flight data
                   data:
                     type: object
                     properties:
@@ -1405,8 +1515,8 @@ paths:
                                     format: datetime
                                     example: "2024-05-29T15:39:04.106Z"
         
-        400:
-          description: Success
+        404:
+          description: Not Found
           content:
             application/json:
               schema:
@@ -1417,7 +1527,7 @@ paths:
                     example: false
                   message:
                     type: string
-                    example: Error.code
+                    example: Flight data not found
                   data:
                     example: ~
 
@@ -1447,7 +1557,7 @@ paths:
                     example: true
                   message:
                     type: string
-                    example: Successfully get flight data
+                    example: Successfully get data
                   data:
                     type: object
                     properties:
@@ -1624,27 +1734,11 @@ paths:
                                   type: string
                                   format: datetime
                                   example: "2024-05-29T15:39:04.106Z"
-        
-        400:
-          description: Success
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  status:
-                    type: boolean
-                    example: false
-                  message:
-                    type: string
-                    example: Error.code
-                  data:
-                    example: ~
 
   /bookings/:
     post:
       tags:
-        - "Bookings"
+        - "Booking"
       summary: Create a Booking
       description: Create a Booking
       requestBody:
@@ -1844,7 +1938,7 @@ paths:
 
     get:
       tags:
-        - "Bookings"
+        - "Booking"
       summary: Get all Booking's user
       description: Get a Booking specified by user token
       
@@ -2021,7 +2115,7 @@ paths:
   /bookings/{booking_id}:
     get:
       tags:
-        - "Bookings"
+        - "Booking"
       summary: Get Booking specified by booking_id
       description: Get Booking specified by booking_id
       parameters:
