@@ -1,7 +1,7 @@
 exports.filterFlight = async (req) => {
   const { from: from_code, to: to_code, d: departureAt, rt: is_return, rd: return_departureAt, p: passengers = 1, sc: seat_class } = req.query;
 
-  if (!to_code || !seat_class) {
+  if (!from_code || !seat_class) {
     throw {
       statusCode: 400,
       status: false,
@@ -11,7 +11,7 @@ exports.filterFlight = async (req) => {
   }
 
   const where = {
-    to_code: to_code,
+    from_code: from_code,
     flight_classes: {
       some: {
         available_seats: {
@@ -21,8 +21,8 @@ exports.filterFlight = async (req) => {
       },
     },
   };
-  if (from_code) {
-    where.from_code = from_code;
+  if (to_code) {
+    where.to_code = to_code;
   }
 
   if (departureAt) {
