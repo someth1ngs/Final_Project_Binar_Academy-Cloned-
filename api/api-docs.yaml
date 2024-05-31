@@ -19,6 +19,8 @@ tags:
     description: Everything about your Tax
   - name: Category
     description: Everything about your Category
+  - name: Plane
+    description: Everything about your Plane
   - name: Flight
     description: Everything about your Flight
   - name: Booking
@@ -1160,7 +1162,151 @@ paths:
                     example: Data Category not found.
                   data:
                     example: ~
-                        
+
+  /plane:
+    get:
+      tags:
+        - "plane"
+      summary: Get All Planes
+      description: Mendapatkan semua data pesawat
+
+      responses:
+        '200':
+          description: Berhasil mendapatkan data pesawat
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Successfully get plane data
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          example: fdf96862-738e-4294-81e4-83bb0a248afa
+                        plane_code:
+                          type: string
+                          example: GD-105
+                        airline:
+                          type: string
+                          example: Garuda Indonesia
+                        baggage:
+                          type: integer
+                          example: 15
+                        cabin_baggage:
+                          type: integer
+                          example: 5
+                        economy_seat:
+                          type: integer
+                          example: 50
+                        premium_economy_seat:
+                          type: integer
+                          example: 15
+                        business_seat:
+                          type: integer
+                          example: 5
+                        first_class_seat:
+                          type: integer
+                          example: 7
+                        createdAt:
+                          type: string
+                          format: datetime
+                          example: "2024-05-29T15:39:04.016Z"
+                        updatedAt:
+                          type: string
+                          format: datetime
+                          example: "2024-05-29T15:39:04.016Z"
+
+  /plane/{plane_code}:
+    get:
+      summary: Get Plane by ID or Plane_Code
+      description: Get plane data by ID or Plane Code
+      parameters:
+      - schema:
+          type: string
+          example: GD-105
+        name: plane_code
+        in: path
+        required: true
+        description: ID atau Plane_Code dari pesawat
+          
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Successfully get plane data
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: fdf96862-738e-4294-81e4-83bb0a248afa
+                      plane_code:
+                        type: string
+                        example: GD-105
+                      airline:
+                        type: string
+                        example: Garuda Indonesia
+                      baggage:
+                        type: integer
+                        example: 15
+                      cabin_baggage:
+                        type: integer
+                        example: 5
+                      economy_seat:
+                        type: integer
+                        example: 50
+                      premium_economy_seat:
+                        type: integer
+                        example: 15
+                      business_seat:
+                        type: integer
+                        example: 5
+                      first_class_seat:
+                        type: integer
+                        example: 7
+                      createdAt:
+                        type: string
+                        format: datetime
+                        example: "2024-05-29T15:39:04.016Z"
+                      updatedAt:
+                        type: string
+                        format: datetime
+                        example: "2024-05-29T15:39:04.016Z"
+
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Plane not found
+                  data:
+                    example: ~
+
   /flight:
     get:
       tags:

@@ -135,3 +135,9 @@ GET http://localhost:3000/api/v1/flight/favorite
 
 ### Get Flight by id
 GET http://localhost:3000/api/v1/flight/d33eb61c-47a0-4153-b526-bd4d8d49f46b
+
+### Get All Plane
+GET http://localhost:3000/api/v1/plane
+
+### Get All Plane
+GET http://localhost:3000/api/v1/plane/GD-105
