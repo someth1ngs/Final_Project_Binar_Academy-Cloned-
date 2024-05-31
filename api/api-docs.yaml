@@ -1452,11 +1452,11 @@ paths:
       description: Get All Flight
       parameters:
         - in: query
-          name: to
+          name: from
           schema:
             type: string
           required: true
-          description: Destination airport code
+          description: Departure airport code
           example: HLP
         - in: query
           name: p
