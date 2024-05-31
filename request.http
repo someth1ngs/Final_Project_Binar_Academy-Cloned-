@@ -139,5 +139,11 @@ GET http://localhost:3000/api/v1/flight/d33eb61c-47a0-4153-b526-bd4d8d49f46b
 ### Get All Plane
 GET http://localhost:3000/api/v1/plane
 
-### Get All Plane
+### Get Plane by ID or Plane Code
 GET http://localhost:3000/api/v1/plane/GD-105
+
+### Get All Airport
+GET http://localhost:3000/api/v1/airport
+
+### Get Airport by ID or Airport Code
+GET http://localhost:3000/api/v1/airport/CGK

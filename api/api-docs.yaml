@@ -21,6 +21,8 @@ tags:
     description: Everything about your Category
   - name: Plane
     description: Everything about your Plane
+  - name: Airport
+    description: Everything about your Airport
   - name: Flight
     description: Everything about your Flight
   - name: Booking
@@ -1166,12 +1168,12 @@ paths:
   /plane:
     get:
       tags:
-        - "plane"
+        - "Plane"
       summary: Get All Planes
       description: Mendapatkan semua data pesawat
 
       responses:
-        '200':
+        200:
           description: Berhasil mendapatkan data pesawat
           content:
             application/json:
@@ -1227,6 +1229,8 @@ paths:
 
   /plane/{plane_code}:
     get:
+      tags:
+        - "Plane"
       summary: Get Plane by ID or Plane_Code
       description: Get plane data by ID or Plane Code
       parameters:
@@ -1236,10 +1240,10 @@ paths:
         name: plane_code
         in: path
         required: true
-        description: ID atau Plane_Code dari pesawat
+        description: ID or Plane_Code
           
       responses:
-        '200':
+        200:
           description: Success
           content:
             application/json:
@@ -1291,7 +1295,7 @@ paths:
                         format: datetime
                         example: "2024-05-29T15:39:04.016Z"
 
-        '404':
+        404:
           description: Not Found
           content:
             application/json:
@@ -1304,6 +1308,139 @@ paths:
                   message:
                     type: string
                     example: Plane not found
+                  data:
+                    example: ~
+
+  /airport:
+    get:
+      tags:
+        - "Airport"
+      summary: Get All Airports
+      description: Get All Airports
+      
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Successfully get airports data
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          example: 1085234e-9100-41a9-ad25-57fa915d8849
+                        airport_code:
+                          type: string
+                          example: CGK
+                        name:
+                          type: string
+                          example: Soekarno-Hatta International Airport
+                        city:
+                          type: string
+                          example: Jakarta
+                        country:
+                          type: string
+                          example: Indonesia
+                        visited:
+                          type: integer
+                          example: 0
+                        image_url:
+                          type: string
+                          example: https://dynamic-media-cdn.tripadvisor.com/media/photo-o/15/c3/d2/54/jakarta-amazing-tour.jpg?w=600&h=500&s=1
+                        createdAt:
+                          type: string
+                          format: datetime
+                          example: "2024-05-29T15:39:03.947Z"
+                        updatedAt:
+                          type: string
+                          format: datetime
+                          example: "2024-05-29T15:39:03.947Z"
+
+  /airport/{airport_code}:
+    get:
+      tags:
+        - "Airport"
+      summary: Get Airport by ID or Airport Code
+      description: Get Airport by ID or Airport Code
+      parameters:
+      - schema:
+          type: string
+          example: CGK
+        name: airport_code
+        in: path
+        required: true
+        description: ID or Airport Code
+          
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Successfully get airport data
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: 1085234e-9100-41a9-ad25-57fa915d8849
+                      airport_code:
+                        type: string
+                        example: CGK
+                      name:
+                        type: string
+                        example: Soekarno-Hatta International Airport
+                      city:
+                        type: string
+                        example: Jakarta
+                      country:
+                        type: string
+                        example: Indonesia
+                      visited:
+                        type: integer
+                        example: 0
+                      image_url:
+                        type: string
+                        example: https://dynamic-media-cdn.tripadvisor.com/media/photo-o/15/c3/d2/54/jakarta-amazing-tour.jpg?w=600&h=500&s=1
+                      createdAt:
+                        type: string
+                        format: datetime
+                        example: "2024-05-29T15:39:03.947Z"
+                      updatedAt:
+                        type: string
+                        format: datetime
+                        example: "2024-05-29T15:39:03.947Z"
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Airport not found
                   data:
                     example: ~
 
