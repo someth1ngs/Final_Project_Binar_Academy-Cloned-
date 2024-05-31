@@ -267,7 +267,7 @@ exports.verifyEmail = async (req, res, next) => {
       delete user.password;
 
       const tokenLogin = jwt.sign(user, JWT_SECRET);
-      await addNotification("Verify Email", "Verify Email Sukses", decode.id);
+      await addNotification("Verify Email", "Verify Email successfully.", decode.id);
       return res.status(200).json({
         status: true,
         message: "Verify Success. You're account is now verified",
@@ -354,7 +354,7 @@ exports.resetPassword = async (req, res, next) => {
         data: { password: hashPassword },
       });
 
-      await addNotification("Reset password", "Reset password berhasil", decoded.id);
+      await addNotification("Reset password", "Reset password has been successfully", decoded.id);
 
       return res.status(200).json({
         status: true,
@@ -457,7 +457,7 @@ exports.changePassword = async (req, res, next) => {
       data: { password: hashPassword },
     });
 
-    await addNotification("Change password", "Ganti password berhasil", user_id);
+    await addNotification("Change password", "Password has been successfully changed.", user_id);
 
     return res.status(200).json({
       status: true,

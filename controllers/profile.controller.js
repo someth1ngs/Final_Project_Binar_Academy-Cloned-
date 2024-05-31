@@ -1,5 +1,6 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
+const { addNotification } = require('../libs/notification');
 
 exports.getProfile = async (req, res, next) => {
   try {
@@ -96,6 +97,8 @@ exports.editProfile = async (req, res, next) => {
         birthdate: new Date(birthdate),
       },
     });
+
+    await addNotification("Edit Profile", "Your profile has been successfully updated", editProfile.id);
 
     if (!editProfile) {
       return res.status(500).json({
