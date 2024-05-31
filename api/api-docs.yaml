@@ -1459,10 +1459,24 @@ paths:
           description: Departure airport code
           example: HLP
         - in: query
+          name: rt
+          schema:
+            type: boolean
+          description: With Return or not (true or false)
+          example: false
+        - in: query
+          name: rd
+          schema:
+            type: string
+            format: datetime
+          description: Return departure datetime
+          example: "2024-06-30T10:00:00.000Z"
+        - in: query
           name: p
           schema:
             type: integer
             default: 1
+          required: true
           description: Number of passengers
           example: 1
         - in: query
@@ -1477,8 +1491,16 @@ paths:
           schema:
             type: integer
             default: 1
+          required: true
           description: Page number for pagination
           example: 1
+        - in: query
+          name: d
+          schema:
+            type: string
+            format: datetime
+          description: Departure datetime
+          example: "2024-06-29T01:44:04.000Z"
 
       responses:
         200:
