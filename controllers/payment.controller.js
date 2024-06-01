@@ -1,6 +1,8 @@
 const { PrismaClient } = require("@prisma/client");
 const { filterFlight } = require("../libs/flights");
 const prisma = new PrismaClient();
+const { addNotification } = require('../libs/notification');
+
 exports.updatePayment = async (req, res, next) => {
   try {
     const { payment_id } = req.params;
@@ -48,7 +50,10 @@ exports.updatePayment = async (req, res, next) => {
             status: "CANCELLED",
           },
         });
+
+        await addNotification("Payment Cancelled", "Your payment has been cancelled due to expiration.", req.user_data.id);
       }
+
       return res.status(400).json({
         status: false,
         message: "Payment already expired",
@@ -76,6 +81,8 @@ exports.updatePayment = async (req, res, next) => {
         },
       }),
     ]);
+
+    await addNotification("Payment Success", "Your payment has been successfully issued.", req.user_data.id);
 
     return res.status(200).json({
       status: true,

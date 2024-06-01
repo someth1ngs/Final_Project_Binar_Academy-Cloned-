@@ -98,8 +98,6 @@ exports.editProfile = async (req, res, next) => {
       },
     });
 
-    await addNotification("Edit Profile", "Your profile has been successfully updated", editProfile.id);
-
     if (!editProfile) {
       return res.status(500).json({
         status: false,
@@ -124,6 +122,8 @@ exports.editProfile = async (req, res, next) => {
         data: null
       });
     }
+
+    await addNotification("Edit Profile", "Your profile has been successfully edited", user_id);
 
     return res.status(200).json({
       status: true,
