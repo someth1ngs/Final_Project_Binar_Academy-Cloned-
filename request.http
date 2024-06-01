@@ -147,3 +147,7 @@ GET http://localhost:3000/api/v1/airport
 
 ### Get Airport by ID or Airport Code
 GET http://localhost:3000/api/v1/airport/CGK
+
+### Update Payment
+PUT http://localhost:3000/api/v1/payments/3d75f8b0-83de-4f0f-9d22-ceecb1946740
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijk4NWNiMjcwLThjMjktNGU5Mi1hZmE4LTFhNGY5ODY0ZTdlOSIsIm5hbWUiOiJEZXdhbmdnYSBOYW5kYSBBcmp1bmEiLCJlbWFpbCI6ImFkZXdhbmdnYW5AZ21haWwuY29tIiwiaXNfdmVyaWZpZWQiOnRydWUsInJvbGUiOiJVU0VSIiwiY3JlYXRlZEF0IjoiMjAyNC0wNS0yOVQxNTozOToxMy45MDdaIiwidXBkYXRlZEF0IjoiMjAyNC0wNS0zMFQxNDo1ODowMS41MDFaIiwiaWF0IjoxNzE3MDgxMDgxfQ.b52Acyzh-gjZAiEuU5XI-tlDjaWrTRFh8msC6mq1Gvk

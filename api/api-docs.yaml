@@ -8,6 +8,7 @@ info:
 servers:
   - url: http://localhost:3000/api/v1
   - url: https://binar-project-backend-staging.vercel.app/api/v1
+  - url: http://localhost:5173/api/v1
 tags:
   - name: Auth
     description: Everything about your Authentication
@@ -27,6 +28,8 @@ tags:
     description: Everything about your Flight
   - name: Booking
     description: Everything about your Booking
+  - name: Payment
+    description: Everything about your Payment
 paths:
   /auth/register:
     post:
@@ -2577,6 +2580,102 @@ paths:
                   message:
                     type: string
                     example: Data bookings not found.
+                  data:
+                    example: ~
+
+      security:
+      - bearerAuth: []
+
+  /payments/{payment_id}:
+    put:
+      tags:
+        - "Payment"
+      summary: Update Payment
+      description: Update Payment from UNPAID to ISSUED (Except Payment that CANCELLED) by Payment_id (You can get Payment_id from Creating a Booking)
+      parameters:
+      - schema:
+          type: string
+        name: payment_id
+        in: path
+        required: true
+
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Successfully paid
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: 3d75f8b0-83de-4f0f-9d22-ceecb1946740
+                      user_id:
+                        type: string
+                        example: 985cb270-8c29-4e92-afa8-1a4f9864e7e9
+                      total_payment:
+                        type: integer
+                        example: 24000000
+                      qr_url:
+                        type: string
+                        example: https://ik.imagekit.io/dewangga/6b48af68-a1c5-4e8e-83d3-3849fb445974_qrcode_uhhH1KvPS.png
+                      status:
+                        type: string
+                        example: ISSUED
+                      expiredAt:
+                        type: string
+                        format: datetime
+                        example: "2024-06-01T08:56:29.264Z"
+                      createdAt:
+                        type: string
+                        format: datetime
+                        example: "2024-06-01T08:41:29.266Z"
+                      updatedAt:
+                        type: string
+                        format: datetime
+                        example: "2024-06-01T08:42:42.464Z"
+
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    anyOf:
+                      - type: string
+                        example: Payment already expired
+                      - type: string
+                        example: Missing required field
+                  data:
+                    example: null
+
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Payment data not found
                   data:
                     example: ~
 
