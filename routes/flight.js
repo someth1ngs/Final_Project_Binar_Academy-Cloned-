@@ -1,6 +1,6 @@
 const express = require("express");
 const { middleware } = require("../middleware/middleware");
-const { getFlights, getFlightById, getFavoriteDestination } = require("../controllers/flight");
+const { getFlights, getFlightById, getFavoriteDestination } = require("../controllers/flight.controller");
 const router = express.Router();
 
 router.get("/", getFlights);
