@@ -95,11 +95,21 @@ exports.createBookings = async (req, res, next) => {
   }
 };
 
+
 exports.getBookings = async (req, res, next) => {
   try {
-    const { page = 1 } = req.query;
+    const { page = 1, status } = req.query;
     const limit = 5;
     const skip = (page - 1) * limit;
+
+    // kondisi filter untuk status_payment jika ada
+    let filterStatus = {
+      user_id: req.user_data.id,
+    };
+
+    if (status) {
+      filterStatus.status = status.toUpperCase();
+    };
 
     const [bookings, total] = await Promise.all([
       prisma.booking.findMany({
@@ -107,7 +117,7 @@ exports.getBookings = async (req, res, next) => {
         take: parseInt(limit),
         where: {
           payment: {
-            user_id: req.user_data.id,
+            filterStatus,
           },
         },
         include: {
@@ -123,7 +133,7 @@ exports.getBookings = async (req, res, next) => {
       prisma.booking.count({
         where: {
           payment: {
-            user_id: req.user_data.id,
+            user_id: filterStatus,
           },
         },
       }),
