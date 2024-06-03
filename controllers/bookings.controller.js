@@ -3,23 +3,11 @@ const prisma = new PrismaClient();
 const imagekit = require("../libs/imagekit");
 const qr = require("qr-image");
 const { v4: uuidv4 } = require("uuid");
+const { addNotification } = require('../libs/notification');
 
 exports.createBookings = async (req, res, next) => {
   try {
     const { flight_class_id, total_price, include_return, passangers } = req.body;
-
-    // Validasi flight_class_id
-    // const flightClass = await prisma.flight_Class.findUnique({
-    //     where: { id: flight_class_id }
-    // });
-
-    // if (!flightClass) {
-    //     return res.status(404).json({
-    //         status: false,
-    //         message: 'Flight class not found',
-    //         data: null
-    //     });
-    // }
 
     const category_baby = await prisma.category.findFirst({
       where: {
@@ -86,6 +74,8 @@ exports.createBookings = async (req, res, next) => {
         flight_class: true,
       },
     });
+
+    await addNotification("Ticket Bookings", "Your Ticket has been successfully created. Please completed the payment.", createdBooking.id);
 
     if (!createdBooking) {
       return res.status(404).json({
