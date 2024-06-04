@@ -117,7 +117,8 @@ exports.getBookings = async (req, res, next) => {
         take: parseInt(limit),
         where: {
           payment: {
-            filterStatus,
+            user_id: req.user_data.id,
+            status: status ? status.toUpperCase() : undefined,
           },
         },
         include: {
@@ -133,7 +134,8 @@ exports.getBookings = async (req, res, next) => {
       prisma.booking.count({
         where: {
           payment: {
-            user_id: filterStatus,
+            user_id: req.user_data.id,
+            status: status ? status.toUpperCase() : undefined,
           },
         },
       }),
@@ -152,10 +154,19 @@ exports.getBookings = async (req, res, next) => {
 
     const totalPages = Math.ceil(total / limit);
 
-    if (!bookings) {
+    // if (!bookings) {
+    //   return res.status(404).json({
+    //     status: false,
+    //     message: "Data bookings not found.",
+    //     data: null,
+    //   });
+    // }
+    if (!bookings.length) {
       return res.status(404).json({
         status: false,
-        message: "Data bookings not found.",
+        message: status
+          ? `Data bookings not found with status ${status.toUpperCase()}.`
+          : "Data bookings not found.",
         data: null,
       });
     }
