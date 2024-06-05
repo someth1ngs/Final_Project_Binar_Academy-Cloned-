@@ -33,6 +33,9 @@ exports.getFlights = async (req, res, next) => {
               name: where.flight_classes.some.name,
             },
           },
+          plane: true,
+          from: true,
+          to: true,
         },
       }),
       prisma.flight.count({
