@@ -2249,7 +2249,14 @@ paths:
         - "Booking"
       summary: Get all Booking's user
       description: Get a Booking specified by user token
-      
+      parameters:
+        - in: query
+          name: status
+          schema:
+            type: string
+          description: Status Payment (UNPAID, ISSUED, CANCELLED) (Not Required)
+          example: UNPAID
+
       responses:
         200:
           description: Success

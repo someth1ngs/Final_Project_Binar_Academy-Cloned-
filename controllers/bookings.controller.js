@@ -75,7 +75,7 @@ exports.createBookings = async (req, res, next) => {
       },
     });
 
-    await addNotification("Ticket Bookings", "Your Ticket has been successfully created. Please completed the payment.", createdBooking.id);
+    await addNotification("Ticket Bookings", "Your Ticket has been successfully created. Please completed the payment.", req.user_data.id);
 
     if (!createdBooking) {
       return res.status(404).json({
