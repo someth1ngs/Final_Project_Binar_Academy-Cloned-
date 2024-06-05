@@ -95,11 +95,21 @@ exports.createBookings = async (req, res, next) => {
   }
 };
 
+
 exports.getBookings = async (req, res, next) => {
   try {
-    const { page = 1 } = req.query;
+    const { page = 1, status } = req.query;
     const limit = 5;
     const skip = (page - 1) * limit;
+
+    // kondisi filter untuk status_payment jika ada
+    let filterStatus = {
+      user_id: req.user_data.id,
+    };
+
+    if (status) {
+      filterStatus.status = status.toUpperCase();
+    };
 
     const [bookings, total] = await Promise.all([
       prisma.booking.findMany({
@@ -108,6 +118,7 @@ exports.getBookings = async (req, res, next) => {
         where: {
           payment: {
             user_id: req.user_data.id,
+            status: status ? status.toUpperCase() : undefined,
           },
         },
         include: {
@@ -124,6 +135,7 @@ exports.getBookings = async (req, res, next) => {
         where: {
           payment: {
             user_id: req.user_data.id,
+            status: status ? status.toUpperCase() : undefined,
           },
         },
       }),
@@ -142,10 +154,19 @@ exports.getBookings = async (req, res, next) => {
 
     const totalPages = Math.ceil(total / limit);
 
-    if (!bookings) {
+    // if (!bookings) {
+    //   return res.status(404).json({
+    //     status: false,
+    //     message: "Data bookings not found.",
+    //     data: null,
+    //   });
+    // }
+    if (!bookings.length) {
       return res.status(404).json({
         status: false,
-        message: "Data bookings not found.",
+        message: status
+          ? `Data bookings not found with status ${status.toUpperCase()}.`
+          : "Data bookings not found.",
         data: null,
       });
     }
