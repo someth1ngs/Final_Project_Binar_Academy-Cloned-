@@ -1,11 +1,13 @@
 const { PrismaClient } = require("@prisma/client");
-const { filterFlight } = require("../libs/flights");
+const { filterFlight, filterOrderFlight } = require("../libs/flights");
 const prisma = new PrismaClient();
 exports.getFlights = async (req, res, next) => {
   try {
+    let orderBy;
     let where;
     try {
       where = await filterFlight(req);
+      orderBy = await filterOrderFlight(req);
     } catch (error) {
       console.log(error);
       return res.status(error.statusCode).json({
@@ -21,24 +23,41 @@ exports.getFlights = async (req, res, next) => {
     const skip = (parseInt(page) - 1) * parseInt(limit);
 
     const [flights, total] = await Promise.all([
-      prisma.flight.findMany({
+      prisma.flight_Class.findMany({
         take: limit,
         skip: skip,
         where: {
           ...where,
         },
         include: {
-          flight_classes: {
-            where: {
-              name: where.flight_classes.some.name,
+          flight: {
+            include: {
+              plane: true,
+              from: true,
+              to: true,
             },
           },
-          plane: true,
-          from: true,
-          to: true,
         },
+        orderBy: orderBy,
       }),
-      prisma.flight.count({
+      // prisma.flight.findMany({
+      //   take: limit,
+      //   skip: skip,
+      //   where: {
+      //     ...where,
+      //   },
+      //   include: {
+      //     flight_classes: {
+      //       where: {
+      //         name: where.flight_classes.some.name,
+      //       },
+      //     },
+      //     plane: true,
+      //     from: true,
+      //     to: true,
+      //   },
+      // }),
+      prisma.flight_Class.count({
         where: {
           ...where,
         },
