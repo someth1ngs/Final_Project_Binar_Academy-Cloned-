@@ -1491,7 +1491,7 @@ paths:
           name: sc
           schema:
             type: string
-          description: Seat class (FIRST_CLASS)
+          description: Seat class (ECONOMY, PREMIUM_ECONOMY, BUSINESS, FIRST_CLASS)
           example: FIRST_CLASS
         - in: query
           name: page
