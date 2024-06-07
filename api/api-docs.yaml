@@ -1462,18 +1462,23 @@ paths:
           description: Departure airport code
           example: HLP
         - in: query
+          name: to
+          schema:
+            type: string
+          description: Arrive airport code
+          example: CDG
+        - in: query
           name: rt
           schema:
-            type: boolean
-          description: With Return or not (true or false)
-          example: false
+            type: string
+          description: With Return or not (true or null) *null = empty string
+          example: "true"
         - in: query
           name: rd
           schema:
             type: string
             format: datetime
-          description: Return departure datetime
-          example: "2024-06-30T10:00:00.000Z"
+          description: Return departure datetime (If rt true)
         - in: query
           name: p
           schema:
@@ -1486,8 +1491,7 @@ paths:
           name: sc
           schema:
             type: string
-          required: true
-          description: Seat class
+          description: Seat class (ECONOMY, PREMIUM_ECONOMY, BUSINESS, FIRST_CLASS)
           example: FIRST_CLASS
         - in: query
           name: page
@@ -1503,7 +1507,19 @@ paths:
             type: string
             format: datetime
           description: Departure datetime
-          example: "2024-06-29T01:44:04.000Z"
+          example: "2024-07-05T22:48:42.000Z"
+        - in: query
+          name: type
+          schema:
+            type: string
+          description: Type Sorting (price, arrive_at, departure_at)
+          example: price
+        - in: query
+          name: order
+          schema:
+            type: string
+          description: order sort (desc or asc)
+          example: desc
 
       responses:
         200:
@@ -1529,74 +1545,174 @@ paths:
                           properties:
                             id:
                               type: string
-                              example: 4f1a6c25-d900-4de5-88c9-563144d8ce3d
-                            plane_code:
+                              example: ca1efdeb-c588-4add-94b4-eab1a42dcf25
+                            flight_id:
                               type: string
-                              example: LH-1616
-                            from_code:
+                              example: 0a22d788-2d95-4c4c-b5ef-4cd503b56695
+                            name:
                               type: string
-                              example: ICN
-                            to_code:
-                              type: string
-                              example: HLP
-                            departureAt:
-                              type: string
-                              format: date-time
-                              example: "2024-06-29T01:44:04.000Z"
-                            arriveAt:
-                              type: string
-                              format: date-time
-                              example: "2024-06-29T02:59:04.000Z"
-                            is_return:
-                              type: boolean
-                              example: false
-                            return_departureAt:
-                              type: string
-                              format: datetime
-                              example: ~
-                            return_arriveAt:
-                              type: string
-                              format: datetime
-                              example: ~
-                            flight_type:
-                              type: string
-                              example: INTERNATIONAL
+                              example: FIRST_CLASS
+                            price:
+                              type: integer
+                              example: 10000000
+                            available_seats:
+                              type: integer
+                              example: 7
                             createdAt:
                               type: string
                               format: date-time
-                              example: "2024-05-29T15:39:04.202Z"
+                              example: "2024-06-05T12:43:42.578Z"
                             updatedAt:
                               type: string
                               format: date-time
-                              example: "2024-05-29T15:39:04.202Z"
-                            flight_classes:
-                              type: array
-                              items:
-                                type: object
-                                properties:
-                                  id:
-                                    type: string
-                                    example: 1f2c44d8-fb2b-47bf-9a40-00a46ad8977a
-                                  flight_id:
-                                    type: string
-                                    example: 4f1a6c25-d900-4de5-88c9-563144d8ce3d
-                                  name:
-                                    type: string
-                                    example: FIRST_CLASS
-                                  price:
-                                    type: integer
-                                    example: 10000000
-                                  available_seats:
-                                    type: integer
-                                    example: 7
-                                  createdAt:
-                                    type: string
-                                    format: datetime
-                                    example: "2024-05-29T15:39:04.202Z"
-                                  updatedAt:
-                                    type: string
-                                    format: datetime
-                                    example: "2024-05-29T15:39:04.202Z"
+                              example: "2024-06-05T12:43:42.578Z"
+                            flight:
+                              type: object
+                              properties:
+                                id:
+                                  type: string
+                                  example: 0a22d788-2d95-4c4c-b5ef-4cd503b56695
+                                plane_code:
+                                  type: string
+                                  example: CX-2020
+                                from_code:
+                                  type: string
+                                  example: HLP
+                                to_code:
+                                  type: string
+                                  example: CGK
+                                departureAt:
+                                  type: string
+                                  format: date-time
+                                  example: "2024-07-20T22:48:42.000Z"
+                                arriveAt:
+                                  type: string
+                                  format: date-time
+                                  example: "2024-07-21T00:03:42.000Z"
+                                is_return:
+                                  type: boolean
+                                  example: false
+                                return_departureAt:
+                                  type: string
+                                  format: date-time
+                                  example: null
+                                return_arriveAt:
+                                  type: string
+                                  format: date-time
+                                  example: null
+                                flight_type:
+                                  type: string
+                                  example: DOMESTIC
+                                createdAt:
+                                  type: string
+                                  format: date-time
+                                  example: "2024-06-05T12:43:42.578Z"
+                                updatedAt:
+                                  type: string
+                                  format: date-time
+                                  example: "2024-06-05T12:43:42.578Z"
+                                plane:
+                                  type: object
+                                  properties:
+                                    id:
+                                      type: string
+                                      example: 557d9500-3444-4411-86ed-2917b1aed22f
+                                    plane_code:
+                                      type: string
+                                      example: CX-2020
+                                    airline:
+                                      type: string
+                                      example: Cathay Pacific
+                                    baggage:
+                                      type: integer
+                                      example: 15
+                                    cabin_baggage:
+                                      type: integer
+                                      example: 5
+                                    economy_seat:
+                                      type: integer
+                                      example: 55
+                                    premium_economy_seat:
+                                      type: integer
+                                      example: 20
+                                    business_seat:
+                                      type: integer
+                                      example: 10
+                                    first_class_seat:
+                                      type: integer
+                                      example: 7
+                                    createdAt:
+                                      type: string
+                                      format: date-time
+                                      example: "2024-05-29T15:39:04.202Z"
+                                    updatedAt:
+                                      type: string
+                                      format: date-time
+                                      example: "2024-05-29T15:39:04.202Z"
+                                from:
+                                  type: object
+                                  properties:
+                                    id:
+                                      type: string
+                                      example: 5bf3c7eb-3157-48eb-8563-f25667a12cb7
+                                    airport_code:
+                                      type: string
+                                      example: HLP
+                                    name:
+                                      type: string
+                                      example: Halim Perdanakusuma International Airport
+                                    city:
+                                      type: string
+                                      example: Jakarta
+                                    country:
+                                      type: string
+                                      example: Indonesia
+                                    visited:
+                                      type: integer
+                                      example: 161
+                                    image_url:
+                                      type: string
+                                      example: "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/15/c3/d2/54/jakarta-amazing-tour.jpg?w=600&h=500&s=1"
+                                    createdAt:
+                                      type: string
+                                      format: date-time
+                                      example: "2024-05-29T15:39:04.202Z"
+                                    updatedAt:
+                                      type: string
+                                      format: date-time
+                                      example: "2024-05-29T15:39:04.202Z"
+                                to:
+                                  type: object
+                                  properties:
+                                    id:
+                                      type: string
+                                      example: ffba72a0-82bb-4910-857e-1b9f7b24e5a9
+                                    airport_code:
+                                      type: string
+                                      example: CGK
+                                    name:
+                                      type: string
+                                      example: Soekarno-Hatta International Airport
+                                    city:
+                                      type: string
+                                      example: Jakarta
+                                    country:
+                                      type: string
+                                      example: Indonesia
+                                    visited:
+                                      type: integer
+                                      example: 16
+                                    image_url:
+                                      type: string
+                                      example: "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/15/c3/d2/54/jakarta-amazing-tour.jpg?w=600&h=500&s=1"
+                                    createdAt:
+                                      type: string
+                                      format: date-time
+                                      example: "2024-05-29T15:39:04.202Z"
+                                    updatedAt:
+                                      type: string
+                                      format: date-time
+                                      example: "2024-05-29T15:39:04.202Z"
                       page:
                         type: integer
                         example: 1
@@ -1605,7 +1721,7 @@ paths:
                         example: 1
                       total_items:
                         type: integer
-                        example: 2
+                        example: 1
 
         400:
           description: Missing required field

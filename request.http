@@ -120,7 +120,7 @@ Content-Type: application/json
 }
 
 ### Get all Booking
-GET http://localhost:3000/api/v1/bookings?=unpaid
+GET http://localhost:3000/api/v1/bookings 
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc4MGQ3MzA4LWE3ZWYtNDAwZS1iOTFmLTk3OWRkMjM4NmVmNCIsIm5hbWUiOiJEZXdhbmdnYSBOYW5kYSBBcmp1bmEiLCJlbWFpbCI6ImFkZXdhbmdnYW5AZ21haWwuY29tIiwiaXNfdmVyaWZpZWQiOnRydWUsInJvbGUiOiJVU0VSIiwiY3JlYXRlZEF0IjoiMjAyNC0wNi0wNVQxMjo0NTowOC4xMTZaIiwidXBkYXRlZEF0IjoiMjAyNC0wNi0wNVQxMjo0NTowOC4xMTZaIiwiaWF0IjoxNzE3NTkxNTA4fQ.qa5wm5s6d3ha1CeSecgyG0JkG3TzqCzLFSPAhfP9YZM
 
 ### Get Booking by id
