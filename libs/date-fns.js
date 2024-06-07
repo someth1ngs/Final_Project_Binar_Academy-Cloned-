@@ -1,4 +1,4 @@
-const { addDays, format } = require("date-fns");
+const { addDays, addHours, addMinutes, format } = require("date-fns");
 
 exports.addingDays = (days, hours, minutes) => {
   const now = new Date();
@@ -8,8 +8,8 @@ exports.addingDays = (days, hours, minutes) => {
   resultDate = addDays(now, days);
 
   // Add hours and minutes to the result date
-  resultDate.setHours(resultDate.getHours() + hours);
-  resultDate.setMinutes(resultDate.getMinutes() + minutes);
+  resultDate = addHours(resultDate, hours);
+  resultDate = addMinutes(resultDate, minutes);
 
   // Format the result date
   const formattedResult = format(resultDate, "yyyy-MM-dd HH:mm:ss");

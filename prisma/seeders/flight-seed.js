@@ -1,6 +1,9 @@
 const { PrismaClient } = require("@prisma/client");
 const { addingDays } = require("../../libs/date-fns");
 const prisma = new PrismaClient();
+function randomNumber(min, max) {
+  return Math.random() * (max - min) + min;
+}
 async function FlightSeeder() {
   return new Promise(async (resolve, reject) => {
     try {
@@ -8,12 +11,15 @@ async function FlightSeeder() {
       const flightData = [];
 
       const generateFlightData = (planeData, airportData, addDays) => {
-        const departureAt = addingDays(30 + addDays, 10, 5);
-        const arriveAt = addingDays(30 + addDays, 11, 20);
-        const return_departureAt = addingDays(37 + addDays, 12, 10);
-        const return_arriveAt = addingDays(37 + addDays, 13, 5);
-
         planeData.forEach((plane) => {
+          const hour = randomNumber(1, 23);
+          const hour2 = randomNumber(1, 23);
+          const minute = randomNumber(1, 60);
+          const minute2 = randomNumber(1, 60);
+          const departureAt = addingDays(30 + addDays, hour, minute);
+          const arriveAt = addingDays(30 + addDays, hour + randomNumber(1, 23), minute + randomNumber(1, 60));
+          const return_departureAt = addingDays(37 + addDays, hour2, minute2);
+          const return_arriveAt = addingDays(37 + addDays, hour2 + randomNumber(1, 23), minute2 + randomNumber(1, 60));
           // Choose random airports
           const fromAirport = airportData[Math.floor(Math.random() * airportData.length)];
           let toAirport;
@@ -37,6 +43,30 @@ async function FlightSeeder() {
             return_departureAt: isReturn ? return_departureAt : null,
             return_arriveAt: isReturn ? return_arriveAt : null,
             flight_type: flightType,
+            flight_classes: {
+              create: [
+                {
+                  name: "ECONOMY",
+                  price: Math.floor(randomNumber(10, 20)) * 100000,
+                  available_seats: plane.economy_seat,
+                },
+                {
+                  name: "PREMIUM_ECONOMY",
+                  price: Math.floor(randomNumber(20, 40)) * 100000,
+                  available_seats: plane.premium_economy_seat,
+                },
+                {
+                  name: "BUSINESS",
+                  price: Math.floor(randomNumber(50, 70)) * 100000,
+                  available_seats: plane.business_seat,
+                },
+                {
+                  name: "FIRST_CLASS",
+                  price: Math.floor(randomNumber(80, 100)) * 100000,
+                  available_seats: plane.first_class_seat,
+                },
+              ],
+            },
           });
         });
 
@@ -50,38 +80,9 @@ async function FlightSeeder() {
       }
 
       for (item of flightData) {
-        const getPlaneData = await prisma.plane.findUnique({
-          where: {
-            plane_code: item.plane_code,
-          },
-        });
         const flightCreate = await prisma.flight.create({
           data: {
             ...item,
-            flight_classes: {
-              create: [
-                {
-                  name: "ECONOMY",
-                  price: 1000000,
-                  available_seats: getPlaneData.economy_seat,
-                },
-                {
-                  name: "PREMIUM_ECONOMY",
-                  price: 2000000,
-                  available_seats: getPlaneData.premium_economy_seat,
-                },
-                {
-                  name: "BUSINESS",
-                  price: 5000000,
-                  available_seats: getPlaneData.business_seat,
-                },
-                {
-                  name: "FIRST_CLASS",
-                  price: 10000000,
-                  available_seats: getPlaneData.first_class_seat,
-                },
-              ],
-            },
           },
         });
       }
