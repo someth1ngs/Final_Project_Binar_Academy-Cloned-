@@ -11,18 +11,19 @@ exports.filterFlight = async (req) => {
   }
 
   const where = {
-    from_code: from_code,
-    flight_classes: {
-      some: {
-        available_seats: {
-          gte: +passengers,
-        },
-        name: seat_class,
-      },
+    flight: {
+      from_code: from_code,
+    },
+    name: seat_class,
+    available_seats: {
+      gte: +passengers,
     },
   };
   if (to_code) {
-    where.to_code = to_code;
+    where.flight = {
+      to_code: to_code,
+      ...where.flight,
+    };
   }
 
   if (departureAt) {
@@ -31,13 +32,16 @@ exports.filterFlight = async (req) => {
 
     const endOfDay = new Date(departureAt);
     endOfDay.setHours(23, 59, 59, 999);
-    where.departureAt = {
-      gte: startOfDay,
-      lte: endOfDay,
+    where.flight = {
+      departureAt: {
+        gte: startOfDay,
+        lte: endOfDay,
+      },
+      ...where.flight,
     };
   }
 
-  if (is_return) {
+  if (is_return == "true") {
     if (!return_departureAt) {
       throw {
         statusCode: 400,
@@ -51,12 +55,60 @@ exports.filterFlight = async (req) => {
     const endOfDay = new Date(return_departureAt);
     endOfDay.setHours(23, 59, 59, 999);
 
-    where.is_return = is_return === "true" ? true : false;
-    where.return_departureAt = {
-      gte: startOfDay,
-      lte: endOfDay,
+    where.flight = {
+      is_return: true,
+      return_departureAt: {
+        gte: startOfDay,
+        lte: endOfDay,
+      },
+      ...where.flight,
     };
   }
 
   return where;
+};
+
+exports.filterOrderFlight = async (req) => {
+  const { type = "price", order = "asc" } = req.query;
+  let orderBy;
+
+  if (order !== "desc" && order !== "asc") {
+    throw {
+      statusCode: 400,
+      status: false,
+      message: "Order must be desc or asc",
+      data: null,
+    };
+  }
+
+  switch (type) {
+    case "price":
+      orderBy = [
+        {
+          price: order,
+        },
+      ];
+      break;
+    case "arrive_at":
+      orderBy = [
+        {
+          flight: {
+            arriveAt: order,
+          },
+        },
+      ];
+      break;
+    case "departure_at":
+      orderBy = [
+        {
+          flight: {
+            departureAt: order,
+          },
+        },
+      ];
+      break;
+    default:
+      break;
+  }
+  return orderBy;
 };
