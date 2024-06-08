@@ -120,6 +120,14 @@ exports.login = async (req, res, next) => {
       });
     }
 
+    if (user.password === "" && user.is_verified === true) {
+      return res.status(400).json({
+        status: false,
+        message: "It seems you logged in using Google Login.",
+        data: null,
+      });
+    }
+
     let isPasswordCorrect = await bcrypt.compare(password, user.password);
 
     if (!isPasswordCorrect) {
@@ -394,7 +402,7 @@ exports.googleLogin = async (req, res, next) => {
       create: {
         email: googleData?.data?.email,
         name: googleData?.data?.name,
-        password: await bcrypt.hash(googleData?.data?.sub, 10),
+        password: "",
         is_verified: true,
         profile: {
           create: {},

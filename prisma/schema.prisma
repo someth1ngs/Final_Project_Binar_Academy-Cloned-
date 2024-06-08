@@ -6,13 +6,13 @@
 
 generator client {
   provider      = "prisma-client-js"
-  // binaryTargets = ["native", "rhel-openssl-3.0.x"] // komentari jika menggunakan database local
+  binaryTargets = ["native", "rhel-openssl-3.0.x"] // komentari jika menggunakan database local
 }
 
 datasource db {
   provider  = "postgresql"
   url       = env("DATABASE_URL")
-  // directUrl = env("DIRECT_URL") // komentari jika menggunakan database local
+  directUrl = env("DIRECT_URL") // komentari jika menggunakan database local
 }
 
 enum ROLE {
@@ -36,6 +36,12 @@ enum STATUS_PAID {
   ISSUED
   UNPAID
   CANCELLED
+}
+
+enum CATEGORY_TYPE {
+  adult
+  child
+  baby
 }
 
 model User {
@@ -119,12 +125,12 @@ model Plane {
 }
 
 model Category {
-  id         String      @id @default(uuid())
-  type       String      @unique
+  id         String        @id @default(uuid())
+  type       CATEGORY_TYPE @unique
   discount   Int
   passengers Passenger[]
-  createdAt  DateTime    @default(now())
-  updatedAt  DateTime    @updatedAt
+  createdAt  DateTime      @default(now())
+  updatedAt  DateTime      @updatedAt
 
   @@map("categories")
 }
