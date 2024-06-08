@@ -3,7 +3,7 @@ const prisma = new PrismaClient();
 const imagekit = require("../libs/imagekit");
 const qr = require("qr-image");
 const { v4: uuidv4 } = require("uuid");
-const { addNotification } = require('../libs/notification');
+const { addNotification } = require("../libs/notification");
 
 exports.createBookings = async (req, res, next) => {
   try {
@@ -95,7 +95,6 @@ exports.createBookings = async (req, res, next) => {
   }
 };
 
-
 exports.getBookings = async (req, res, next) => {
   try {
     const { page = 1, status } = req.query;
@@ -109,7 +108,7 @@ exports.getBookings = async (req, res, next) => {
 
     if (status) {
       filterStatus.status = status.toUpperCase();
-    };
+    }
 
     const [bookings, total] = await Promise.all([
       prisma.booking.findMany({
@@ -164,9 +163,7 @@ exports.getBookings = async (req, res, next) => {
     if (!bookings.length) {
       return res.status(404).json({
         status: false,
-        message: status
-          ? `Data bookings not found with status ${status.toUpperCase()}.`
-          : "Data bookings not found.",
+        message: status ? `Data bookings not found with status ${status.toUpperCase()}.` : "Data bookings not found.",
         data: null,
       });
     }
