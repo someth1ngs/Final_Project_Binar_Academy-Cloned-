@@ -2224,9 +2224,9 @@ paths:
                       citizenship:
                         type: string
                         example: Indonesia
-                      category_id:
+                      category:
                         type: string
-                        example: c30c1aaa-b00f-4e42-bdbd-79a54166c817
+                        example: adult
       
       responses:
         201:
