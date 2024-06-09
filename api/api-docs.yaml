@@ -511,7 +511,7 @@ paths:
                             example: dewangga@gmail.com
                           is_verified:
                             type: boolean
-                            example: false
+                            example: true
                           role:
                             type: string
                             example: USER
@@ -904,18 +904,12 @@ paths:
       security:
       - bearerAuth: []
 
-  /notification/{user_id}:
+  /notification/:
     get:
       tags:
         - "Notification"
       summary: GET Notification
       description: To GET All Notification for User, specified by User_id
-      parameters:
-      - schema:
-          type: string
-        name: user_id
-        in: path
-        required: true
 
       responses:
         200:
@@ -974,18 +968,15 @@ paths:
                   data:
                     example: ~
 
-  /notification/{user_id}/read:
-    get:
+      security:
+      - bearerAuth: []
+
+  /notification/read:
+    put:
       tags:
         - "Notification"
       summary: Read Notification
       description: to make all notification (specified by User_id) read
-      parameters:
-      - schema:
-          type: string
-        name: user_id
-        in: path
-        required: true
 
       responses:
         200:
@@ -1007,6 +998,9 @@ paths:
                       count:
                         type: integer
                         example: 2
+
+      security:
+      - bearerAuth: []
 
   /tax:
     get:
