@@ -1144,7 +1144,39 @@ paths:
                         example: "2024-05-26T08:31:58.007Z"
                       passengers:
                         type: array
-                        example: []
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: string
+                              example: 4ef08c6d-e849-4148-a878-1f4d1c38f0bd
+                            name:
+                              type: string
+                              example: adi irawan
+                            birthdate:
+                              type: string
+                              format: date-time
+                              example: "2003-09-13T00:00:00.000Z"
+                            identity_id:
+                              type: string
+                              example: KTP
+                            citizenship:
+                              type: string
+                              example: Indonesia
+                            category_id:
+                              type: string
+                              example: 5b0e518e-ddde-4a94-bfa4-c7f68e7870ef
+                            booking_id:
+                              type: string
+                              example: 793c7501-fcfe-4619-92c5-2baa91a5dd81
+                            createdAt:
+                              type: string
+                              format: date-time
+                              example: "2024-06-05T12:45:19.537Z"
+                            updatedAt:
+                              type: string
+                              format: date-time
+                              example: "2024-06-05T12:45:19.537Z"
         
         404:
           description: Success
