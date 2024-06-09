@@ -9,35 +9,32 @@ exports.createBookings = async (req, res, next) => {
   try {
     const { flight_class_id, total_price, include_return, passangers } = req.body;
 
-    const category_baby = await prisma.category.findFirst({
-      where: {
-        type: "baby",
-      },
-    });
+    const categories = await prisma.category.findMany();
 
-    if (!category_baby) {
-      return res.status(404).json({
-        status: false,
-        message: 'Category "baby" not found',
-        data: null,
-      });
-    }
+    const categoryMap = categories.reduce((acc, category) => {
+      acc[category.type] = category.id;
+      return acc;
+    }, {});
+
+    console.log(categoryMap);
 
     // Menghitung total seat berdasarkan category yang bukan baby
-    const total_seat = passangers.filter((passanger) => passanger.category_id !== category_baby.id).length;
+    const total_seat = passangers.filter((passanger) => passanger.category !== "baby").length;
 
     // // Mengambil FE_URL, ubah menjadi QR code, dan upload ke imagekit
     const qrCodeData = process.env.FE_URL;
     const qrCode = qr.imageSync(qrCodeData, { type: "png" });
     const uploadedImage = await imagekit.upload({
       file: qrCode.toString("base64"),
-      fileName: `${uuidv4()}_qrcode.png`, // Random string
+      fileName: `${uuidv4()}_qrcode.png`,
     });
 
     const qr_url = uploadedImage.url;
 
     // Menghitung waktu expiredAt
     const expired = new Date(Date.now() + 15 * 60 * 1000);
+
+    // console.log('User ID:', req.user_data.id);
 
     // Membuat booking
     const createdBooking = await prisma.booking.create({
@@ -51,7 +48,7 @@ exports.createBookings = async (req, res, next) => {
             birthdate: new Date(passanger.birthdate),
             identity_id: passanger.identity_id,
             citizenship: passanger.citizenship,
-            category_id: passanger.category_id,
+            category_id: categoryMap[passanger.category],
           })),
         },
         payment: {
@@ -153,13 +150,6 @@ exports.getBookings = async (req, res, next) => {
 
     const totalPages = Math.ceil(total / limit);
 
-    // if (!bookings) {
-    //   return res.status(404).json({
-    //     status: false,
-    //     message: "Data bookings not found.",
-    //     data: null,
-    //   });
-    // }
     if (!bookings.length) {
       return res.status(404).json({
         status: false,
