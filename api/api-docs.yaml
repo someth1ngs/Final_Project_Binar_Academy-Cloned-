@@ -1,0 +1,2840 @@
+openapi: 3.0.1
+info:
+  title: NGEFLY.COM
+  description: API Documentation for NGEFLY.COM
+  version: 1.0.1
+  contact:
+    email: adewanggan@gmail.com
+servers:
+  - url: https://binar-project-backend-staging.vercel.app/api/v1
+  - url: http://localhost:3000/api/v1
+  - url: http://localhost:5173/api/v1
+tags:
+  - name: Auth
+    description: Everything about your Authentication
+  - name: Profile
+    description: Everything about your Profile
+  - name: Notification
+    description: Everything about your Notification
+  - name: Tax
+    description: Everything about your Tax
+  - name: Category
+    description: Everything about your Category
+  - name: Plane
+    description: Everything about your Plane
+  - name: Airport
+    description: Everything about your Airport
+  - name: Flight
+    description: Everything about your Flight
+  - name: Booking
+    description: Everything about your Booking
+  - name: Payment
+    description: Everything about your Payment
+paths:
+  /auth/register:
+    post:
+      tags:
+        - "Auth"
+      summary: Register
+      description: Register a new account into the database for access
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: dewangga
+                email:
+                  type: string
+                  example: dewangga@gmail.com
+                password:
+                  type: string
+                  example: "12345"
+
+      responses:
+        201:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Successfully created account
+                  data:
+                    type: object
+                    properties:
+                      user:
+                        type: object
+                        properties:
+                          id:
+                            type: string
+                            example: a9bc30c4-9408-454b-8815-92ee6cbf46d7
+                          name:
+                            type: string
+                            example: dewangga
+                          email:
+                            type: string
+                            example: dewangga@gmail.com
+                          is_verified:
+                            type: boolean
+                            example: false
+                          role:
+                            type: string
+                            example: USER
+                          createdAt:
+                            type: string
+                            format: datetime
+                            example: "2024-05-22T04:05:11.993Z"
+                          updatedAt:
+                            type: string
+                            format: datetime
+                            example: "2024-05-22T04:05:11.993Z"
+
+        400:
+          description: Input must be required
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Missing required field
+                  data:
+                    example: ~
+
+        409:
+          description: Email has already been used!
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Email already used
+                  data:
+                    example: ~
+
+  /auth/verify/send:
+    post:
+      tags:
+        - "Auth"
+      summary: Verify Send
+      description: Send an Email to Verify
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: dumpfile978@gmail.com
+
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Mail sent. Please check your email
+                  data:
+                    example: ~
+
+        404:
+          description: Account not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Account not found.
+                  data:
+                    example: ~
+
+        409:
+          description: Account already verified.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Account already verified.
+                  data:
+                    example: ~
+
+  /auth/login:
+    post:
+      tags:
+        - "Auth"
+      summary: Login
+      description: Login account to request a token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: user@user.com
+                password:
+                  type: string
+                  example: "user123"
+
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: User logged in success
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: 5a33647a-4f3d-4287-aba1-650b92a7a253
+                      name:
+                        type: string
+                        example: Admin
+                      email:
+                        type: string
+                        example: admin@admin.com
+                      is_verified:
+                        type: boolean
+                        example: true
+                      role:
+                        type: string
+                        example: ADMIN
+                      createdAt:
+                        type: string
+                        format: datetime
+                        example: "2024-05-22T04:03:20.510Z"
+                      updatedAt:
+                        type: string
+                        format: datetime
+                        example: "2024-05-22T04:03:20.510Z"
+                      token:
+                        type: string
+                        example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVhMzM2NDdhLTRmM2QtNDI4Ny1hYmExLTY1MGI5MmE3YTI1MyIsIm5hbWUiOiJBZG1pbiIsImVtYWlsIjoiYWRtaW5AYWRtaW4uY29tIiwiaXNfdmVyaWZpZWQiOnRydWUsInJvbGUiOiJBRE1JTiIsImNyZWF0ZWRBdCI6IjIwMjQtMDUtMjJUMDQ6MDM6MjAuNTEwWiIsInVwZGF0ZWRBdCI6IjIwMjQtMDUtMjJUMDQ6MDM6MjAuNTEwWiIsImlhdCI6MTcxNjM1NzMxMH0.DX5JBe_qs5gD2jwzcSUAOEdpYxal0PZafYIhFEeV5Uc
+
+        400:
+          description: Input must be required
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    anyOf:
+                      - type: string
+                        example: Missing required field
+                      - type: string
+                        example: Invalid password.
+                  data:
+                    example: ~
+
+        401:
+          description: Account is not verified yet.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Account is not verified yet.
+                  data:
+                    type: object
+                    properties:
+                      user:
+                        type: object
+                        properties:
+                          id:
+                            type: string
+                            example: a9bc30c4-9408-454b-8815-92ee6cbf46d7
+                          name:
+                            type: string
+                            example: dewangga
+                          email:
+                            type: string
+                            example: dewangga@gmail.com
+                          is_verified:
+                            type: boolean
+                            example: false
+                          role:
+                            type: string
+                            example: USER
+                          createdAt:
+                            type: string
+                            format: datetime
+                            example: "2024-05-22T04:05:11.993Z"
+                          updatedAt:
+                            type: string
+                            format: datetime
+                            example: "2024-05-22T04:05:11.993Z"
+
+        404:
+          description: User not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Account not found.
+                  data:
+                    example: ~
+
+  /auth/forgotpassword:
+    post:
+      tags:
+        - "Auth"
+      summary: Forget Password
+      description: Send Email to Forget a Password
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: hamadakinose@gmail.com
+
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Link reset password has been sent to your email. Please check your email!
+                  data:
+                    example: ~
+
+        404:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Email not registered!
+                  data:
+                    example: ~
+
+  /auth/resetpassword/{token}:
+    post:
+      tags:
+        - "Auth"
+      summary: Reset Password
+      description: Send Email
+      parameters:
+        - schema:
+            type: string
+          name: token
+          in: path
+          required: true
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                password:
+                  type: string
+                  example: "123"
+                confirm:
+                  type: string
+                  example: "123"
+
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Password successfull has been reset
+                  data:
+                    example: ~
+
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    anyOf:
+                      - type: string
+                        example: Invalid Token
+                      - type: string
+                        example: Password doesnt match
+                  data:
+                    example: ~
+
+        403:
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Invalid Token
+                  data:
+                    example: ~
+
+  /auth/verify/{token}:
+    put:
+      tags:
+        - "Auth"
+      summary: Verify
+      description: Verify
+      parameters:
+        - schema:
+            type: string
+          name: token
+          in: path
+          required: true
+
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Verify Success. You're account is now verified
+                  data:
+                    type: object
+                    properties:
+                      user:
+                        type: object
+                        properties:
+                          id:
+                            type: string
+                            example: a9bc30c4-9408-454b-8815-92ee6cbf46d7
+                          name:
+                            type: string
+                            example: dewangga
+                          email:
+                            type: string
+                            example: dewangga@gmail.com
+                          is_verified:
+                            type: boolean
+                            example: true
+                          role:
+                            type: string
+                            example: USER
+                          createdAt:
+                            type: string
+                            format: datetime
+                            example: "2024-05-22T04:05:11.993Z"
+                          updatedAt:
+                            type: string
+                            format: datetime
+                            example: "2024-05-22T04:05:11.993Z"
+
+                      token:
+                        type: string
+                        example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjNlNTEyMmUyLWJjYzktNDRiOC1iMzg3LTUxYjMwY2JiMmM4ZiIsIm5hbWUiOiJkZXdhbmdnYSIsImVtYWlsIjoiZHVtcGZpbGU5NzhAZ21haWwuY29tIiwicGFzc3dvcmQiOiIkMmIkMTAkS1Z6YjlPM3o1V09PQmJqWE9oWTFVT2tlRk51VHNVaUU3UXB5YnduckdKVmlFNjdTb2hTUG0iLCJpc192ZXJpZmllZCI6ZmFsc2UsInJvbGUiOiJVU0VSIiwiY3JlYXRlZEF0IjoiMjAyNC0wNS0yMlQxNDo1NDo0NC4wMzNaIiwidXBkYXRlZEF0IjoiMjAyNC0wNS0yMlQxNDo1NDo0NC4wMzNaIiwidmVyaWZ5Ijp0cnVlLCJpYXQiOjE3MTYzODk2ODksImV4cCI6MTcxNjM5MDU4OX0.CnFBZ2SXn1zABkC0eP_whplhmmmFlFOAGCoowIN7KD4
+
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    anyOf:
+                      - type: string
+                        example: Invalid verify email token.
+                      - type: string
+                        example: Invalid token
+                  data:
+                    example: ~
+
+  /auth/changepassword:
+    put:
+      tags:
+        - "Auth"
+      summary: Change Password
+      description: Change Password by Token (Header)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                password:
+                  type: string
+                  example: "123"
+                confirm:
+                  type: string
+                  example: "123"
+
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Password successfully changed
+                  data:
+                    type: string
+                    example: ~
+
+        400:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    anyOf:
+                      - type: string
+                        example: Missing required field
+                      - type: string
+                        example: Password doesnt match
+                  data:
+                    example: ~
+
+        403:
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: You are not authorized to change this users password
+                  data:
+                    example: ~
+
+      security:
+      - bearerAuth: []
+
+  /auth/googlelogin:
+    post:
+      tags:
+        - "Auth"
+      summary: Login by Google
+      description: Login by Google by Access Token (Google Playground -> OAuth2 -> userinfo.email and userinfo.profile checked)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                access_token:
+                  type: string
+                  example: ya29.a0AXooCgsJUw2LZB7y5pTKZK7NPEUM7ehfBs-6AaF6Jj3MsOPT1ih4NoemDxDBR2KETaS2YulZ62IuPcmtsE_04vOfsL85qhdKFysCDunvrGAdwh68huXM7_42leXW0tlKlk4hWO64nYNYqsJjVoYvaKCEVfqP-TOBmCDOaCgYKAVMSARISFQHGX2Mixra-LLm6wRoWlIQNS_wAyw0171
+
+
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Successfully login with Google
+                  data:
+                    type: object
+                    properties:
+                      user:
+                        type: object
+                        properties:
+                          id:
+                            type: string
+                            example: 7e775854-aad8-4ad5-89f1-09b7b3481ba3
+                          name:
+                            type: string
+                            example: Dewangga Nanda Arjuna
+                          email:
+                            type: string
+                            example: adewanggan@gmail.com
+                          is_verified:
+                            type: boolean
+                            example: true
+                          role:
+                            type: string
+                            example: USER
+                          createdAt:
+                            type: string
+                            format: datetime
+                            example: "2024-05-29T15:20:20.554Z"
+                          updatedAt:
+                            type: string
+                            format: datetime
+                            example: "2024-05-29T15:20:20.554Z"
+
+                      token:
+                        type: string
+                        example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjdlNzc1ODU0LWFhZDgtNGFkNS04OWYxLTA5YjdiMzQ4MWJhMyIsIm5hbWUiOiJEZXdhbmdnYSBOYW5kYSBBcmp1bmEiLCJlbWFpbCI6ImFkZXdhbmdnYW5AZ21haWwuY29tIiwiaXNfdmVyaWZpZWQiOnRydWUsInJvbGUiOiJVU0VSIiwiY3JlYXRlZEF0IjoiMjAyNC0wNS0yOVQxNToyMDoyMC41NTRaIiwidXBkYXRlZEF0IjoiMjAyNC0wNS0yOVQxNToyMDoyMC41NTRaIiwiaWF0IjoxNzE2OTk2MDIwfQ.pz1Ilx4MRkMDrpt-ol5FIoTjP4U1f_Z-WOn_yTg-CDw
+
+        400:
+          description: Input must be required
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Missing required field
+                  data:
+                    example: ~
+                    
+  /profile/{user_id}:
+    get:
+      tags:
+        - "Profile"
+      summary: Get user and profile
+      description: Get detail on Users as well as Profile
+      parameters:
+        - schema:
+            type: string
+          name: user_id
+          in: path
+          required: true
+
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Successfully get profile data
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: 1c2c9b33-d237-46fb-b4a8-1f188d1b1276
+                      email:
+                        type: string
+                        example: user@user.com
+                      name:
+                        type: string
+                        example: User
+                      is_verified:
+                        type: boolean
+                        example: true
+                      role:
+                        type: string
+                        example: USER
+                      profile:
+                        type: object
+                        properties:
+                          id:
+                            type: string
+                            example: 8cf9bb7f-be36-4941-b4bb-f198d63c194c
+                          address:
+                            type: string
+                            example: Jalan user
+                          phone:
+                            type: string
+                            example: "123456789"
+                          occupation:
+                            type: string
+                            example: USER
+                          birthdate:
+                            type: string
+                            format: datetime
+                            example: "2010-10-10T00:00:00.000Z"
+                          createdAt:
+                            type: string
+                            format: datetime
+                            example: "2024-05-24T07:41:31.421Z"
+                          updatedAt:
+                            type: string
+                            format: datetime
+                            example: "2024-05-24T12:35:54.760Z"
+
+        404:
+          description: Profile not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Profile not found
+                  data:
+                    example: ~
+
+      security:
+      - bearerAuth: []
+
+    put:
+      tags:
+        - "Profile"
+      summary: Edit Profile
+      description: Endpoint for Edit Profile
+      parameters:
+      - schema:
+          type: string
+        name: user_id
+        in: path
+        required: true
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: User
+                address:
+                  type: string
+                  example: "Jalan user"
+                phone:
+                  type: string
+                  example: "123456789"
+                occupation:
+                  type: string
+                  example: "USER"
+                birthdate:
+                  type: string
+                  example: "2010-10-10"
+
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Successfully edited profile data
+                  data:
+                    example: ~
+        
+        403:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: You are not authorized to edit this profile
+                  data:
+                    example: ~
+
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Profile not found for this user
+                  data:
+                    example: ~
+
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    anyOf:
+                      - type: string
+                        example: Failed to update profile
+                      - type: string
+                        example: Failed to update user name
+                  data:
+                    example: ~
+
+
+      security:
+      - bearerAuth: []
+
+  /notification/:
+    get:
+      tags:
+        - "Notification"
+      summary: GET Notification
+      description: To GET All Notification for User, specified by User_id
+
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Get notifications successfull.
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          example: 25085ba9-d2c7-48db-9d30-7ea5b2e816e8
+                        title:
+                          type: string
+                          example: Verify Email
+                        message:
+                          type: string
+                          example: Verify Email Sukses
+                        is_read:
+                          type: boolean
+                          example: false
+                        user_id:
+                          type: string
+                          example: a234a6df-7b0d-4971-8f8a-f00f221f72f1
+                        createdAt:
+                          type: string
+                          example: "2024-05-26T08:32:39.321Z"
+                        updatedAt:
+                          type: string
+                          example: "2024-05-26T08:34:21.521Z"
+
+        404:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Notifications not found.
+                  data:
+                    example: ~
+
+      security:
+      - bearerAuth: []
+
+  /notification/read:
+    put:
+      tags:
+        - "Notification"
+      summary: Read Notification
+      description: to make all notification (specified by User_id) read
+
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Notification marked as read
+                  data:
+                    type: object
+                    properties:
+                      count:
+                        type: integer
+                        example: 2
+
+      security:
+      - bearerAuth: []
+
+  /tax:
+    get:
+      tags:
+        - "Tax"
+      summary: Get Tax
+      description: Get Taxes
+
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Get tax successfull.
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 1
+                      percent:
+                        type: integer
+                        example: 5
+                      createdAt:
+                        type: string
+                        example: "2024-05-26T08:31:58.054Z"
+                      updatedAt:
+                        type: string
+                        example: "2024-05-26T08:31:58.054Z"
+
+  /category:
+    get:
+      tags:
+        - "Category"
+      summary: Get all Category
+      description: Get All Category exist in Database
+
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Successfully retrieved categories data
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          example: 4ba4e269-1b22-4a07-977a-beb4870d4d00
+                        type:
+                          type: string
+                          example: adult
+                        discount:
+                          type: integer
+                          example: 0
+                        createdAt:
+                          type: string
+                          example: "2024-05-26T08:31:58.007Z"
+                        updatedAt:
+                          type: string
+                          example: "2024-05-26T08:31:58.007Z"
+
+        404:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Data Category not found.
+                  data:
+                    example: ~
+
+  /category/{category_id}:
+    get:
+      tags:
+        - "Category"
+      summary: Get Category
+      description: Get Category specified by category_id
+      parameters:
+      - schema:
+          type: string
+        name: category_id
+        in: path
+        required: true
+
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Successfully retrieved categories data by id.
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: 4ba4e269-1b22-4a07-977a-beb4870d4d00
+                      type:
+                        type: string
+                        example: adult
+                      discount:
+                        type: integer
+                        example: 0
+                      createdAt:
+                        type: string
+                        example: "2024-05-26T08:31:58.007Z"
+                      updatedAt:
+                        type: string
+                        example: "2024-05-26T08:31:58.007Z"
+                      passengers:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: string
+                              example: 4ef08c6d-e849-4148-a878-1f4d1c38f0bd
+                            name:
+                              type: string
+                              example: adi irawan
+                            birthdate:
+                              type: string
+                              format: date-time
+                              example: "2003-09-13T00:00:00.000Z"
+                            identity_id:
+                              type: string
+                              example: KTP
+                            citizenship:
+                              type: string
+                              example: Indonesia
+                            category_id:
+                              type: string
+                              example: 5b0e518e-ddde-4a94-bfa4-c7f68e7870ef
+                            booking_id:
+                              type: string
+                              example: 793c7501-fcfe-4619-92c5-2baa91a5dd81
+                            createdAt:
+                              type: string
+                              format: date-time
+                              example: "2024-06-05T12:45:19.537Z"
+                            updatedAt:
+                              type: string
+                              format: date-time
+                              example: "2024-06-05T12:45:19.537Z"
+        
+        404:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Data Category not found.
+                  data:
+                    example: ~
+
+  /plane:
+    get:
+      tags:
+        - "Plane"
+      summary: Get All Planes
+      description: Mendapatkan semua data pesawat
+
+      responses:
+        200:
+          description: Berhasil mendapatkan data pesawat
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Successfully get plane data
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          example: fdf96862-738e-4294-81e4-83bb0a248afa
+                        plane_code:
+                          type: string
+                          example: GD-105
+                        airline:
+                          type: string
+                          example: Garuda Indonesia
+                        baggage:
+                          type: integer
+                          example: 15
+                        cabin_baggage:
+                          type: integer
+                          example: 5
+                        economy_seat:
+                          type: integer
+                          example: 50
+                        premium_economy_seat:
+                          type: integer
+                          example: 15
+                        business_seat:
+                          type: integer
+                          example: 5
+                        first_class_seat:
+                          type: integer
+                          example: 7
+                        createdAt:
+                          type: string
+                          format: datetime
+                          example: "2024-05-29T15:39:04.016Z"
+                        updatedAt:
+                          type: string
+                          format: datetime
+                          example: "2024-05-29T15:39:04.016Z"
+
+  /plane/{plane_code}:
+    get:
+      tags:
+        - "Plane"
+      summary: Get Plane by ID or Plane_Code
+      description: Get plane data by ID or Plane Code
+      parameters:
+      - schema:
+          type: string
+          example: GD-105
+        name: plane_code
+        in: path
+        required: true
+        description: ID or Plane_Code
+          
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Successfully get plane data
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: fdf96862-738e-4294-81e4-83bb0a248afa
+                      plane_code:
+                        type: string
+                        example: GD-105
+                      airline:
+                        type: string
+                        example: Garuda Indonesia
+                      baggage:
+                        type: integer
+                        example: 15
+                      cabin_baggage:
+                        type: integer
+                        example: 5
+                      economy_seat:
+                        type: integer
+                        example: 50
+                      premium_economy_seat:
+                        type: integer
+                        example: 15
+                      business_seat:
+                        type: integer
+                        example: 5
+                      first_class_seat:
+                        type: integer
+                        example: 7
+                      createdAt:
+                        type: string
+                        format: datetime
+                        example: "2024-05-29T15:39:04.016Z"
+                      updatedAt:
+                        type: string
+                        format: datetime
+                        example: "2024-05-29T15:39:04.016Z"
+
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Plane not found
+                  data:
+                    example: ~
+
+  /airport:
+    get:
+      tags:
+        - "Airport"
+      summary: Get All Airports
+      description: Get All Airports
+      
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Successfully get airports data
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          example: 1085234e-9100-41a9-ad25-57fa915d8849
+                        airport_code:
+                          type: string
+                          example: CGK
+                        name:
+                          type: string
+                          example: Soekarno-Hatta International Airport
+                        city:
+                          type: string
+                          example: Jakarta
+                        country:
+                          type: string
+                          example: Indonesia
+                        visited:
+                          type: integer
+                          example: 0
+                        image_url:
+                          type: string
+                          example: https://dynamic-media-cdn.tripadvisor.com/media/photo-o/15/c3/d2/54/jakarta-amazing-tour.jpg?w=600&h=500&s=1
+                        createdAt:
+                          type: string
+                          format: datetime
+                          example: "2024-05-29T15:39:03.947Z"
+                        updatedAt:
+                          type: string
+                          format: datetime
+                          example: "2024-05-29T15:39:03.947Z"
+
+  /airport/{airport_code}:
+    get:
+      tags:
+        - "Airport"
+      summary: Get Airport by ID or Airport Code
+      description: Get Airport by ID or Airport Code
+      parameters:
+      - schema:
+          type: string
+          example: CGK
+        name: airport_code
+        in: path
+        required: true
+        description: ID or Airport Code
+          
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Successfully get airport data
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: 1085234e-9100-41a9-ad25-57fa915d8849
+                      airport_code:
+                        type: string
+                        example: CGK
+                      name:
+                        type: string
+                        example: Soekarno-Hatta International Airport
+                      city:
+                        type: string
+                        example: Jakarta
+                      country:
+                        type: string
+                        example: Indonesia
+                      visited:
+                        type: integer
+                        example: 0
+                      image_url:
+                        type: string
+                        example: https://dynamic-media-cdn.tripadvisor.com/media/photo-o/15/c3/d2/54/jakarta-amazing-tour.jpg?w=600&h=500&s=1
+                      createdAt:
+                        type: string
+                        format: datetime
+                        example: "2024-05-29T15:39:03.947Z"
+                      updatedAt:
+                        type: string
+                        format: datetime
+                        example: "2024-05-29T15:39:03.947Z"
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Airport not found
+                  data:
+                    example: ~
+
+  /flight:
+    get:
+      tags:
+        - "Flight"
+      summary: Get Flight
+      description: Get All Flight
+      parameters:
+        - in: query
+          name: from
+          schema:
+            type: string
+          required: true
+          description: Departure airport code
+          example: HLP
+        - in: query
+          name: to
+          schema:
+            type: string
+          description: Arrive airport code
+          example: CDG
+        - in: query
+          name: rt
+          schema:
+            type: string
+          description: With Return or not (true or null) *null = empty string
+          example: "true"
+        - in: query
+          name: rd
+          schema:
+            type: string
+            format: datetime
+          description: Return departure datetime (If rt true)
+        - in: query
+          name: p
+          schema:
+            type: integer
+            default: 1
+          required: true
+          description: Number of passengers
+          example: 1
+        - in: query
+          name: sc
+          schema:
+            type: string
+          required: true
+          description: Seat class (ECONOMY, PREMIUM_ECONOMY, BUSINESS, FIRST_CLASS)
+          example: FIRST_CLASS
+        - in: query
+          name: page
+          schema:
+            type: integer
+            default: 1
+          required: true
+          description: Page number for pagination
+          example: 1
+        - in: query
+          name: d
+          schema:
+            type: string
+            format: datetime
+          description: Departure datetime
+          example: "2024-07-05T22:48:42.000Z"
+        - in: query
+          name: type
+          schema:
+            type: string
+          description: Type Sorting (price, arrive_at, departure_at)
+          example: price
+        - in: query
+          name: order
+          schema:
+            type: string
+          description: order sort (desc or asc)
+          example: desc
+
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Successfully get flights data
+                  data:
+                    type: object
+                    properties:
+                      flights:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: string
+                              example: ca1efdeb-c588-4add-94b4-eab1a42dcf25
+                            flight_id:
+                              type: string
+                              example: 0a22d788-2d95-4c4c-b5ef-4cd503b56695
+                            name:
+                              type: string
+                              example: FIRST_CLASS
+                            price:
+                              type: integer
+                              example: 10000000
+                            available_seats:
+                              type: integer
+                              example: 7
+                            createdAt:
+                              type: string
+                              format: date-time
+                              example: "2024-06-05T12:43:42.578Z"
+                            updatedAt:
+                              type: string
+                              format: date-time
+                              example: "2024-06-05T12:43:42.578Z"
+                            flight:
+                              type: object
+                              properties:
+                                id:
+                                  type: string
+                                  example: 0a22d788-2d95-4c4c-b5ef-4cd503b56695
+                                plane_code:
+                                  type: string
+                                  example: CX-2020
+                                from_code:
+                                  type: string
+                                  example: HLP
+                                to_code:
+                                  type: string
+                                  example: CGK
+                                departureAt:
+                                  type: string
+                                  format: date-time
+                                  example: "2024-07-20T22:48:42.000Z"
+                                arriveAt:
+                                  type: string
+                                  format: date-time
+                                  example: "2024-07-21T00:03:42.000Z"
+                                is_return:
+                                  type: boolean
+                                  example: false
+                                return_departureAt:
+                                  type: string
+                                  format: date-time
+                                  example: null
+                                return_arriveAt:
+                                  type: string
+                                  format: date-time
+                                  example: null
+                                flight_type:
+                                  type: string
+                                  example: DOMESTIC
+                                createdAt:
+                                  type: string
+                                  format: date-time
+                                  example: "2024-06-05T12:43:42.578Z"
+                                updatedAt:
+                                  type: string
+                                  format: date-time
+                                  example: "2024-06-05T12:43:42.578Z"
+                                plane:
+                                  type: object
+                                  properties:
+                                    id:
+                                      type: string
+                                      example: 557d9500-3444-4411-86ed-2917b1aed22f
+                                    plane_code:
+                                      type: string
+                                      example: CX-2020
+                                    airline:
+                                      type: string
+                                      example: Cathay Pacific
+                                    baggage:
+                                      type: integer
+                                      example: 15
+                                    cabin_baggage:
+                                      type: integer
+                                      example: 5
+                                    economy_seat:
+                                      type: integer
+                                      example: 55
+                                    premium_economy_seat:
+                                      type: integer
+                                      example: 20
+                                    business_seat:
+                                      type: integer
+                                      example: 10
+                                    first_class_seat:
+                                      type: integer
+                                      example: 7
+                                    createdAt:
+                                      type: string
+                                      format: date-time
+                                      example: "2024-05-29T15:39:04.202Z"
+                                    updatedAt:
+                                      type: string
+                                      format: date-time
+                                      example: "2024-05-29T15:39:04.202Z"
+                                from:
+                                  type: object
+                                  properties:
+                                    id:
+                                      type: string
+                                      example: 5bf3c7eb-3157-48eb-8563-f25667a12cb7
+                                    airport_code:
+                                      type: string
+                                      example: HLP
+                                    name:
+                                      type: string
+                                      example: Halim Perdanakusuma International Airport
+                                    city:
+                                      type: string
+                                      example: Jakarta
+                                    country:
+                                      type: string
+                                      example: Indonesia
+                                    visited:
+                                      type: integer
+                                      example: 161
+                                    image_url:
+                                      type: string
+                                      example: "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/15/c3/d2/54/jakarta-amazing-tour.jpg?w=600&h=500&s=1"
+                                    createdAt:
+                                      type: string
+                                      format: date-time
+                                      example: "2024-05-29T15:39:04.202Z"
+                                    updatedAt:
+                                      type: string
+                                      format: date-time
+                                      example: "2024-05-29T15:39:04.202Z"
+                                to:
+                                  type: object
+                                  properties:
+                                    id:
+                                      type: string
+                                      example: ffba72a0-82bb-4910-857e-1b9f7b24e5a9
+                                    airport_code:
+                                      type: string
+                                      example: CGK
+                                    name:
+                                      type: string
+                                      example: Soekarno-Hatta International Airport
+                                    city:
+                                      type: string
+                                      example: Jakarta
+                                    country:
+                                      type: string
+                                      example: Indonesia
+                                    visited:
+                                      type: integer
+                                      example: 16
+                                    image_url:
+                                      type: string
+                                      example: "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/15/c3/d2/54/jakarta-amazing-tour.jpg?w=600&h=500&s=1"
+                                    createdAt:
+                                      type: string
+                                      format: date-time
+                                      example: "2024-05-29T15:39:04.202Z"
+                                    updatedAt:
+                                      type: string
+                                      format: date-time
+                                      example: "2024-05-29T15:39:04.202Z"
+                      page:
+                        type: integer
+                        example: 1
+                      total_pages:
+                        type: integer
+                        example: 1
+                      total_items:
+                        type: integer
+                        example: 1
+
+        400:
+          description: Missing required field
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Missing required Field
+                  data:
+                    example: ~
+
+  /flight/favorite:
+    get:
+      tags:
+        - "Flight"
+      summary: Get Most Favorited Flights
+      description: Get Most Favorited Flights
+
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Successfully get flight data
+                  data:
+                    type: object
+                    properties:
+                      flights:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id: 
+                              type: string
+                              example: d33eb61c-47a0-4153-b526-bd4d8d49f46b
+                            plane_code: 
+                              type: string
+                              example: LA-202
+                            from_code: 
+                              type: string
+                              example: JOG
+                            to_code: 
+                              type: string
+                              example: HLP
+                            departureAt: 
+                              type: string
+                              format: datetime
+                              example: "2024-06-29T01:44:04.000Z"
+                            arriveAt: 
+                              type: string
+                              format: datetime
+                              example: "2024-06-29T02:59:04.000Z"
+                            is_return: 
+                              type: boolean
+                              example: false
+                            return_departureAt: 
+                              type: string
+                              example: null
+                            return_arriveAt: 
+                              type: string
+                              example: null
+                            flight_type: 
+                              type: string
+                              example: DOMESTIC
+                            createdAt: 
+                              type: string
+                              format: datetime
+                              example: "2024-05-29T15:39:04.106Z"
+                            updatedAt: 
+                              type: string
+                              format: datetime
+                              example: "2024-05-29T15:39:04.106Z"
+                            from:
+                              type: object
+                              properties:
+                                id: 
+                                  type: string
+                                  example: bbc9d23e-d0a8-4cc6-8708-16315dd9e85d
+                                airport_code: 
+                                  type: string
+                                  example: JOG
+                                name: 
+                                  type: string
+                                  example: Adisucipto International Airport
+                                city: 
+                                  type: string
+                                  example: Yogyakarta
+                                country: 
+                                  type: string
+                                  example: Indonesia
+                                visited: 
+                                  type: integer
+                                  example: 0
+                                image_url: 
+                                  type: string
+                                  example: https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Yogyakarta_Indonesia_Tugu-Yogyakarta-02.jpg/1200px-Yogyakarta_Indonesia_Tugu-Yogyakarta-02.jpg
+                                createdAt: 
+                                  type: string
+                                  format: datetime
+                                  example: "2024-05-29T15:39:03.947Z"
+                                updatedAt: 
+                                  type: string
+                                  format: datetime
+                                  example: "2024-05-29T15:39:03.947Z"
+                            to:
+                              type: object
+                              properties:
+                                id: 
+                                  type: string
+                                  example: 67bf0cf3-5e30-48df-bbff-ad178171adbc
+                                airport_code: 
+                                  type: string
+                                  example: HLP
+                                name: 
+                                  type: string
+                                  example: Halim Perdanakusuma International Airport
+                                city: 
+                                  type: string
+                                  example: Jakarta
+                                country: 
+                                  type: string
+                                  example: Indonesia
+                                visited: 
+                                  type: integer
+                                  example: 0
+                                image_url: 
+                                  type: string
+                                  example: https://dynamic-media-cdn.tripadvisor.com/media/photo-o/15/c3/d2/54/jakarta-amazing-tour.jpg?w=600&h=500&s=1
+                                createdAt: 
+                                  type: string
+                                  format: datetime
+                                  example: "2024-05-29T15:39:03.947Z"
+                                updatedAt: 
+                                  type: string
+                                  format: datetime
+                                  example: "2024-05-29T15:39:03.947Z"
+                            plane:
+                              type: object
+                              properties:
+                                id: 
+                                  type: string
+                                  example: 6c9690df-4c1a-4781-8e2d-ba7ac2eef053
+                                plane_code: 
+                                  type: string
+                                  example: LA-202
+                                airline: 
+                                  type: string
+                                  example: Lion Air
+                                baggage: 
+                                  type: integer
+                                  example: 15
+                                cabin_baggage: 
+                                  type: integer
+                                  example: 5
+                                economy_seat: 
+                                  type: integer
+                                  example: 60
+                                premium_economy_seat: 
+                                  type: integer
+                                  example: 20
+                                business_seat: 
+                                  type: integer
+                                  example: 10
+                                first_class_seat: 
+                                  type: integer
+                                  example: 7
+                                createdAt: 
+                                  type: string
+                                  format: datetime
+                                  example: "2024-05-29T15:39:04.016Z"
+                                updatedAt: 
+                                  type: string
+                                  format: datetime
+                                  example: "2024-05-29T15:39:04.016Z"
+                            flight_classes:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  id: 
+                                    type: string
+                                    example: 73b9b84b-2997-4eb0-b9c1-46ea8f0f11bb
+                                  flight_id: 
+                                    type: string
+                                    example: d33eb61c-47a0-4153-b526-bd4d8d49f46b
+                                  name: 
+                                    type: string
+                                    example: ECONOMY
+                                  price: 
+                                    type: integer
+                                    example: 1000000
+                                  available_seats: 
+                                    type: integer
+                                    example: 60
+                                  createdAt: 
+                                    type: string
+                                    format: datetime
+                                    example: "2024-05-29T15:39:04.106Z"
+                                  updatedAt: 
+                                    type: string
+                                    format: datetime
+                                    example: "2024-05-29T15:39:04.106Z"
+        
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Flight data not found
+                  data:
+                    example: ~
+
+  /flight/{flight_id}:
+    get:
+      tags:
+        - "Flight"
+      summary: Get Flights by id
+      description: Get Flights by id
+      parameters:
+        - schema:
+            type: string
+          name: flight_id
+          in: path
+          required: true
+
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Successfully get data
+                  data:
+                    type: object
+                    properties:
+                      flights:
+                        type: object
+                        properties:
+                          id: 
+                            type: string
+                            example: d33eb61c-47a0-4153-b526-bd4d8d49f46b
+                          plane_code: 
+                            type: string
+                            example: LA-202
+                          from_code: 
+                            type: string
+                            example: JOG
+                          to_code: 
+                            type: string
+                            example: HLP
+                          departureAt: 
+                            type: string
+                            format: datetime
+                            example: "2024-06-29T01:44:04.000Z"
+                          arriveAt: 
+                            type: string
+                            format: datetime
+                            example: "2024-06-29T02:59:04.000Z"
+                          is_return: 
+                            type: boolean
+                            example: false
+                          return_departureAt: 
+                            type: string
+                            example: ~
+                          return_arriveAt: 
+                            type: string
+                            example: ~
+                          flight_type: 
+                            type: string
+                            example: DOMESTIC
+                          createdAt: 
+                            type: string
+                            format: datetime
+                            example: "2024-05-29T15:39:04.106Z"
+                          updatedAt: 
+                            type: string
+                            format: datetime
+                            example: "2024-05-29T15:39:04.106Z"
+                          from:
+                            type: object
+                            properties:
+                              id: 
+                                type: string
+                                example: bbc9d23e-d0a8-4cc6-8708-16315dd9e85d
+                              airport_code: 
+                                type: string
+                                example: JOG
+                              name: 
+                                type: string
+                                example: Adisucipto International Airport
+                              city: 
+                                type: string
+                                example: Yogyakarta
+                              country: 
+                                type: string
+                                example: Indonesia
+                              visited: 
+                                type: integer
+                                example: 0
+                              image_url: 
+                                type: string
+                                example: https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Yogyakarta_Indonesia_Tugu-Yogyakarta-02.jpg/1200px-Yogyakarta_Indonesia_Tugu-Yogyakarta-02.jpg
+                              createdAt: 
+                                type: string
+                                format: datetime
+                                example: "2024-05-29T15:39:03.947Z"
+                              updatedAt: 
+                                type: string
+                                format: datetime
+                                example: "2024-05-29T15:39:03.947Z"
+                          to:
+                            type: object
+                            properties:
+                              id: 
+                                type: string
+                                example: 67bf0cf3-5e30-48df-bbff-ad178171adbc
+                              airport_code: 
+                                type: string
+                                example: HLP
+                              name: 
+                                type: string
+                                example: Halim Perdanakusuma International Airport
+                              city: 
+                                type: string
+                                example: Jakarta
+                              country: 
+                                type: string
+                                example: Indonesia
+                              visited: 
+                                type: integer
+                                example: 0
+                              image_url: 
+                                type: string
+                                example: https://dynamic-media-cdn.tripadvisor.com/media/photo-o/15/c3/d2/54/jakarta-amazing-tour.jpg?w=600&h=500&s=1
+                              createdAt: 
+                                type: string
+                                format: datetime
+                                example: "2024-05-29T15:39:03.947Z"
+                              updatedAt: 
+                                type: string
+                                format: datetime
+                                example: "2024-05-29T15:39:03.947Z"
+                          plane:
+                            type: object
+                            properties:
+                              id: 
+                                type: string
+                                example: 6c9690df-4c1a-4781-8e2d-ba7ac2eef053
+                              plane_code: 
+                                type: string
+                                example: LA-202
+                              airline: 
+                                type: string
+                                example: Lion Air
+                              baggage: 
+                                type: integer
+                                example: 15
+                              cabin_baggage: 
+                                type: integer
+                                example: 5
+                              economy_seat: 
+                                type: integer
+                                example: 60
+                              premium_economy_seat: 
+                                type: integer
+                                example: 20
+                              business_seat: 
+                                type: integer
+                                example: 10
+                              first_class_seat: 
+                                type: integer
+                                example: 7
+                              createdAt: 
+                                type: string
+                                format: datetime
+                                example: "2024-05-29T15:39:04.016Z"
+                              updatedAt: 
+                                type: string
+                                format: datetime
+                                example: "2024-05-29T15:39:04.016Z"
+                          flight_classes:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                id: 
+                                  type: string
+                                  example: 73b9b84b-2997-4eb0-b9c1-46ea8f0f11bb
+                                flight_id: 
+                                  type: string
+                                  example: d33eb61c-47a0-4153-b526-bd4d8d49f46b
+                                name: 
+                                  type: string
+                                  example: ECONOMY
+                                price: 
+                                  type: integer
+                                  example: 1000000
+                                available_seats: 
+                                  type: integer
+                                  example: 60
+                                createdAt: 
+                                  type: string
+                                  format: datetime
+                                  example: "2024-05-29T15:39:04.106Z"
+                                updatedAt: 
+                                  type: string
+                                  format: datetime
+                                  example: "2024-05-29T15:39:04.106Z"
+
+  /bookings/:
+    post:
+      tags:
+        - "Booking"
+      summary: Create a Booking
+      description: Create a Booking
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                flight_class_id:
+                  type: string
+                  example: 73b9b84b-2997-4eb0-b9c1-46ea8f0f11bb
+                total_price:
+                  type: integer
+                  example: 24000000
+                include_return:
+                  type: boolean
+                  example: false
+                passangers:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                        example: Adi Irawan
+                      birthdate:
+                        type: string
+                        example: "2003-09-13"
+                      identity_id:
+                        type: string
+                        example: KTP
+                      citizenship:
+                        type: string
+                        example: Indonesia
+                      category:
+                        type: string
+                        example: adult
+      
+      responses:
+        201:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Successfully created booking
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: 93e52099-aef2-42a6-ad8e-97abe6829ec4
+                      payment_id:
+                        type: string
+                        example: 2c9e21dc-1d6d-4486-8125-3bc7b50f377b
+                      flight_classes_id:
+                        type: string
+                        example: 73b9b84b-2997-4eb0-b9c1-46ea8f0f11bb
+                      total_seat:
+                        type: integer
+                        example: 1
+                      total_price:
+                        type: integer
+                        example: 24000000
+                      include_return: 
+                        type: boolean
+                        example: false
+                      createdAt: 
+                        type: string
+                        format: datetime
+                        example: "2024-05-30T15:03:55.157Z"
+                      updatedAt: 
+                        type: string
+                        format: datetime
+                        example: "2024-05-30T15:03:55.157Z"
+                      passengers:
+                        type: array
+                        items: 
+                          type: object
+                          properties:
+                            id: 
+                              type: string
+                              example: c5824e80-4ac4-4c2f-aa28-8c41b7ac9cb7
+                            name: 
+                              type: string
+                              example: adi irawan
+                            birthdate: 
+                              type: string
+                              format: datetime
+                              example: "2003-09-13T00:00:00.000Z"
+                            identity_id: 
+                              type: string
+                              example: KTP
+                            citizenship: 
+                              type: string
+                              example: Indonesia
+                            category_id: 
+                              type: string
+                              example: c30c1aaa-b00f-4e42-bdbd-79a54166c817
+                            booking_id: 
+                              type: string
+                              example: 93e52099-aef2-42a6-ad8e-97abe6829ec4
+                            createdAt: 
+                              type: string
+                              format: datetime
+                              example: "2024-05-30T15:03:55.157Z"
+                            updatedAt: 
+                              type: string
+                              format: datetime
+                              example: "2024-05-30T15:03:55.157Z"
+
+                      payment:
+                        type: object
+                        properties:
+                          id: 
+                            type: string
+                            example: 2c9e21dc-1d6d-4486-8125-3bc7b50f377b
+                          user_id: 
+                            type: string
+                            example: 985cb270-8c29-4e92-afa8-1a4f9864e7e9
+                          total_payment: 
+                            type: integer
+                            example: 24000000
+                          qr_url: 
+                            type: string
+                            example: https://ik.imagekit.io/dewangga/71eb1260-09ec-453a-9804-93f3a9c62525_qrcode_yrh1phE_U.png
+                          status: 
+                            type: string
+                            example: UNPAID
+                          expiredAt: 
+                            type: string
+                            format: datetime
+                            example: "2024-05-30T15:18:55.152Z"
+                          createdAt: 
+                            type: string
+                            format: datetime
+                            example: "2024-05-30T15:03:55.157Z"
+                          updatedAt: 
+                            type: string
+                            format: datetime
+                            example: "2024-05-30T15:03:55.157Z"
+
+                      flight_class:
+                        type: object
+                        properties:
+                          id: 
+                            type: string
+                            example: 73b9b84b-2997-4eb0-b9c1-46ea8f0f11bb
+                          flight_id: 
+                            type: string
+                            example: d33eb61c-47a0-4153-b526-bd4d8d49f46b
+                          name: 
+                            type: string
+                            example: ECONOMY
+                          price: 
+                            type: integer
+                            example: 1000000
+                          available_seats: 
+                            type: integer
+                            example: 60
+                          createdAt: 
+                            type: string
+                            format: datetime
+                            example: "2024-05-29T15:39:04.106Z"
+                          updatedAt: 
+                            type: string
+                            format: datetime
+                            example: "2024-05-29T15:39:04.106Z"
+        404:
+          description: Category not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    anyOf:
+                      - type: string
+                        example: Category "baby" not found
+                      - type: string
+                        example: Created Booking Failed.
+                  data:
+                    example: ~
+
+      security:
+      - bearerAuth: []
+
+    get:
+      tags:
+        - "Booking"
+      summary: Get all Booking's user
+      description: Get a Booking specified by user token
+      parameters:
+        - in: query
+          name: status
+          schema:
+            type: string
+          description: Status Payment (UNPAID, ISSUED, CANCELLED) (Not Required)
+          example: UNPAID
+
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Successfully retrieved bookings data
+                  data:
+                    type: object
+                    properties:
+                      bookings:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: string
+                              example: 93e52099-aef2-42a6-ad8e-97abe6829ec4
+                            payment_id:
+                              type: string
+                              example: 2c9e21dc-1d6d-4486-8125-3bc7b50f377b
+                            flight_classes_id:
+                              type: string
+                              example: 73b9b84b-2997-4eb0-b9c1-46ea8f0f11bb
+                            total_seat:
+                              type: integer
+                              example: 1
+                            total_price:
+                              type: integer
+                              example: 24000000
+                            include_return: 
+                              type: boolean
+                              example: false
+                            createdAt: 
+                              type: string
+                              format: datetime
+                              example: "2024-05-30T15:03:55.157Z"
+                            updatedAt: 
+                              type: string
+                              format: datetime
+                              example: "2024-05-30T15:03:55.157Z"
+                            payment:
+                              type: object
+                              properties:
+                                id: 
+                                  type: string
+                                  example: c5824e80-4ac4-4c2f-aa28-8c41b7ac9cb7
+                                user_id: 
+                                  type: string
+                                  example: 985cb270-8c29-4e92-afa8-1a4f9864e7e9
+                                total_payment: 
+                                  type: integer
+                                  example: 24000000
+                                qr_url: 
+                                  type: string
+                                  example: https://ik.imagekit.io/dewangga/b95181e5-83ad-4ca6-a3b0-7cb931ebf667_qrcode_IHzpOsG88.png
+                                status: 
+                                  type: string
+                                  example: UNPAID
+                                expiredAt:
+                                  type: string
+                                  format: datetime
+                                  example: "2024-05-30T15:38:47.355Z"
+                                createdAt: 
+                                  type: string
+                                  format: datetime
+                                  example: "2024-05-30T15:03:55.157Z"
+                                updatedAt: 
+                                  type: string
+                                  format: datetime
+                                  example: "2024-05-30T15:03:55.157Z"
+
+                            passengers:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  id: 
+                                    type: string
+                                    example: 2c9e21dc-1d6d-4486-8125-3bc7b50f377b
+                                  name: 
+                                    type: string
+                                    example: adi irawan
+                                  birthdate: 
+                                    type: string
+                                    example: "2003-09-13T00:00:00.000Z"
+                                  identity_id: 
+                                    type: string
+                                    example: KTP
+                                  citizenship: 
+                                    type: string
+                                    example: Indonesia
+                                  category_id: 
+                                    type: string
+                                    example: c30c1aaa-b00f-4e42-bdbd-79a54166c817
+                                  booking_id: 
+                                    type: string
+                                    example: e02d6d1d-8917-4d92-bdda-64777f147f5c
+                                  createdAt: 
+                                    type: string
+                                    format: datetime
+                                    example: "2024-05-30T15:23:47.357Z"
+                                  updatedAt: 
+                                    type: string
+                                    format: datetime
+                                    example: "2024-05-30T15:23:47.357Z"
+
+                            flight_class:
+                              type: object
+                              properties:
+                                id: 
+                                  type: string
+                                  example: 73b9b84b-2997-4eb0-b9c1-46ea8f0f11bb
+                                flight_id: 
+                                  type: string
+                                  example: d33eb61c-47a0-4153-b526-bd4d8d49f46b
+                                name: 
+                                  type: string
+                                  example: ECONOMY
+                                price: 
+                                  type: integer
+                                  example: 1000000
+                                available_seats: 
+                                  type: integer
+                                  example: 60
+                                createdAt: 
+                                  type: string
+                                  format: datetime
+                                  example: "2024-05-29T15:39:04.106Z"
+                                updatedAt: 
+                                  type: string
+                                  format: datetime
+                                  example: "2024-05-29T15:39:04.106Z"
+
+                      page:
+                        type: integer
+                        example: 1
+                      total_pages:
+                        type: integer
+                        example: 1
+                      total_items:
+                        type: integer
+                        example: 3
+
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Data bookings not found.
+                  data:
+                    example: ~
+
+      security:
+      - bearerAuth: []
+
+  /bookings/{booking_id}:
+    get:
+      tags:
+        - "Booking"
+      summary: Get Booking specified by booking_id
+      description: Get Booking specified by booking_id
+      parameters:
+      - schema:
+          type: string
+        name: booking_id
+        in: path
+        required: true
+
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Successfully retrieved booking data
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: 93e52099-aef2-42a6-ad8e-97abe6829ec4
+                      payment_id:
+                        type: string
+                        example: 2c9e21dc-1d6d-4486-8125-3bc7b50f377b
+                      flight_classes_id:
+                        type: string
+                        example: 73b9b84b-2997-4eb0-b9c1-46ea8f0f11bb
+                      total_seat:
+                        type: integer
+                        example: 1
+                      total_price:
+                        type: integer
+                        example: 24000000
+                      include_return: 
+                        type: boolean
+                        example: false
+                      createdAt: 
+                        type: string
+                        format: datetime
+                        example: "2024-05-30T15:03:55.157Z"
+                      updatedAt: 
+                        type: string
+                        format: datetime
+                        example: "2024-05-30T15:03:55.157Z"
+                      payment:
+                        type: object
+                        properties:
+                          id: 
+                            type: string
+                            example: 2c9e21dc-1d6d-4486-8125-3bc7b50f377b
+                          user_id: 
+                            type: string
+                            example: 985cb270-8c29-4e92-afa8-1a4f9864e7e9
+                          total_payment: 
+                            type: integer
+                            example: 24000000
+                          qr_url: 
+                            type: string
+                            example: https://ik.imagekit.io/dewangga/71eb1260-09ec-453a-9804-93f3a9c62525_qrcode_yrh1phE_U.png
+                          status: 
+                            type: string
+                            example: CANCELLED
+                          expiredAt:
+                            type: string
+                            format: datetime
+                            example: "2024-05-30T15:18:55.152Z"
+                          createdAt: 
+                            type: string
+                            format: datetime
+                            example: "2024-05-30T15:03:55.157Z"
+                          updatedAt: 
+                            type: string
+                            format: datetime
+                            example: "2024-05-30T15:19:46.595Z"
+                      passengers:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id: 
+                              type: string
+                              example: c5824e80-4ac4-4c2f-aa28-8c41b7ac9cb7
+                            name: 
+                              type: string
+                              example: adi irawan
+                            birthdate: 
+                              type: string
+                              example: "2003-09-13T00:00:00.000Z"
+                            identity_id: 
+                              type: string
+                              example: KTP
+                            citizenship: 
+                              type: string
+                              example: Indonesia
+                            category_id: 
+                              type: string
+                              example: c30c1aaa-b00f-4e42-bdbd-79a54166c817
+                            booking_id: 
+                              type: string
+                              example: 93e52099-aef2-42a6-ad8e-97abe6829ec4
+                            createdAt: 
+                              type: string
+                              format: datetime
+                              example: "2024-05-30T15:03:55.157Z"
+                            updatedAt: 
+                              type: string
+                              format: datetime
+                              example: "2024-05-30T15:03:55.157Z"
+                      flight_class:
+                        type: object
+                        properties:
+                          id: 
+                            type: string
+                            example: 73b9b84b-2997-4eb0-b9c1-46ea8f0f11bb
+                          flight_id: 
+                            type: string
+                            example: d33eb61c-47a0-4153-b526-bd4d8d49f46b
+                          name: 
+                            type: string
+                            example: ECONOMY
+                          price: 
+                            type: integer
+                            example: 1000000
+                          available_seats: 
+                            type: integer
+                            example: 60
+                          createdAt: 
+                            type: string
+                            format: datetime
+                            example: "2024-05-29T15:39:04.106Z"
+                          updatedAt: 
+                            type: string
+                            format: datetime
+                            example: "2024-05-29T15:39:04.106Z"
+        
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Data bookings not found.
+                  data:
+                    example: ~
+
+      security:
+      - bearerAuth: []
+
+  /payments/{payment_id}:
+    put:
+      tags:
+        - "Payment"
+      summary: Update Payment
+      description: Update Payment from UNPAID to ISSUED (Except Payment that CANCELLED) by Payment_id (You can get Payment_id from Creating a Booking)
+      parameters:
+      - schema:
+          type: string
+        name: payment_id
+        in: path
+        required: true
+
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Successfully paid
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: 3d75f8b0-83de-4f0f-9d22-ceecb1946740
+                      user_id:
+                        type: string
+                        example: 985cb270-8c29-4e92-afa8-1a4f9864e7e9
+                      total_payment:
+                        type: integer
+                        example: 24000000
+                      qr_url:
+                        type: string
+                        example: https://ik.imagekit.io/dewangga/6b48af68-a1c5-4e8e-83d3-3849fb445974_qrcode_uhhH1KvPS.png
+                      status:
+                        type: string
+                        example: ISSUED
+                      expiredAt:
+                        type: string
+                        format: datetime
+                        example: "2024-06-01T08:56:29.264Z"
+                      createdAt:
+                        type: string
+                        format: datetime
+                        example: "2024-06-01T08:41:29.266Z"
+                      updatedAt:
+                        type: string
+                        format: datetime
+                        example: "2024-06-01T08:42:42.464Z"
+
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    anyOf:
+                      - type: string
+                        example: Payment already expired
+                      - type: string
+                        example: Missing required field
+                  data:
+                    example: null
+
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Payment data not found
+                  data:
+                    example: ~
+
+      security:
+      - bearerAuth: []
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

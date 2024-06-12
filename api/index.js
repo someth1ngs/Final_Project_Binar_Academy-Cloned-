@@ -9,7 +9,7 @@ const yaml = require("yaml");
 const swaggerUI = require("swagger-ui-express");
 const fs = require("fs");
 
-const indexRouter = require("./routes/index");
+const indexRouter = require("../routes/index");
 
 const app = express();
 

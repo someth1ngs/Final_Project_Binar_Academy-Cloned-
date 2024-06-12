@@ -35,13 +35,20 @@ async function UserSeeder() {
         },
       },
     ];
-    for (item of data) {
-      await prisma.user.create({
-        data: item,
-        include: {
-          profile: true,
-        },
-      });
+    try {
+      const deleteUser = await prisma.user.deleteMany({});
+
+      for (item of data) {
+        await prisma.user.create({
+          data: item,
+          include: {
+            profile: true,
+          },
+        });
+      }
+      resolve("Success create user seeds");
+    } catch (error) {
+      reject(error.message);
     }
   });
 }

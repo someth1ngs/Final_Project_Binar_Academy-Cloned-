@@ -3,6 +3,8 @@ const prisma = new PrismaClient();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { sendVerifyEmail, sendResetPassword } = require("../libs/nodemailer");
+const { addNotification } = require("../libs/notification");
+const { default: axios } = require("axios");
 const { JWT_SECRET } = process.env;
 
 exports.getUser = async (req, res, next) => {
@@ -118,6 +120,14 @@ exports.login = async (req, res, next) => {
       });
     }
 
+    if (user.password === "" && user.is_verified === true) {
+      return res.status(400).json({
+        status: false,
+        message: "It seems you logged in using Google Login.",
+        data: null,
+      });
+    }
+
     let isPasswordCorrect = await bcrypt.compare(password, user.password);
 
     if (!isPasswordCorrect) {
@@ -182,6 +192,8 @@ exports.register = async (req, res, next) => {
 
     delete user.password;
 
+    await addNotification("Welcome!", "Your account has been added", user.id);
+
     return res.status(201).json({
       status: true,
       message: "Successfully created account",
@@ -224,7 +236,7 @@ exports.sendVerify = async (req, res, next) => {
     const token = jwt.sign(user, JWT_SECRET, {
       expiresIn: "15m",
     });
-    
+
     const sendMail = await sendVerifyEmail(user, token);
     return res.status(200).json({
       status: true,
@@ -263,6 +275,7 @@ exports.verifyEmail = async (req, res, next) => {
       delete user.password;
 
       const tokenLogin = jwt.sign(user, JWT_SECRET);
+      await addNotification("Verify Email", "Verify Email successfully.", decode.id);
       return res.status(200).json({
         status: true,
         message: "Verify Success. You're account is now verified",
@@ -272,6 +285,7 @@ exports.verifyEmail = async (req, res, next) => {
         },
       });
     } catch (error) {
+      console.log(error);
       return res.status(401).json({
         status: false,
         message: "Invalid token",
@@ -348,11 +362,115 @@ exports.resetPassword = async (req, res, next) => {
         data: { password: hashPassword },
       });
 
+      await addNotification("Reset password", "Reset password has been successfully", decoded.id);
+
       return res.status(200).json({
         status: true,
         message: "Password successfull has been reset",
         data: null,
       });
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.googleLogin = async (req, res, next) => {
+  try {
+    // GET ACCESS TOKEN
+    const { access_token } = req.body;
+
+    if (!access_token) {
+      return res.status(400).json({
+        status: false,
+        message: "Missing required field",
+        data: null,
+      });
+    }
+
+    // GET GOOGLE DATA USING ACCESS TOKEN
+    const googleData = await axios.get(`https://www.googleapis.com/oauth2/v3/userinfo?access_token=${access_token}`);
+
+    // UPSERT USER DATA IN CASE USER ALREADY EXIST
+    const user = await prisma.user.upsert({
+      where: {
+        email: googleData?.data?.email,
+      },
+      update: {
+        name: googleData?.data?.name,
+      },
+      create: {
+        email: googleData?.data?.email,
+        name: googleData?.data?.name,
+        password: "",
+        is_verified: true,
+        profile: {
+          create: {},
+        },
+      },
+    });
+
+    // DELETE USER PASSWORD FROM VARIABLE
+    delete user.password;
+
+    // CREATE TOKEN
+    const token = jwt.sign(user, JWT_SECRET);
+
+    // RETURN
+    return res.status(200).json({
+      status: true,
+      message: "Successfully login with Google",
+      data: {
+        user,
+        token,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.changePassword = async (req, res, next) => {
+  try {
+    const user_id = req.user_data.id;
+    const { password, confirm } = req.body;
+
+    if (!user_id) {
+      return res.status(403).json({
+        status: false,
+        message: "You are not authorized to change this users password",
+        data: null,
+      });
+    }
+
+    if (!password || !confirm) {
+      return res.status(400).json({
+        status: false,
+        message: "Missing required field",
+        data: null,
+      });
+    }
+
+    if (password !== confirm) {
+      return res.status(400).json({
+        status: false,
+        message: "Password doesnt match",
+        data: null,
+      });
+    }
+
+    let hashPassword = await bcrypt.hash(password, 10);
+    let changePassword = await prisma.user.update({
+      where: { id: user_id },
+      data: { password: hashPassword },
+    });
+
+    await addNotification("Change password", "Password has been successfully changed.", user_id);
+
+    return res.status(200).json({
+      status: true,
+      message: "Password successfully changed",
+      data: null,
     });
   } catch (error) {
     next(error);

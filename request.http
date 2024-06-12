@@ -3,8 +3,8 @@ POST http://localhost:3000/api/v1/auth/login
 Content-Type: application/json
 
 {
-    "email":"admin@admin.com",
-    "password":"admin123"
+    "email":"user@user.com",
+    "password":"user123"
 }
 
 ### register users
@@ -12,8 +12,8 @@ POST http://localhost:3000/api/v1/auth/register
 Content-Type: application/json
 
 {
-    "name": "test",
-    "email": "test@gmail.com",
+    "name": "dewangga",
+    "email": "hamadakinose@gmail.com",
     "password": "12345"
 }
 
@@ -26,7 +26,7 @@ Content-Type: application/json
 }
 
 ###
-PUT http://localhost:3000/api/v1/auth/verify/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc4NmMyZWQxLTc5MzYtNDg5Yy1hOTI5LTQ1ZDQ2ZGEwZmIwNSIsIm5hbWUiOiJkZXdhbmdnYSIsImVtYWlsIjoiaGFtYWRha2lub3NlQGdtYWlsLmNvbSIsInBhc3N3b3JkIjoiJDJiJDEwJG82WjNBbmRRZDYzbTdCNHZ2RWpWRmV6WU1qNjhKazZ2eVhkc1FFV2Q5Y05PR0xRRUhvNExhIiwiaXNfdmVyaWZpZWQiOmZhbHNlLCJyb2xlIjoiVVNFUiIsImNyZWF0ZWRBdCI6IjIwMjQtMDUtMjJUMTM6MjY6MTAuMDYxWiIsInVwZGF0ZWRBdCI6IjIwMjQtMDUtMjJUMTM6MjY6MTAuMDYxWiIsInZlcmlmeSI6dHJ1ZSwiaWF0IjoxNzE2Mzg0NTc5LCJleHAiOjE3MTYzODU0Nzl9.PwTKPh5jpwt68sjNLHyNDfzkKNnJm_Bzs-BwkoClad0
+PUT http://localhost:3000/api/v1/auth/verify/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImEyMzRhNmRmLTdiMGQtNDk3MS04ZjhhLWYwMGYyMjFmNzJmMSIsIm5hbWUiOiJkZXdhbmdnYSIsImVtYWlsIjoiaGFtYWRha2lub3NlQGdtYWlsLmNvbSIsInBhc3N3b3JkIjoiJDJiJDEwJGVGVzZKanB6MjZoY0xwSDJDZ2h0Ny5SNGo4c2ZiUEJrWjQxVVI4U2l4SWF2ZUV3QUNBV2llIiwiaXNfdmVyaWZpZWQiOmZhbHNlLCJyb2xlIjoiVVNFUiIsImNyZWF0ZWRBdCI6IjIwMjQtMDUtMjZUMDg6MzI6MTcuODc4WiIsInVwZGF0ZWRBdCI6IjIwMjQtMDUtMjZUMDg6MzI6MTcuODc4WiIsInZlcmlmeSI6dHJ1ZSwiaWF0IjoxNzE2NzEyMzQ4LCJleHAiOjE3MTY3MTMyNDh9.NX8MbRCunhK8WyROeB9VwZGye4fejSz3vkMY5Qxf3IE
 
 ###
 POST http://localhost:3000/api/v1/auth/forgotpassword
@@ -46,8 +46,8 @@ Content-Type: application/json
 }
 
 ### GET PROFILES BY USER_ID
-GET http://localhost:3000/api/v1/profile/1c2c9b33-d237-46fb-b4a8-1f188d1b1276
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjFjMmM5YjMzLWQyMzctNDZmYi1iNGE4LTFmMTg4ZDFiMTI3NiIsIm5hbWUiOiJVc2VyIiwiZW1haWwiOiJ1c2VyQHVzZXIuY29tIiwiaXNfdmVyaWZpZWQiOnRydWUsInJvbGUiOiJVU0VSIiwiY3JlYXRlZEF0IjoiMjAyNC0wNS0yNFQwNzo0MTozMS40MjFaIiwidXBkYXRlZEF0IjoiMjAyNC0wNS0yNFQwNzo0MTozMS40MjFaIiwiaWF0IjoxNzE2NTM3NTAyfQ.4jyHGITL29ZDHzM1KiLYQiygeHWUkUT2SHwoacrtcv4
+GET http://localhost:3000/api/v1/profile/a234a6df-7b0d-4971-8f8a-f00f221f72f1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImEyMzRhNmRmLTdiMGQtNDk3MS04ZjhhLWYwMGYyMjFmNzJmMSIsIm5hbWUiOiJkZXdhbmdnYSIsImVtYWlsIjoiaGFtYWRha2lub3NlQGdtYWlsLmNvbSIsImlzX3ZlcmlmaWVkIjp0cnVlLCJyb2xlIjoiVVNFUiIsImNyZWF0ZWRBdCI6IjIwMjQtMDUtMjZUMDg6MzI6MTcuODc4WiIsInVwZGF0ZWRBdCI6IjIwMjQtMDUtMjZUMDg6MzI6MzkuMzE2WiIsImlhdCI6MTcxNjgyOTQ2Mn0.H_We9nQyaPe-BnG-ix6gEp6J2BW5VCDEbcrf8-VAifk
 
 ### GET ALL USER (BY ADMIN)
 GET http://localhost:3000/api/v1/auth/
@@ -66,3 +66,88 @@ Content-Type: application/json
   "birthdate": "2010-10-10"
 }
 
+###
+GET http://localhost:3000/api/v1/notification/a234a6df-7b0d-4971-8f8a-f00f221f72f1
+
+###
+GET http://localhost:3000/api/v1/notification/a234a6df-7b0d-4971-8f8a-f00f221f72f1/read
+
+###
+GET http://localhost:3000/api/v1/tax
+
+###
+GET http://localhost:3000/api/v1/category/
+
+###
+GET http://localhost:3000/api/v1/category/4b4e269-1b22-4a07-977a-beb4870d4d00
+
+###
+PUT http://localhost:3000/api/v1/auth/changepassword
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImEyMzRhNmRmLTdiMGQtNDk3MS04ZjhhLWYwMGYyMjFmNzJmMSIsIm5hbWUiOiJkZXdhbmdnYSIsImVtYWlsIjoiaGFtYWRha2lub3NlQGdtYWlsLmNvbSIsImlzX3ZlcmlmaWVkIjp0cnVlLCJyb2xlIjoiVVNFUiIsImNyZWF0ZWRBdCI6IjIwMjQtMDUtMjZUMDg6MzI6MTcuODc4WiIsInVwZGF0ZWRBdCI6IjIwMjQtMDUtMjZUMDg6MzI6MzkuMzE2WiIsImlhdCI6MTcxNjgyOTIxN30.-85gUS65gbfJyJP9-2aw0dWU6VZhVd9Zy6fGpaeToCQ
+Content-Type: application/json
+
+{
+    "password": "123",
+    "confirm": "123"
+}
+
+###
+POST http://localhost:3000/api/v1/auth/googlelogin
+Content-Type: application/json
+
+{
+    "access_token": "ya29.a0AXooCgvepkly4ifXAsIsbPoNhg_BfLmAukcCoaEPH2XTs2gFNm-mnIRnoaEyAe3kd1Xbsm_GkRAFay_3ohXpPrGVqupoT_u_s-LP6vrsFvgDS__4nw0Za3y0te45qFT9-aacIpKBU9YVQGsa-09MyX-Qaj84NdsKvpFtaCgYKAd0SARISFQHGX2MiRKMHKtHQ3GbyVrlzmJ8MyQ0171"
+}
+
+### Create a Booking
+POST http://localhost:3000/api/v1/bookings/
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc4MGQ3MzA4LWE3ZWYtNDAwZS1iOTFmLTk3OWRkMjM4NmVmNCIsIm5hbWUiOiJEZXdhbmdnYSBOYW5kYSBBcmp1bmEiLCJlbWFpbCI6ImFkZXdhbmdnYW5AZ21haWwuY29tIiwiaXNfdmVyaWZpZWQiOnRydWUsInJvbGUiOiJVU0VSIiwiY3JlYXRlZEF0IjoiMjAyNC0wNi0wNVQxMjo0NTowOC4xMTZaIiwidXBkYXRlZEF0IjoiMjAyNC0wNi0wNVQxMjo0NTowOC4xMTZaIiwiaWF0IjoxNzE3NTkxNTA4fQ.qa5wm5s6d3ha1CeSecgyG0JkG3TzqCzLFSPAhfP9YZM
+Content-Type: application/json
+
+{
+  "flight_class_id": "26b1deef-1868-4de2-ba24-bce2d1abe136",
+  "total_price": 24000000,
+  "include_return": false,
+  "passangers": [
+    {
+      "name": "adi irawan",
+      "birthdate": "2003-09-13",
+      "identity_id": "KTP",
+      "citizenship": "Indonesia",
+      "category_id": "5b0e518e-ddde-4a94-bfa4-c7f68e7870ef"
+    }
+  ]
+}
+
+### Get all Booking
+GET http://localhost:3000/api/v1/bookings 
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc4MGQ3MzA4LWE3ZWYtNDAwZS1iOTFmLTk3OWRkMjM4NmVmNCIsIm5hbWUiOiJEZXdhbmdnYSBOYW5kYSBBcmp1bmEiLCJlbWFpbCI6ImFkZXdhbmdnYW5AZ21haWwuY29tIiwiaXNfdmVyaWZpZWQiOnRydWUsInJvbGUiOiJVU0VSIiwiY3JlYXRlZEF0IjoiMjAyNC0wNi0wNVQxMjo0NTowOC4xMTZaIiwidXBkYXRlZEF0IjoiMjAyNC0wNi0wNVQxMjo0NTowOC4xMTZaIiwiaWF0IjoxNzE3NTkxNTA4fQ.qa5wm5s6d3ha1CeSecgyG0JkG3TzqCzLFSPAhfP9YZM
+
+### Get Booking by id
+GET http://localhost:3000/api/v1/bookings/9b12beeb-3e11-4197-8bc4-48608765742e
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijk4NWNiMjcwLThjMjktNGU5Mi1hZmE4LTFhNGY5ODY0ZTdlOSIsIm5hbWUiOiJEZXdhbmdnYSBOYW5kYSBBcmp1bmEiLCJlbWFpbCI6ImFkZXdhbmdnYW5AZ21haWwuY29tIiwiaXNfdmVyaWZpZWQiOnRydWUsInJvbGUiOiJVU0VSIiwiY3JlYXRlZEF0IjoiMjAyNC0wNS0yOVQxNTozOToxMy45MDdaIiwidXBkYXRlZEF0IjoiMjAyNC0wNS0zMFQxNDo1ODowMS41MDFaIiwiaWF0IjoxNzE3MDgxMDgxfQ.b52Acyzh-gjZAiEuU5XI-tlDjaWrTRFh8msC6mq1Gvk
+
+### Get Flights Request
+GET http://localhost:3000/api/v1/flight?from=HLP&p=1&sc=FIRST_CLASS&page=1
+
+### Get Most Favorited Flights
+GET http://localhost:3000/api/v1/flight/favorite
+
+### Get Flight by id
+GET http://localhost:3000/api/v1/flight/d33eb61c-47a0-4153-b526-bd4d8d49f46b
+
+### Get All Plane
+GET http://localhost:3000/api/v1/plane
+
+### Get Plane by ID or Plane Code
+GET http://localhost:3000/api/v1/plane/GD-105
+
+### Get All Airport
+GET http://localhost:3000/api/v1/airport
+
+### Get Airport by ID or Airport Code
+GET http://localhost:3000/api/v1/airport/CGK
+
+### Update Payment
+PUT http://localhost:3000/api/v1/payments/1af96a44-205b-4144-851c-c129358cf3a0
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc4MGQ3MzA4LWE3ZWYtNDAwZS1iOTFmLTk3OWRkMjM4NmVmNCIsIm5hbWUiOiJEZXdhbmdnYSBOYW5kYSBBcmp1bmEiLCJlbWFpbCI6ImFkZXdhbmdnYW5AZ21haWwuY29tIiwiaXNfdmVyaWZpZWQiOnRydWUsInJvbGUiOiJVU0VSIiwiY3JlYXRlZEF0IjoiMjAyNC0wNi0wNVQxMjo0NTowOC4xMTZaIiwidXBkYXRlZEF0IjoiMjAyNC0wNi0wNVQxMjo0NTowOC4xMTZaIiwiaWF0IjoxNzE3NTkxNTA4fQ.qa5wm5s6d3ha1CeSecgyG0JkG3TzqCzLFSPAhfP9YZM
