@@ -1517,6 +1517,7 @@ paths:
           name: sc
           schema:
             type: string
+          required: true
           description: Seat class (ECONOMY, PREMIUM_ECONOMY, BUSINESS, FIRST_CLASS)
           example: FIRST_CLASS
         - in: query
