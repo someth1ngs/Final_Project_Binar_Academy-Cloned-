@@ -2387,6 +2387,12 @@ paths:
             type: string
           description: Status Payment (UNPAID, ISSUED, CANCELLED) (Not Required)
           example: UNPAID
+        - in: query
+          name: page
+          schema:
+            type: integer
+          description: Paginations
+          example: 1
 
       responses:
         200:
