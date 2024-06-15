@@ -1,12 +1,11 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
-const { addNotification } = require('../libs/notification');
+const { addNotification } = require("../libs/notification");
 
 exports.getProfile = async (req, res, next) => {
   try {
-    const { user_id } = req.params;
 
-    if (user_id !== req.user_data.id) {
+    if(!req.user_data.id){
       return res.status(403).json({
         status: false,
         message: "You are not authorized to see this profile",
@@ -15,9 +14,7 @@ exports.getProfile = async (req, res, next) => {
     }
 
     const user = await prisma.user.findUnique({
-      where: {
-        id: user_id,
-      },
+      where: { id: req.user_data.id },
       select: {
         id: true,
         email: true,
@@ -58,12 +55,11 @@ exports.getProfile = async (req, res, next) => {
 
 exports.editProfile = async (req, res, next) => {
   try {
-    const { user_id } = req.params;
     const { name, address, phone, occupation, birthdate } = req.body;
 
     const user = await prisma.user.findUnique({
       where: {
-        id: user_id,
+        id: req.user_data.id,
       },
       include: {
         profile: true,
@@ -78,7 +74,7 @@ exports.editProfile = async (req, res, next) => {
       });
     }
 
-    if (user.id !== req.user_data.id) {
+    if (!req.user_data.id) {
       return res.status(403).json({
         status: false,
         message: "You are not authorized to edit this profile",
@@ -102,13 +98,13 @@ exports.editProfile = async (req, res, next) => {
       return res.status(500).json({
         status: false,
         message: "Failed to update profile",
-        data: null
+        data: null,
       });
     }
 
     const editUserName = await prisma.user.update({
       where: {
-        id: user_id,
+        id: req.user_data.id,
       },
       data: {
         name: name,
@@ -119,11 +115,15 @@ exports.editProfile = async (req, res, next) => {
       return res.status(500).json({
         status: false,
         message: "Failed to update user name",
-        data: null
+        data: null,
       });
     }
 
-    await addNotification("Edit Profile", "Your profile has been successfully edited", user_id);
+    await addNotification(
+      "Edit Profile",
+      "Your profile has been successfully edited",
+      req.user_data.id
+    );
 
     return res.status(200).json({
       status: true,

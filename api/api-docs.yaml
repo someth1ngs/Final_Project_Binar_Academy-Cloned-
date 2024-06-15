@@ -705,18 +705,12 @@ paths:
                   data:
                     example: ~
                     
-  /profile/{user_id}:
+  /profile/:
     get:
       tags:
         - "Profile"
       summary: Get user and profile
       description: Get detail on Users as well as Profile
-      parameters:
-        - schema:
-            type: string
-          name: user_id
-          in: path
-          required: true
 
       responses:
         200:
@@ -802,12 +796,6 @@ paths:
         - "Profile"
       summary: Edit Profile
       description: Endpoint for Edit Profile
-      parameters:
-      - schema:
-          type: string
-        name: user_id
-        in: path
-        required: true
 
       requestBody:
         required: true
@@ -1517,6 +1505,7 @@ paths:
           name: sc
           schema:
             type: string
+          required: true
           description: Seat class (ECONOMY, PREMIUM_ECONOMY, BUSINESS, FIRST_CLASS)
           example: FIRST_CLASS
         - in: query
@@ -2398,6 +2387,12 @@ paths:
             type: string
           description: Status Payment (UNPAID, ISSUED, CANCELLED) (Not Required)
           example: UNPAID
+        - in: query
+          name: page
+          schema:
+            type: integer
+          description: Paginations
+          example: 1
 
       responses:
         200:
