@@ -1,7 +1,8 @@
 const { PrismaClient } = require("@prisma/client");
 const { filterFlight } = require("../libs/flights");
 const prisma = new PrismaClient();
-const { addNotification } = require('../libs/notification');
+const { addNotification } = require("../libs/notification");
+const { response } = require("express");
 
 exports.updatePayment = async (req, res, next) => {
   try {
@@ -18,7 +19,6 @@ exports.updatePayment = async (req, res, next) => {
     const payment = await prisma.payment.findUnique({
       where: {
         id: payment_id,
-        user_id: req.user_data.id,
       },
       include: {
         booking: {
@@ -41,17 +41,16 @@ exports.updatePayment = async (req, res, next) => {
 
     if (payment.status === "CANCELLED" || isExpired) {
       if (isExpired) {
-        await prisma.payment.update({
+        const response = await prisma.payment.update({
           where: {
             id: payment_id,
-            user_id: req.user_data.id,
           },
           data: {
             status: "CANCELLED",
           },
         });
 
-        await addNotification("Payment Cancelled", "Your payment has been cancelled due to expiration.", req.user_data.id);
+        await addNotification("Payment Cancelled", "Your payment has been cancelled due to expiration.", response.user_id);
       }
 
       return res.status(400).json({
@@ -65,7 +64,6 @@ exports.updatePayment = async (req, res, next) => {
       prisma.payment.update({
         where: {
           id: payment_id,
-          user_id: req.user_data.id,
         },
         data: {
           status: "ISSUED",
@@ -82,7 +80,7 @@ exports.updatePayment = async (req, res, next) => {
       }),
     ]);
 
-    await addNotification("Payment Success", "Your payment has been successfully issued.", req.user_data.id);
+    await addNotification("Payment Success", "Your payment has been successfully issued.", updatePayment.user_id);
 
     return res.status(200).json({
       status: true,
