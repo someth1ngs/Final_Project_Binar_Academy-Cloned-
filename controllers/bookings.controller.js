@@ -106,7 +106,7 @@ exports.createBookings = async (req, res, next) => {
 
 exports.getBookings = async (req, res, next) => {
   try {
-    const { page = 1, status } = req.query;
+    const { page = 1, status, startDate, endDate } = req.query;
     const limit = 5;
     const skip = (page - 1) * limit;
 
@@ -119,6 +119,29 @@ exports.getBookings = async (req, res, next) => {
       filterStatus.status = status.toUpperCase();
     }
 
+    // Filter date range if provided
+    let dateRangeFilter = {};
+    if (startDate && endDate) {
+      dateRangeFilter = {
+        createdAt: {
+          gte: new Date(startDate),
+          lte: new Date(endDate),
+        },
+      };
+    } else if (startDate) {
+      dateRangeFilter = {
+        createdAt: {
+          gte: new Date(startDate),
+        },
+      };
+    } else if (endDate) {
+      dateRangeFilter = {
+        createdAt: {
+          lte: new Date(endDate),
+        },
+      };
+    }
+
     const [bookings, total] = await Promise.all([
       prisma.booking.findMany({
         skip: parseInt(skip),
@@ -128,6 +151,7 @@ exports.getBookings = async (req, res, next) => {
             user_id: req.user_data.id,
             status: status ? status.toUpperCase() : undefined,
           },
+          ...dateRangeFilter,
         },
         include: {
           payment: true,
@@ -145,6 +169,7 @@ exports.getBookings = async (req, res, next) => {
             user_id: req.user_data.id,
             status: status ? status.toUpperCase() : undefined,
           },
+          ...dateRangeFilter,
         },
       }),
     ]);
@@ -224,3 +249,4 @@ exports.getBookingsById = async (req, res, next) => {
     next(error);
   }
 };
+
