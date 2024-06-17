@@ -101,26 +101,25 @@ Content-Type: application/json
 
 ### Create a Booking
 POST http://localhost:3000/api/v1/bookings/
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc4MGQ3MzA4LWE3ZWYtNDAwZS1iOTFmLTk3OWRkMjM4NmVmNCIsIm5hbWUiOiJEZXdhbmdnYSBOYW5kYSBBcmp1bmEiLCJlbWFpbCI6ImFkZXdhbmdnYW5AZ21haWwuY29tIiwiaXNfdmVyaWZpZWQiOnRydWUsInJvbGUiOiJVU0VSIiwiY3JlYXRlZEF0IjoiMjAyNC0wNi0wNVQxMjo0NTowOC4xMTZaIiwidXBkYXRlZEF0IjoiMjAyNC0wNi0wNVQxMjo0NTowOC4xMTZaIiwiaWF0IjoxNzE3NTkxNTA4fQ.qa5wm5s6d3ha1CeSecgyG0JkG3TzqCzLFSPAhfP9YZM
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjQ4OGE0YTZkLTk0OGItNDAwNC1iODZjLWM5MzVjNDMyYmYwZCIsIm5hbWUiOiJVc2VyIiwiZW1haWwiOiJ1c2VyQHVzZXIuY29tIiwiaXNfdmVyaWZpZWQiOnRydWUsInJvbGUiOiJVU0VSIiwiY3JlYXRlZEF0IjoiMjAyNC0wNi0wNVQxMjo0Mzo0Mi4yMzlaIiwidXBkYXRlZEF0IjoiMjAyNC0wNi0xMlQxMzowMzozMC45NDBaIiwiaWF0IjoxNzE4NjExOTE2fQ.NkOHgqkMqls54aJd4HRR0Al4TG6ZN6fdcQIkK9uxAcw
 Content-Type: application/json
 
 {
   "flight_class_id": "26b1deef-1868-4de2-ba24-bce2d1abe136",
-  "total_price": 24000000,
   "include_return": false,
-  "passangers": [
+  "passengers": [
     {
       "name": "adi irawan",
       "birthdate": "2003-09-13",
       "identity_id": "KTP",
       "citizenship": "Indonesia",
-      "category_id": "5b0e518e-ddde-4a94-bfa4-c7f68e7870ef"
+      "category": "adult"
     }
   ]
 }
 
 ### Get all Booking
-GET http://localhost:3000/api/v1/bookings 
+GET http://localhost:3000/api/v1/bookings
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc4MGQ3MzA4LWE3ZWYtNDAwZS1iOTFmLTk3OWRkMjM4NmVmNCIsIm5hbWUiOiJEZXdhbmdnYSBOYW5kYSBBcmp1bmEiLCJlbWFpbCI6ImFkZXdhbmdnYW5AZ21haWwuY29tIiwiaXNfdmVyaWZpZWQiOnRydWUsInJvbGUiOiJVU0VSIiwiY3JlYXRlZEF0IjoiMjAyNC0wNi0wNVQxMjo0NTowOC4xMTZaIiwidXBkYXRlZEF0IjoiMjAyNC0wNi0wNVQxMjo0NTowOC4xMTZaIiwiaWF0IjoxNzE3NTkxNTA4fQ.qa5wm5s6d3ha1CeSecgyG0JkG3TzqCzLFSPAhfP9YZM
 
 ### Get Booking by id
@@ -149,5 +148,4 @@ GET http://localhost:3000/api/v1/airport
 GET http://localhost:3000/api/v1/airport/CGK
 
 ### Update Payment
-PUT http://localhost:3000/api/v1/payments/1af96a44-205b-4144-851c-c129358cf3a0
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc4MGQ3MzA4LWE3ZWYtNDAwZS1iOTFmLTk3OWRkMjM4NmVmNCIsIm5hbWUiOiJEZXdhbmdnYSBOYW5kYSBBcmp1bmEiLCJlbWFpbCI6ImFkZXdhbmdnYW5AZ21haWwuY29tIiwiaXNfdmVyaWZpZWQiOnRydWUsInJvbGUiOiJVU0VSIiwiY3JlYXRlZEF0IjoiMjAyNC0wNi0wNVQxMjo0NTowOC4xMTZaIiwidXBkYXRlZEF0IjoiMjAyNC0wNi0wNVQxMjo0NTowOC4xMTZaIiwiaWF0IjoxNzE3NTkxNTA4fQ.qa5wm5s6d3ha1CeSecgyG0JkG3TzqCzLFSPAhfP9YZM
+PUT http://localhost:3000/api/v1/payments/5396e202-4665-4f2b-9846-452087b77b1d
