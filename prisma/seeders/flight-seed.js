@@ -16,8 +16,8 @@ async function FlightSeeder() {
           const hour2 = randomNumber(1, 23);
           const minute = randomNumber(1, 60);
           const minute2 = randomNumber(1, 60);
-          const departureAt = addingDays(30 + addDays, hour, minute);
-          const arriveAt = addingDays(30 + addDays, hour + randomNumber(1, 23), minute + randomNumber(1, 60));
+          const departureAt = addingDays(7 + addDays, hour, minute);
+          const arriveAt = addingDays(7 + addDays, hour + randomNumber(1, 23), minute + randomNumber(1, 60));
           const return_departureAt = addingDays(37 + addDays, hour2, minute2);
           const return_arriveAt = addingDays(37 + addDays, hour2 + randomNumber(1, 23), minute2 + randomNumber(1, 60));
           // Choose random airports
@@ -75,8 +75,8 @@ async function FlightSeeder() {
       const planeData = await prisma.plane.findMany({});
       const airportData = await prisma.airport.findMany({});
 
-      for (let i = 0; i <= 2; i++) {
-        generateFlightData(planeData, airportData, i * 15);
+      for (let i = 0; i <= 15; i++) {
+        generateFlightData(planeData, airportData, i * 2);
       }
 
       for (item of flightData) {

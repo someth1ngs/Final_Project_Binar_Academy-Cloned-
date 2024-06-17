@@ -137,7 +137,7 @@ exports.getBookings = async (req, res, next) => {
     } else if (endDate) {
       dateRangeFilter = {
         createdAt: {
-          lte: new Date(new Date(endDate).setHours(23, 59, 59, 999)), 
+          lte: new Date(new Date(endDate).setHours(23, 59, 59, 999)),
         },
       };
     }
@@ -156,7 +156,17 @@ exports.getBookings = async (req, res, next) => {
         include: {
           payment: true,
           passengers: true,
-          flight_class: true,
+          flight_class: {
+            include: {
+              flight: {
+                include: {
+                  from: true,
+                  to: true,
+                  plane: true,
+                },
+              },
+            },
+          },
         },
         orderBy: {
           updatedAt: "desc",
@@ -249,4 +259,3 @@ exports.getBookingsById = async (req, res, next) => {
     next(error);
   }
 };
-
