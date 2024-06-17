@@ -2392,6 +2392,20 @@ paths:
           description: Status Payment (UNPAID, ISSUED, CANCELLED) (Not Required)
           example: UNPAID
         - in: query
+          name: startDate
+          schema:
+            type: string
+            format: date
+          description: Start date for filtering bookings
+          example: "2024-06-01"
+        - in: query
+          name: endDate
+          schema:
+            type: string
+            format: date
+          description: End date for filtering bookings
+          example: "2024-06-30"
+        - in: query
           name: page
           schema:
             type: integer
