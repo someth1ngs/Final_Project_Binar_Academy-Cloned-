@@ -125,7 +125,7 @@ exports.getBookings = async (req, res, next) => {
       dateRangeFilter = {
         createdAt: {
           gte: new Date(startDate),
-          lte: new Date(endDate),
+          lte: new Date(new Date(endDate).setHours(23, 59, 59, 999)),
         },
       };
     } else if (startDate) {
@@ -137,7 +137,7 @@ exports.getBookings = async (req, res, next) => {
     } else if (endDate) {
       dateRangeFilter = {
         createdAt: {
-          lte: new Date(endDate),
+          lte: new Date(new Date(endDate).setHours(23, 59, 59, 999)), 
         },
       };
     }

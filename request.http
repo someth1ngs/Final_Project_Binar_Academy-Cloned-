@@ -120,7 +120,7 @@ Content-Type: application/json
 }
 
 ### Get all Booking
-GET http://localhost:3000/api/v1/bookings?page=1&startDate=2024-06-13&endDate=2024-06-16
+GET http://localhost:3000/api/v1/bookings?page=1&startDate=2024-06-10&endDate=2024-06-10
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjQ4OGE0YTZkLTk0OGItNDAwNC1iODZjLWM5MzVjNDMyYmYwZCIsIm5hbWUiOiJVc2VyIiwiZW1haWwiOiJ1c2VyQHVzZXIuY29tIiwiaXNfdmVyaWZpZWQiOnRydWUsInJvbGUiOiJVU0VSIiwiY3JlYXRlZEF0IjoiMjAyNC0wNi0wNVQxMjo0Mzo0Mi4yMzlaIiwidXBkYXRlZEF0IjoiMjAyNC0wNi0xMlQxMzowMzozMC45NDBaIiwiaWF0IjoxNzE4NjE1MjA3fQ.14Av1QqZW2mbP5JHJJpheMOUePQIvWgtoX7_W1f0Sk0
 
 ### Get Booking by id
