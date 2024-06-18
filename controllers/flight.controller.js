@@ -117,9 +117,52 @@ exports.getFlightById = async (req, res, next) => {
 
 exports.getFavoriteDestination = async (req, res, next) => {
   try {
+    const { from: from_code } = req.query;
+
+    let whereClause = {};
+
+    if (from_code) {
+      whereClause.from_code = from_code;
+    }
+
+    // whereClause.departure = {
+    //   some: {
+    //     from_code: from_code,
+    //     departureAt: {
+    //       gte: new Date(),
+    //     },
+    //   },
+    // };
+    // const flight = await prisma.airport.findMany({
+    //   where: {
+    //     ...whereClause,
+    //   },
+    //   orderBy: {
+    //     visited: "desc",
+    //   },
+    //   include: {
+    //     arrives: {
+    //       skip: 0,
+    //       take: 1,
+    //       orderBy: {
+    //         arriveAt: "desc",
+    //       },
+    //       include: {
+    //         flight_classes: true,
+    //       },
+    //     },
+    //   },
+    // });
+
     const flights = await prisma.flight.findMany({
       skip: 0,
       take: 8,
+      where: {
+        ...whereClause,
+        departureAt: {
+          gte: new Date(),
+        },
+      },
       orderBy: {
         to: {
           visited: "desc",
