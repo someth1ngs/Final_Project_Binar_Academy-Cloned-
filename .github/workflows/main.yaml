@@ -17,7 +17,7 @@ jobs:
           SECRETS="${{ secrets.GCP_ENV_STAGING }}"
           echo "$SECRETS" | tr ';' '\n' >> .env
       - name: Install depedencies
-        run: pnpm Install
+        run: pnpm install
 
       - name: Migrate database
         run: npx prisma migrate dev
