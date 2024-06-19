@@ -9,9 +9,10 @@ const yaml = require("yaml");
 const swaggerUI = require("swagger-ui-express");
 const fs = require("fs");
 
-const indexRouter = require("../routes/index");
+const indexRouter = require("./routes/index");
 
 const app = express();
+const PORT = process.env.PORT || 4000;
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
@@ -55,6 +56,6 @@ app.use((req, res, next) => {
   });
 });
 
-app.listen(3000, () => console.log("Server ready on port 3000."));
+app.listen(PORT, () => console.log(`Server ready on port ${PORT}.`));
 
 module.exports = app;

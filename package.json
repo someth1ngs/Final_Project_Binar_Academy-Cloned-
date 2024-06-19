@@ -6,8 +6,9 @@
     "seed": "node prisma/seeders/seed.js"
   },
   "scripts": {
-    "start": "node ./api/index.js",
-    "dev": "nodemon ./api/index.js",
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "gcp-build": "pnpm install && npx prisma migrate dev",
     "postinstall": "prisma generate"
   },
   "dependencies": {
