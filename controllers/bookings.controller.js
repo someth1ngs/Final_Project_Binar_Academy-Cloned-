@@ -65,8 +65,16 @@ exports.createBookings = async (req, res, next) => {
         },
       },
       include: {
-        passengers: true,
-        flight_class: true,
+        passengers: {
+          include: {
+            category: true,
+          },
+        },
+        flight_class: {
+          include: {
+            flight: true,
+          },
+        },
       },
     });
 
@@ -232,7 +240,11 @@ exports.getBookingsById = async (req, res, next) => {
       where: { id: id },
       include: {
         payment: true,
-        passengers: true,
+        passengers: {
+          include: {
+            category: true,
+          },
+        },
         flight_class: true,
       },
     });
