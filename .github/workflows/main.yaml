@@ -19,9 +19,6 @@ jobs:
       - name: Install depedencies
         run: npm install
 
-      - name: Migrate database
-        run: npx prisma migrate dev
-
       - id: "auth"
         uses: "google-github-actions/auth@v2"
         with:
