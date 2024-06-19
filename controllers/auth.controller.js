@@ -237,7 +237,16 @@ exports.sendVerify = async (req, res, next) => {
       expiresIn: "15m",
     });
 
-    const sendMail = await sendVerifyEmail(user, token);
+    try {
+      const sendMail = await sendVerifyEmail(user, token);
+    } catch (error) {
+      return res.status(400).json({
+        status: false,
+        message: "Email feature is not active",
+        data: null,
+      });
+    }
+
     return res.status(200).json({
       status: true,
       message: "Mail sent. Please check your email",
@@ -275,7 +284,9 @@ exports.verifyEmail = async (req, res, next) => {
       delete user.password;
 
       const tokenLogin = jwt.sign(user, JWT_SECRET);
+
       await addNotification("Verify Email", "Verify Email successfully.", decode.id);
+
       return res.status(200).json({
         status: true,
         message: "Verify Success. You're account is now verified",
@@ -301,6 +312,14 @@ exports.forgotPassword = async (req, res, next) => {
   try {
     const { email } = req.body;
 
+    if (!email) {
+      return res.status(400).json({
+        status: false,
+        message: "Missing required field",
+        data: null,
+      });
+    }
+
     let user = await prisma.user.findUnique({ where: { email } });
 
     if (!user) {
@@ -315,12 +334,20 @@ exports.forgotPassword = async (req, res, next) => {
       expiresIn: "15m",
     });
 
-    const sentMail = await sendResetPassword(user, token);
+    try {
+      const sentMail = await sendResetPassword(user, token);
+    } catch (error) {
+      return res.status(400).json({
+        status: false,
+        message: "Email feature is not active",
+        data: null,
+      });
+    }
 
     return res.status(200).json({
       status: true,
       message: "Link reset password has been sent to your email. Please check your email!",
-      data: null,
+      data: token,
     });
   } catch (error) {
     next(error);
@@ -349,13 +376,9 @@ exports.resetPassword = async (req, res, next) => {
     }
 
     let hashPassword = await bcrypt.hash(password, 10);
-    jwt.verify(token, JWT_SECRET, async (err, decoded) => {
-      if (err) {
-        return res.status(403).json({
-          status: false,
-          message: "Invalid token",
-        });
-      }
+
+    try {
+      let decoded = jwt.verify(token, JWT_SECRET);
 
       let updatePassword = await prisma.user.update({
         where: { id: decoded.id },
@@ -363,12 +386,18 @@ exports.resetPassword = async (req, res, next) => {
       });
 
       await addNotification("Reset password", "Reset password has been successfully", decoded.id);
-
-      return res.status(200).json({
-        status: true,
-        message: "Password successfull has been reset",
+    } catch (error) {
+      return res.status(403).json({
+        status: false,
+        message: "Invalid token",
         data: null,
       });
+    }
+
+    return res.status(200).json({
+      status: true,
+      message: "Password successfull has been reset",
+      data: null,
     });
   } catch (error) {
     next(error);

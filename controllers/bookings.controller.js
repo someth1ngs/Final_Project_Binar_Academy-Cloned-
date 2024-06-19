@@ -155,7 +155,11 @@ exports.getBookings = async (req, res, next) => {
         },
         include: {
           payment: true,
-          passengers: true,
+          passengers: {
+            include: {
+              category: true,
+            },
+          },
           flight_class: {
             include: {
               flight: {

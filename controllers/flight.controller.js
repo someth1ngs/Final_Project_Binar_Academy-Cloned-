@@ -40,23 +40,6 @@ exports.getFlights = async (req, res, next) => {
         },
         orderBy: orderBy,
       }),
-      // prisma.flight.findMany({
-      //   take: limit,
-      //   skip: skip,
-      //   where: {
-      //     ...where,
-      //   },
-      //   include: {
-      //     flight_classes: {
-      //       where: {
-      //         name: where.flight_classes.some.name,
-      //       },
-      //     },
-      //     plane: true,
-      //     from: true,
-      //     to: true,
-      //   },
-      // }),
       prisma.flight_Class.count({
         where: {
           ...where,
