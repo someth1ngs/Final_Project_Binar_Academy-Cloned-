@@ -1,5 +1,6 @@
 const { PrismaClient } = require("@prisma/client");
 const { filterFlight, filterOrderFlight } = require("../libs/flights");
+const { GenerateFlight } = require("../prisma/seeders/flight-seed");
 const prisma = new PrismaClient();
 exports.getFlights = async (req, res, next) => {
   try {
@@ -108,35 +109,6 @@ exports.getFavoriteDestination = async (req, res, next) => {
       whereClause.from_code = from_code;
     }
 
-    // whereClause.departure = {
-    //   some: {
-    //     from_code: from_code,
-    //     departureAt: {
-    //       gte: new Date(),
-    //     },
-    //   },
-    // };
-    // const flight = await prisma.airport.findMany({
-    //   where: {
-    //     ...whereClause,
-    //   },
-    //   orderBy: {
-    //     visited: "desc",
-    //   },
-    //   include: {
-    //     arrives: {
-    //       skip: 0,
-    //       take: 1,
-    //       orderBy: {
-    //         arriveAt: "desc",
-    //       },
-    //       include: {
-    //         flight_classes: true,
-    //       },
-    //     },
-    //   },
-    // });
-
     const flights = await prisma.flight.findMany({
       skip: 0,
       take: 8,
@@ -168,5 +140,25 @@ exports.getFavoriteDestination = async (req, res, next) => {
     });
   } catch (error) {
     next(error);
+  }
+};
+
+exports.generateFlights = async (req, res) => {
+  try {
+    const { counter, start } = req.body;
+    const generateFlight = await GenerateFlight(+counter, +start);
+    console.log(generateFlight);
+    return res.status(200).json({
+      status: true,
+      message: "OK",
+      data: null,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(400).json({
+      status: false,
+      message: "Failed",
+      data: null,
+    });
   }
 };

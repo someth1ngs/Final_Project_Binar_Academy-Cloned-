@@ -8,13 +8,13 @@ exports.FlightSeeder = async () => {
   return new Promise(async (resolve, reject) => {
     try {
       const deleteFlight = await prisma.flight.deleteMany({});
-      let flightData;
+      let flightData = [];
 
       const planeData = await prisma.plane.findMany({});
       const airportData = await prisma.airport.findMany({});
 
-      for (let i = 0; i <= 30; i + 2) {
-        flightData = generateFlightData(planeData, airportData, i);
+      for (let i = 0; i <= 7; i++) {
+        flightData = generateFlightData(flightData, planeData, airportData, i + 7);
       }
 
       for (item of flightData) {
@@ -31,16 +31,16 @@ exports.FlightSeeder = async () => {
   });
 };
 
-exports.GenerateFlight = async () => {
+exports.GenerateFlight = async (counter, start) => {
   return new Promise(async (resolve, reject) => {
     try {
-      let flightData;
+      let flightData = [];
 
       const planeData = await prisma.plane.findMany({});
       const airportData = await prisma.airport.findMany({});
 
-      for (let i = 0; i <= 30; i + 2) {
-        flightData = generateFlightData(planeData, airportData, i);
+      for (let i = 0; i <= counter; i++) {
+        flightData = generateFlightData(flightData, planeData, airportData, i + start);
       }
 
       for (item of flightData) {
@@ -57,23 +57,24 @@ exports.GenerateFlight = async () => {
   });
 };
 
-const generateFlightData = (planeData, airportData, addDays) => {
-  const flightData = [];
+const generateFlightData = (flightData, planeData, airportData, addDays) => {
+  let generatedFlight = flightData;
   planeData.forEach((plane) => {
-    const hour = randomNumber(1, 23);
-    const hour2 = randomNumber(1, 23);
+    const day = Math.floor(randomNumber(1, 24));
+    const hour = randomNumber(1, 17);
+    const hour2 = randomNumber(1, 17);
     const minute = randomNumber(1, 60);
     const minute2 = randomNumber(1, 60);
-    const departureAt = addingDays(7 + addDays, hour, minute);
-    const arriveAt = addingDays(7 + addDays, hour + randomNumber(1, 23), minute + randomNumber(1, 60));
-    const return_departureAt = addingDays(37 + addDays, hour2, minute2);
-    const return_arriveAt = addingDays(37 + addDays, hour2 + randomNumber(1, 23), minute2 + randomNumber(1, 60));
+    const departureAt = addingDays(addDays, hour, minute);
+    const arriveAt = addingDays(addDays, hour + randomNumber(1, 6), minute + randomNumber(1, 60));
+    const return_departureAt = addingDays(addDays + day, hour2, minute2);
+    const return_arriveAt = addingDays(addDays + day, hour2 + randomNumber(1, 6), minute2 + randomNumber(1, 60));
     // Choose random airports
     const fromAirport = airportData[Math.floor(Math.random() * airportData.length)];
     let toAirport;
     do {
       toAirport = airportData[Math.floor(Math.random() * airportData.length)];
-    } while (toAirport.airport_code === fromAirport.airport_code);
+    } while (toAirport.airport_code === fromAirport.airport_code || toAirport.city === fromAirport.city);
 
     // Determine if it's a return flight
     const isReturn = Math.random() < 0.5; // 50% chance of being a return flight
@@ -116,8 +117,6 @@ const generateFlightData = (planeData, airportData, addDays) => {
         ],
       },
     });
-    return flightData;
   });
-
-  return;
+  return generatedFlight;
 };

@@ -4,7 +4,7 @@ const CategorySeeder = require("./category-seed");
 const TaxSeeder = require("./tax-seed");
 const AirportSeeder = require("./airport-seed");
 const PlaneSeeder = require("./plane-seed");
-const FlightSeeder = require("./flight-seed");
+const { FlightSeeder } = require("./flight-seed");
 const prisma = new PrismaClient();
 
 async function main() {

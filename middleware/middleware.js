@@ -1,12 +1,26 @@
+const { PrismaClient } = require("@prisma/client");
 const jsonwebtoken = require("jsonwebtoken");
+const prisma = new PrismaClient();
 module.exports = {
-  middleware: (req, res, next) => {
+  middleware: async (req, res, next) => {
     try {
       if (req.headers && req.headers.authorization) {
         const token = req.headers.authorization.split(" ")[1];
         try {
           const decoded = jsonwebtoken.verify(token, process.env.JWT_SECRET);
           req.user_data = decoded;
+          const user = await prisma.user.findUnique({
+            where: {
+              id: req.user_data.id,
+            },
+          });
+          if (!user) {
+            return res.status(401).json({
+              status: 401,
+              message: "Authentication failed, user invalid.",
+              data: null,
+            });
+          }
           next();
         } catch {
           return res.status(401).json({
