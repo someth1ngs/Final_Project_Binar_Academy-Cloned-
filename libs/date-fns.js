@@ -1,4 +1,5 @@
-const { addDays, addHours, addMinutes, format } = require("date-fns");
+const { addDays, addHours, addMinutes } = require("date-fns");
+const { format, toZonedTime } = require("date-fns-tz");
 
 exports.addingDays = (days, hours, minutes) => {
   const now = new Date();
@@ -11,8 +12,11 @@ exports.addingDays = (days, hours, minutes) => {
   resultDate = addHours(resultDate, hours);
   resultDate = addMinutes(resultDate, minutes);
 
-  // Format the result date
-  const formattedResult = format(resultDate, "yyyy-MM-dd HH:mm:ss");
+  // Convert the result date to the specified time zone
+  const zonedDate = toZonedTime(resultDate, "Asia/Bangkok");
 
-  return new Date(formattedResult);
+  // Format the result date with time zone offset in ISO format
+  const formattedResult = format(zonedDate, "yyyy-MM-dd'T'HH:mm:ssXXX", { timeZone: "Asia/Bangkok" });
+
+  return formattedResult;
 };

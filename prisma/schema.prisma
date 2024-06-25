@@ -168,11 +168,11 @@ model Flight {
   to_code            String
   from               Airport        @relation(fields: [from_code], references: [airport_code], onDelete: Cascade, name: "departure")
   to                 Airport        @relation(fields: [to_code], references: [airport_code], onDelete: Cascade, name: "arrive")
-  departureAt        DateTime
-  arriveAt           DateTime
+  departureAt        DateTime       @db.Timestamptz()
+  arriveAt           DateTime       @db.Timestamptz()
   is_return          Boolean        @default(false)
-  return_departureAt DateTime?
-  return_arriveAt    DateTime?
+  return_departureAt DateTime?      @db.Timestamptz()
+  return_arriveAt    DateTime?      @db.Timestamptz()
   flight_type        FLIGHT_TYPE
   flight_classes     Flight_Class[]
   createdAt          DateTime       @default(now())
