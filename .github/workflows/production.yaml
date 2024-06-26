@@ -14,7 +14,7 @@ jobs:
 
       - name: Generate env from secrets
         run: |
-          SECRETS="${{ secrets.GCP_ENV_STAGING }}"
+          SECRETS="${{ secrets.GCP_ENV_PRODUCTION }}"
           echo "$SECRETS" | tr ';' '\n' >> .env
       - name: Install depedencies
         run: npm install
