@@ -2,7 +2,6 @@ const { PrismaClient } = require("@prisma/client");
 const { filterFlight } = require("../libs/flights");
 const prisma = new PrismaClient();
 const { addNotification } = require("../libs/notification");
-const { response } = require("express");
 
 exports.updatePayment = async (req, res, next) => {
   try {
@@ -23,7 +22,15 @@ exports.updatePayment = async (req, res, next) => {
       include: {
         booking: {
           include: {
-            flight_class: true,
+            flight_class: {
+              include: {
+                flight: {
+                  include: {
+                    to: true,
+                  },
+                },
+              },
+            },
           },
         },
       },
@@ -72,6 +79,15 @@ exports.updatePayment = async (req, res, next) => {
               flight_class: {
                 update: {
                   available_seats: payment.booking.flight_class.available_seats - payment.booking.total_seat,
+                  flight: {
+                    update: {
+                      to: {
+                        update: {
+                          visited: payment.booking.flight_class.flight.to.visited + 1,
+                        },
+                      },
+                    },
+                  },
                 },
               },
             },

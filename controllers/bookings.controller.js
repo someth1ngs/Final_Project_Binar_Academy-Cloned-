@@ -12,14 +12,6 @@ exports.createBookings = async (req, res, next) => {
 
     const totalTicketPrice = await getTotalPricing(req);
 
-    // if (total_price == totalTicketPrice) {
-    //   return res.status(400).json({
-    //     status: false,
-    //     message: "Price invalid. Please input correctly",
-    //     data: null,
-    //   });
-    // }
-
     const categories = await prisma.category.findMany();
 
     const categoryMap = categories.reduce((acc, category) => {
@@ -32,8 +24,6 @@ exports.createBookings = async (req, res, next) => {
 
     // Menghitung waktu expiredAt
     const expired = new Date(Date.now() + 15 * 60 * 1000);
-
-    // console.log('User ID:', req.user_data.id);
 
     // Membuat booking
     const createdBooking = await prisma.booking.create({
@@ -65,12 +55,20 @@ exports.createBookings = async (req, res, next) => {
         },
       },
       include: {
-        passengers: true,
-        flight_class: true,
+        passengers: {
+          include: {
+            category: true,
+          },
+        },
+        flight_class: {
+          include: {
+            flight: true,
+          },
+        },
       },
     });
 
-    // // Mengambil FE_URL, ubah menjadi QR code, dan upload ke imagekit
+    // Mengambil FE_URL, ubah menjadi QR code, dan upload ke imagekit
     const qrCodeData = `${process.env.FE_URL}/payments/${createdBooking.payment_id}`;
     const qrCode = qr.imageSync(qrCodeData, { type: "png" });
     const uploadedImage = await imagekit.upload({
@@ -155,7 +153,11 @@ exports.getBookings = async (req, res, next) => {
         },
         include: {
           payment: true,
-          passengers: true,
+          passengers: {
+            include: {
+              category: true,
+            },
+          },
           flight_class: {
             include: {
               flight: {
@@ -228,7 +230,11 @@ exports.getBookingsById = async (req, res, next) => {
       where: { id: id },
       include: {
         payment: true,
-        passengers: true,
+        passengers: {
+          include: {
+            category: true,
+          },
+        },
         flight_class: true,
       },
     });

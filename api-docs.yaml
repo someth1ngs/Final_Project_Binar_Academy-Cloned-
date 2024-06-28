@@ -6,9 +6,9 @@ info:
   contact:
     email: adewanggan@gmail.com
 servers:
-  - url: https://binar-project-backend-staging.vercel.app/api/v1
-  - url: http://localhost:3000/api/v1
   - url: https://binar-project-426902.et.r.appspot.com/api/v1
+  - url: https://production-dot-binar-project-426902.et.r.appspot.com/api/v1
+  - url: http://localhost:3000/api/v1
 tags:
   - name: Auth
     description: Everything about your Authentication
@@ -162,7 +162,8 @@ paths:
                     type: string
                     example: Mail sent. Please check your email
                   data:
-                    example: ~
+                    type: string
+                    example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIyYTU3MzExLTNmMzQtNDMzMS04MjFhLTNhZTU4MDdmYTI4YyIsIm5hbWUiOiJkZXdhbmdnYSIsImVtYWlsIjoiYWRld2FuZ2dhbkBnbWFpbC5jb20iLCJwYXNzd29yZCI6IiQyYiQxMCRhZmJJOUo4Y0ZGa2tFb2dEOHVpLy8ucVpJNXZDdURBM0cwbC9HL1FDRnlON3JjR2lUOGFzTyIsImlzX3ZlcmlmaWVkIjpmYWxzZSwicm9sZSI6IlVTRVIiLCJjcmVhdGVkQXQiOiIyMDI0LTA2LTE5VDE3OjE4OjQ4LjM5OVoiLCJ1cGRhdGVkQXQiOiIyMDI0LTA2LTE5VDE3OjE4OjQ4LjM5OVoiLCJ2ZXJpZnkiOnRydWUsImlhdCI6MTcxODgxNzUzNywiZXhwIjoxNzE4ODE4NDM3fQ.WAdNj35XTX9uzlm0nArh5bRFV3Ip6Lq8cvJRkz9w2Fo
 
         404:
           description: Account not Found
@@ -370,7 +371,8 @@ paths:
                     type: string
                     example: Link reset password has been sent to your email. Please check your email!
                   data:
-                    example: ~
+                    type: string
+                    example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIyYTU3MzExLTNmMzQtNDMzMS04MjFhLTNhZTU4MDdmYTI4YyIsInBhc3N3b3JkIjoiJDJiJDEwJGFmYkk5SjhjRkZra0VvZ0Q4dWkvLy5xWkk1dkN1REEzRzBsL0cvUUNGeU43cmNHaVQ4YXNPIiwiaWF0IjoxNzE4ODE3Njc0LCJleHAiOjE3MTg4MTg1NzR9.IYIdc56MOXA_5WodYrflHJfkasUyRXbhqi7I2cC0-yU
 
         404:
           description: Success
@@ -2268,10 +2270,10 @@ paths:
                               properties:
                                 id:
                                   type: string
-                                  example: c5824e80-4ac4-4c2f-aa28-8c41b7ac9cb7
+                                  example: 1acf427d-25bb-4ba7-8df8-4deb2d61c682
                                 name:
                                   type: string
-                                  example: adi irawan
+                                  example: Adi Irawan
                                 birthdate:
                                   type: string
                                   format: datetime
@@ -2284,18 +2286,38 @@ paths:
                                   example: Indonesia
                                 category_id:
                                   type: string
-                                  example: c30c1aaa-b00f-4e42-bdbd-79a54166c817
+                                  example: 136df8f3-df1a-4588-9c75-ddf2a3a9ef48
                                 booking_id:
                                   type: string
-                                  example: 93e52099-aef2-42a6-ad8e-97abe6829ec4
+                                  example: 9da6ea64-93be-41e1-a610-ccc1ff55f66b
                                 createdAt:
                                   type: string
                                   format: datetime
-                                  example: "2024-05-30T15:03:55.157Z"
+                                  example: "2024-06-19T17:35:45.045Z"
                                 updatedAt:
                                   type: string
                                   format: datetime
-                                  example: "2024-05-30T15:03:55.157Z"
+                                  example: "2024-06-19T17:35:45.045Z"
+                                category:
+                                  type: object
+                                  properties:
+                                    id:
+                                      type: string
+                                      example: 136df8f3-df1a-4588-9c75-ddf2a3a9ef48
+                                    type:
+                                      type: string
+                                      example: adult
+                                    discount:
+                                      type: integer
+                                      example: 0
+                                    createdAt:
+                                      type: string
+                                      format: datetime
+                                      example: "2024-06-19T08:03:26.199Z"
+                                    updatedAt:
+                                      type: string
+                                      format: datetime
+                                      example: "2024-06-19T08:03:26.199Z"
 
                           flight_class:
                             type: object
@@ -2323,6 +2345,51 @@ paths:
                                 type: string
                                 format: datetime
                                 example: "2024-05-29T15:39:04.106Z"
+                              flight:
+                                type: object
+                                properties:
+                                  id:
+                                    type: string
+                                    example: a9ec3171-8e27-41f7-9468-07524ada90a8
+                                  plane_code:
+                                    type: string
+                                    example: SQ-144
+                                  from_code:
+                                    type: string
+                                    example: HLP
+                                  to_code:
+                                    type: string
+                                    example: LAX
+                                  departureAt:
+                                    type: string
+                                    format: datetime
+                                    example: "2024-07-07T03:09:20.000Z"
+                                  arriveAt:
+                                    type: string
+                                    format: datetime
+                                    example: "2024-07-07T15:32:58.000Z"
+                                  is_return:
+                                    type: boolean
+                                    example: true
+                                  return_departureAt:
+                                    type: string
+                                    format: datetime
+                                    example: "2024-08-06T04:55:02.000Z"
+                                  return_arriveAt:
+                                    type: string
+                                    format: datetime
+                                    example: "2024-08-06T19:37:49.000Z"
+                                  flight_type:
+                                    type: string
+                                    example: INTERNATIONAL
+                                  createdAt:
+                                    type: string
+                                    format: datetime
+                                    example: "2024-06-19T08:03:52.045Z"
+                                  updatedAt:
+                                    type: string
+                                    format: datetime
+                                    example: "2024-06-19T08:03:52.045Z"
 
                       payment:
                         type: object
@@ -2523,6 +2590,26 @@ paths:
                                     type: string
                                     format: datetime
                                     example: "2024-05-30T15:23:47.357Z"
+                                  category:
+                                    type: object
+                                    properties:
+                                      id:
+                                        type: string
+                                        example: 136df8f3-df1a-4588-9c75-ddf2a3a9ef48
+                                      type:
+                                        type: string
+                                        example: adult
+                                      discount:
+                                        type: integer
+                                        example: 0
+                                      createdAt:
+                                        type: string
+                                        format: datetime
+                                        example: "2024-06-19T08:03:26.199Z"
+                                      updatedAt:
+                                        type: string
+                                        format: datetime
+                                        example: "2024-06-19T08:03:26.199Z"
 
                             flight_class:
                               type: object
@@ -2550,7 +2637,151 @@ paths:
                                   type: string
                                   format: datetime
                                   example: "2024-05-29T15:39:04.106Z"
-
+                                flight:
+                                  type: object
+                                  properties:
+                                    id:
+                                      type: string
+                                      example: a9ec3171-8e27-41f7-9468-07524ada90a8
+                                    plane_code:
+                                      type: string
+                                      example: SQ-144
+                                    from_code:
+                                      type: string
+                                      example: HLP
+                                    to_code:
+                                      type: string
+                                      example: LAX
+                                    departureAt:
+                                      type: string
+                                      format: datetime
+                                      example: "2024-07-07T03:09:20.000Z"
+                                    arriveAt:
+                                      type: string
+                                      format: datetime
+                                      example: "2024-07-07T15:32:58.000Z"
+                                    is_return:
+                                      type: boolean
+                                      example: true
+                                    return_departureAt:
+                                      type: string
+                                      format: datetime
+                                      example: "2024-08-06T04:55:02.000Z"
+                                    return_arriveAt:
+                                      type: string
+                                      format: datetime
+                                      example: "2024-08-06T19:37:49.000Z"
+                                    flight_type:
+                                      type: string
+                                      example: INTERNATIONAL
+                                    createdAt:
+                                      type: string
+                                      format: datetime
+                                      example: "2024-06-19T08:03:52.045Z"
+                                    updatedAt:
+                                      type: string
+                                      format: datetime
+                                      example: "2024-06-19T08:03:52.045Z"
+                                    from:
+                                      type: object
+                                      properties:
+                                        id:
+                                          type: string
+                                          example: a024af18-ad70-44e8-b3ee-a5d14356f606
+                                        airport_code:
+                                          type: string
+                                          example: HLP
+                                        name:
+                                          type: string
+                                          example: "Halim Perdanakusuma International Airport"
+                                        city:
+                                          type: string
+                                          example: Jakarta
+                                        country:
+                                          type: string
+                                          example: Indonesia
+                                        visited:
+                                          type: integer
+                                          example: 161
+                                        image_url:
+                                          type: string
+                                          example: "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/15/c3/d2/54/jakarta-amazing-tour.jpg?w=600&h=500&s=1"
+                                        createdAt:
+                                          type: string
+                                          format: datetime
+                                          example: "2024-06-19T08:03:26.546Z"
+                                        updatedAt:
+                                          type: string
+                                          format: datetime
+                                          example: "2024-06-19T08:03:26.546Z"
+                                    to:
+                                      type: object
+                                      properties:
+                                        id:
+                                          type: string
+                                          example: 1724a60c-8def-40d0-8f15-e784299db8d3
+                                        airport_code:
+                                          type: string
+                                          example: LAX
+                                        name:
+                                          type: string
+                                          example: "Los Angeles International Airport"
+                                        city:
+                                          type: string
+                                          example: Los Angeles
+                                        country:
+                                          type: string
+                                          example: United States
+                                        visited:
+                                          type: integer
+                                          example: 160
+                                        image_url:
+                                          type: string
+                                          example: "https://a.travel-assets.com/findyours-php/viewfinder/images/res70/475000/475464-Los-Angeles.jpg"
+                                        createdAt:
+                                          type: string
+                                          format: datetime
+                                          example: "2024-06-19T08:03:26.546Z"
+                                        updatedAt:
+                                          type: string
+                                          format: datetime
+                                          example: "2024-06-19T08:03:26.546Z"
+                                    plane:
+                                      type: object
+                                      properties:
+                                        id:
+                                          type: string
+                                          example: 72e41070-6350-46cc-ba5e-35a7d7731cef
+                                        plane_code:
+                                          type: string
+                                          example: SQ-144
+                                        airline:
+                                          type: string
+                                          example: "Singapore Airlines"
+                                        baggage:
+                                          type: integer
+                                          example: 15
+                                        cabin_baggage:
+                                          type: integer
+                                          example: 5
+                                        economy_seat:
+                                          type: integer
+                                          example: 50
+                                        premium_economy_seat:
+                                          type: integer
+                                          example: 15
+                                        business_seat:
+                                          type: integer
+                                          example: 5
+                                        first_class_seat:
+                                          type: integer
+                                          example: 7
+                                        createdAt:
+                                          type: string
+                                          format: datetime
+                                          example: "2024-06-19T08:03:26.731Z"
+                                        updatedAt:
+                                          type: string
                       page:
                         type: integer
                         example: 1
@@ -2666,6 +2897,7 @@ paths:
                             type: string
                             format: datetime
                             example: "2024-05-30T15:19:46.595Z"
+
                       passengers:
                         type: array
                         items:
@@ -2700,6 +2932,27 @@ paths:
                               type: string
                               format: datetime
                               example: "2024-05-30T15:03:55.157Z"
+                            category:
+                              type: object
+                              properties:
+                                id:
+                                  type: string
+                                  example: 136df8f3-df1a-4588-9c75-ddf2a3a9ef48
+                                type:
+                                  type: string
+                                  example: adult
+                                discount:
+                                  type: integer
+                                  example: 0
+                                createdAt:
+                                  type: string
+                                  format: datetime
+                                  example: "2024-06-19T08:03:26.199Z"
+                                updatedAt:
+                                  type: string
+                                  format: datetime
+                                  example: "2024-06-19T08:03:26.199Z"
+
                       flight_class:
                         type: object
                         properties:
