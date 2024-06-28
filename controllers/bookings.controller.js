@@ -235,7 +235,17 @@ exports.getBookingsById = async (req, res, next) => {
             category: true,
           },
         },
-        flight_class: true,
+        flight_class: {
+          include: {
+            flight: {
+              include: {
+                from: true,
+                plane: true,
+                to: true,
+              },
+            },
+          },
+        },
       },
     });
 
