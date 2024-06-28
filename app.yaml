@@ -1,5 +1,5 @@
 runtime: nodejs20
-service: production
+# service:
 
 vpc_access_connector:
   name: "projects/binar-project-426902/locations/asia-southeast2/connectors/binar-project"
