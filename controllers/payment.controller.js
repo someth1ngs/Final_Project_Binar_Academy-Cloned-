@@ -3,10 +3,12 @@ const { filterFlight } = require("../libs/flights");
 const prisma = new PrismaClient();
 const { addNotification } = require("../libs/notification");
 
+// Controller to update payment status
 exports.updatePayment = async (req, res, next) => {
   try {
     const { payment_id } = req.params;
 
+    // Check if payment_id is provided
     if (!payment_id) {
       return res.status(400).json({
         status: false,
@@ -15,6 +17,7 @@ exports.updatePayment = async (req, res, next) => {
       });
     }
 
+    // Fetch payment details including related booking and flight information
     const payment = await prisma.payment.findUnique({
       where: {
         id: payment_id,
@@ -36,6 +39,7 @@ exports.updatePayment = async (req, res, next) => {
       },
     });
 
+    // If payment not found, return 404 response
     if (!payment) {
       return res.status(404).json({
         status: false,
@@ -44,8 +48,10 @@ exports.updatePayment = async (req, res, next) => {
       });
     }
 
+    // Check if payment is expired
     const isExpired = payment.status === "UNPAID" && new Date(payment.expiredAt) < Date.now();
 
+    // If payment is cancelled or expired, update status to CANCELLED and notify user
     if (payment.status === "CANCELLED" || isExpired) {
       if (isExpired) {
         const response = await prisma.payment.update({
@@ -67,6 +73,7 @@ exports.updatePayment = async (req, res, next) => {
       });
     }
 
+    // Update payment status to ISSUED and adjust related booking and flight details
     const [updatePayment] = await prisma.$transaction([
       prisma.payment.update({
         where: {
@@ -96,14 +103,17 @@ exports.updatePayment = async (req, res, next) => {
       }),
     ]);
 
+    // Notify user of successful payment
     await addNotification("Payment Success", "Your payment has been successfully issued.", updatePayment.user_id);
 
+    // Send response with updated payment data
     return res.status(200).json({
       status: true,
       message: "Successfully paid",
       data: updatePayment,
     });
   } catch (error) {
+    // Pass error to the next middleware
     next(error);
   }
 };
