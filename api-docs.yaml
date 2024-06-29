@@ -1480,7 +1480,6 @@ paths:
           schema:
             type: string
           description: Arrive airport code (HLP, CGK, UPG, ...)
-          example: CGK
         - in: query
           name: rt
           schema:
