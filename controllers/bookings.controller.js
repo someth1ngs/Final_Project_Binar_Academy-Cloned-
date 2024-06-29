@@ -6,38 +6,42 @@ const { v4: uuidv4 } = require("uuid");
 const { addNotification } = require("../libs/notification");
 const { getTotalPricing } = require("../libs/bookings");
 
+// function create bookings
 exports.createBookings = async (req, res, next) => {
   try {
     const { flight_class_id, total_price, include_return, passengers } = req.body;
 
+    // Calculate total ticket price using a helper function
     const totalTicketPrice = await getTotalPricing(req);
 
+    // Retrieve all categories from the database
     const categories = await prisma.category.findMany();
 
+    // Create a map of category types to category IDs
     const categoryMap = categories.reduce((acc, category) => {
       acc[category.type] = category.id;
       return acc;
     }, {});
 
-    // Menghitung total seat berdasarkan category yang bukan baby
-    const total_seat = passengers.filter((passanger) => passanger.category !== "baby").length;
+    // Calculate total seats excluding "baby" category passengers
+    const total_seat = passengers.filter((passenger) => passenger.category !== "baby").length;
 
-    // Menghitung waktu expiredAt
+    // Set expiration time for the booking to 15 minutes from now
     const expired = new Date(Date.now() + 15 * 60 * 1000);
 
-    // Membuat booking
+    // Create a new booking record in the database
     const createdBooking = await prisma.booking.create({
       data: {
         total_seat,
         total_price: totalTicketPrice,
         include_return,
         passengers: {
-          create: passengers.map((passanger) => ({
-            name: passanger.name,
-            birthdate: new Date(passanger.birthdate),
-            identity_id: passanger.identity_id,
-            citizenship: passanger.citizenship,
-            category_id: categoryMap[passanger.category],
+          create: passengers.map((passenger) => ({
+            name: passenger.name,
+            birthdate: new Date(passenger.birthdate),
+            identity_id: passenger.identity_id,
+            citizenship: passenger.citizenship,
+            category_id: categoryMap[passenger.category],
           })),
         },
         payment: {
@@ -68,7 +72,7 @@ exports.createBookings = async (req, res, next) => {
       },
     });
 
-    // Mengambil FE_URL, ubah menjadi QR code, dan upload ke imagekit
+    // Generate QR code data and upload it to ImageKit
     const qrCodeData = `${process.env.FE_URL}/payments/${createdBooking.payment_id}`;
     const qrCode = qr.imageSync(qrCodeData, { type: "png" });
     const uploadedImage = await imagekit.upload({
@@ -76,8 +80,8 @@ exports.createBookings = async (req, res, next) => {
       fileName: `${uuidv4()}_qrcode.png`,
     });
 
+    // Update the payment record with the QR code URL
     const qr_url = uploadedImage.url;
-
     const updatedPayment = await prisma.payment.update({
       where: {
         id: createdBooking.payment_id,
@@ -87,8 +91,10 @@ exports.createBookings = async (req, res, next) => {
       },
     });
 
-    await addNotification("Ticket Bookings", "Your Ticket has been successfully created. Please completed the payment.", req.user_data.id);
+    // Send a notification to the user about the successful booking
+    await addNotification("Ticket Bookings", "Your Ticket has been successfully created. Please complete the payment.", req.user_data.id);
 
+    // Respond with the created booking and payment details
     return res.status(201).json({
       status: true,
       message: "Successfully created booking",
@@ -102,22 +108,26 @@ exports.createBookings = async (req, res, next) => {
   }
 };
 
+
+// function get bookings
 exports.getBookings = async (req, res, next) => {
   try {
+    // Extract query parameters with default values for page and limit
     const { page = 1, status, startDate, endDate } = req.query;
     const limit = 5;
     const skip = (page - 1) * limit;
 
-    // kondisi filter untuk status_payment jika ada
+    // Initialize filter for user's bookings
     let filterStatus = {
       user_id: req.user_data.id,
     };
 
+    // Add status filter if provided
     if (status) {
       filterStatus.status = status.toUpperCase();
     }
 
-    // Filter date range if provided
+    // Initialize date range filter
     let dateRangeFilter = {};
     if (startDate && endDate) {
       dateRangeFilter = {
@@ -140,6 +150,7 @@ exports.getBookings = async (req, res, next) => {
       };
     }
 
+    // Fetch bookings and count total records with the applied filters
     const [bookings, total] = await Promise.all([
       prisma.booking.findMany({
         skip: parseInt(skip),
@@ -186,7 +197,7 @@ exports.getBookings = async (req, res, next) => {
       }),
     ]);
 
-    // looping untuk cek pada saat tiket expired, status paid menjadi cancelled
+    // Loop through bookings to update the status of unpaid and expired tickets to cancelled
     for (const booking of bookings) {
       if (booking.payment.status === "UNPAID" && booking.payment.expiredAt < new Date()) {
         await prisma.payment.update({
@@ -197,8 +208,10 @@ exports.getBookings = async (req, res, next) => {
       }
     }
 
+    // Calculate total pages for pagination
     const totalPages = Math.ceil(total / limit);
 
+    // Return 404 response if no bookings found
     if (!bookings.length) {
       return res.status(404).json({
         status: false,
@@ -207,6 +220,7 @@ exports.getBookings = async (req, res, next) => {
       });
     }
 
+    // Return successful response with booking data and pagination info
     return res.status(200).json({
       status: true,
       message: "Successfully retrieved bookings data",
@@ -222,10 +236,12 @@ exports.getBookings = async (req, res, next) => {
   }
 };
 
+// function get bookings by id
 exports.getBookingsById = async (req, res, next) => {
   try {
-    const { id } = req.params;
+    const { id } = req.params; // Extract the booking ID from request parameters
 
+    // Fetch booking details by ID, including payment, passengers, and flight class details
     const bookings = await prisma.booking.findUnique({
       where: { id: id },
       include: {
@@ -249,6 +265,7 @@ exports.getBookingsById = async (req, res, next) => {
       },
     });
 
+    // If no booking found, return a 404 response
     if (!bookings) {
       return res.status(404).json({
         status: false,
@@ -257,7 +274,7 @@ exports.getBookingsById = async (req, res, next) => {
       });
     }
 
-    // looping untuk cek pada saat tiket expired, status paid menjadi cancelled
+    // Check if the payment is unpaid and expired, then update the status to cancelled
     if (bookings.payment.status === "UNPAID" && bookings.payment.expiredAt < new Date()) {
       await prisma.payment.update({
         where: { id: bookings.payment.id },
@@ -266,12 +283,14 @@ exports.getBookingsById = async (req, res, next) => {
       bookings.payment.status = "CANCELLED";
     }
 
+    // Return the booking details with a 200 status
     return res.status(200).json({
       status: true,
       message: "Successfully retrieved booking data",
       data: bookings,
     });
   } catch (error) {
-    next(error);
+    next(error); // Pass any errors to the error handling middleware
   }
 };
+
