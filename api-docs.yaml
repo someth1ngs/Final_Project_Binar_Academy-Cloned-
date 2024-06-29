@@ -46,10 +46,10 @@ paths:
               properties:
                 name:
                   type: string
-                  example: dewangga
+                  example: John Doe
                 email:
                   type: string
-                  example: dewangga@gmail.com
+                  example: example@gmail.com
                 password:
                   type: string
                   example: "12345"
@@ -79,10 +79,10 @@ paths:
                             example: a9bc30c4-9408-454b-8815-92ee6cbf46d7
                           name:
                             type: string
-                            example: dewangga
+                            example: John Doe
                           email:
                             type: string
-                            example: dewangga@gmail.com
+                            example: example@gmail.com
                           is_verified:
                             type: boolean
                             example: false
@@ -145,7 +145,7 @@ paths:
               properties:
                 email:
                   type: string
-                  example: dumpfile978@gmail.com
+                  example: example@gmail.com
 
       responses:
         200:
@@ -304,10 +304,10 @@ paths:
                             example: a9bc30c4-9408-454b-8815-92ee6cbf46d7
                           name:
                             type: string
-                            example: dewangga
+                            example: John Doe
                           email:
                             type: string
-                            example: dewangga@gmail.com
+                            example: example@gmail.com
                           is_verified:
                             type: boolean
                             example: false
@@ -354,7 +354,7 @@ paths:
               properties:
                 email:
                   type: string
-                  example: hamadakinose@gmail.com
+                  example: example@gmail.com
 
       responses:
         200:
@@ -507,10 +507,10 @@ paths:
                             example: a9bc30c4-9408-454b-8815-92ee6cbf46d7
                           name:
                             type: string
-                            example: dewangga
+                            example: John Doe
                           email:
                             type: string
-                            example: dewangga@gmail.com
+                            example: example@gmail.com
                           is_verified:
                             type: boolean
                             example: true
@@ -667,10 +667,10 @@ paths:
                             example: 7e775854-aad8-4ad5-89f1-09b7b3481ba3
                           name:
                             type: string
-                            example: Dewangga Nanda Arjuna
+                            example: John Doe
                           email:
                             type: string
-                            example: adewanggan@gmail.com
+                            example: example@gmail.com
                           is_verified:
                             type: boolean
                             example: true
@@ -1473,33 +1473,32 @@ paths:
           schema:
             type: string
           required: true
-          description: Departure airport code
-          example: HLP
+          description: Departure airport code (HLP, CGK, UPG, ...)
+          example: UPG
         - in: query
           name: to
           schema:
             type: string
-          description: Arrive airport code
-          example: CDG
+          description: Arrive airport code (HLP, CGK, UPG, ...)
+          example: CGK
         - in: query
           name: rt
           schema:
             type: string
           description: With Return or not (true or null) *null = empty string
-          example: "true"
         - in: query
           name: rd
           schema:
             type: string
             format: datetime
-          description: Return departure datetime (If rt true)
+          description: Return departure datetime (If rt true, YYYY-MM-DDTHH:MM:SS.000Z, 2024-07-03T07:49:00.000Z)
         - in: query
           name: p
           schema:
             type: integer
             default: 1
           required: true
-          description: Number of passengers
+          description: Number of passengers (1,2,3,4,5,...)
           example: 1
         - in: query
           name: sc
@@ -1514,15 +1513,14 @@ paths:
             type: integer
             default: 1
           required: true
-          description: Page number for pagination
+          description: Page number for pagination (1,2,3,4,5,...)
           example: 1
         - in: query
           name: d
           schema:
             type: string
             format: datetime
-          description: Departure datetime
-          example: "2024-07-05T22:48:42.000Z"
+          description: Departure datetime (YYYY-MM-DDTHH:MM:SS.000Z, 2024-07-02T12:28:21.000Z)
         - in: query
           name: type
           schema:
@@ -2189,10 +2187,7 @@ paths:
               properties:
                 flight_class_id:
                   type: string
-                  example: 73b9b84b-2997-4eb0-b9c1-46ea8f0f11bb
-                total_price:
-                  type: integer
-                  example: 24000000
+                  example: d04f9507-9b17-4fbf-a149-218206499556
                 include_return:
                   type: boolean
                   example: false
@@ -2405,7 +2400,7 @@ paths:
                             example: 24000000
                           qr_url:
                             type: string
-                            example: https://ik.imagekit.io/dewangga/71eb1260-09ec-453a-9804-93f3a9c62525_qrcode_yrh1phE_U.png
+                            example: https://ik.imagekit.io/johndoe/71eb1260-09ec-453a-9804-93f3a9c62525_qrcode_yrh1phE_U.png
                           status:
                             type: string
                             example: UNPAID
@@ -2455,26 +2450,23 @@ paths:
           schema:
             type: string
           description: Status Payment (UNPAID, ISSUED, CANCELLED) (Not Required)
-          example: UNPAID
         - in: query
           name: startDate
           schema:
             type: string
             format: date
-          description: Start date for filtering bookings
-          example: "2024-06-01"
+          description: Start date for filtering bookings (YYYY-MM-DD, 2024-06-01)
         - in: query
           name: endDate
           schema:
             type: string
             format: date
-          description: End date for filtering bookings
-          example: "2024-06-30"
+          description: End date for filtering bookings (YYYY-MM-DD, 2024-06-30)
         - in: query
           name: page
           schema:
             type: integer
-          description: Paginations
+          description: Paginations (1,2,3,4,5,...)
           example: 1
 
       responses:
@@ -2539,7 +2531,7 @@ paths:
                                   example: 24000000
                                 qr_url:
                                   type: string
-                                  example: https://ik.imagekit.io/dewangga/b95181e5-83ad-4ca6-a3b0-7cb931ebf667_qrcode_IHzpOsG88.png
+                                  example: https://ik.imagekit.io/johndoe/b95181e5-83ad-4ca6-a3b0-7cb931ebf667_qrcode_IHzpOsG88.png
                                 status:
                                   type: string
                                   example: UNPAID
@@ -2843,61 +2835,60 @@ paths:
                     properties:
                       id:
                         type: string
-                        example: 93e52099-aef2-42a6-ad8e-97abe6829ec4
+                        example: b78fc7f8-b77a-47c6-abb2-838bb3162bb9
                       payment_id:
                         type: string
-                        example: 2c9e21dc-1d6d-4486-8125-3bc7b50f377b
-                      flight_classes_id:
+                        example: 83772eb9-0dd0-40b3-800b-c2f3353755da
+                      flight_class_id:
                         type: string
-                        example: 73b9b84b-2997-4eb0-b9c1-46ea8f0f11bb
+                        example: 0f189bbd-74b9-4e89-9bef-f7daaf58afe7
                       total_seat:
                         type: integer
                         example: 1
                       total_price:
                         type: integer
-                        example: 24000000
+                        example: 1050000
                       include_return:
                         type: boolean
                         example: false
                       createdAt:
                         type: string
                         format: datetime
-                        example: "2024-05-30T15:03:55.157Z"
+                        example: "2024-06-29T08:35:49.951Z"
                       updatedAt:
                         type: string
                         format: datetime
-                        example: "2024-05-30T15:03:55.157Z"
+                        example: "2024-06-29T08:35:49.951Z"
                       payment:
                         type: object
                         properties:
                           id:
                             type: string
-                            example: 2c9e21dc-1d6d-4486-8125-3bc7b50f377b
+                            example: 83772eb9-0dd0-40b3-800b-c2f3353755da
                           user_id:
                             type: string
-                            example: 985cb270-8c29-4e92-afa8-1a4f9864e7e9
+                            example: a0894d57-c8fc-4f60-8e55-ac43c4c64a0f
                           total_payment:
                             type: integer
-                            example: 24000000
+                            example: 1050000
                           qr_url:
                             type: string
-                            example: https://ik.imagekit.io/dewangga/71eb1260-09ec-453a-9804-93f3a9c62525_qrcode_yrh1phE_U.png
+                            example: https://ik.imagekit.io/adiirwn/3f161f73-a5fc-430f-aca8-9413958d93bc_qrcode_MniB3Ev72.png
                           status:
                             type: string
                             example: CANCELLED
                           expiredAt:
                             type: string
                             format: datetime
-                            example: "2024-05-30T15:18:55.152Z"
+                            example: "2024-06-29T08:50:49.950Z"
                           createdAt:
                             type: string
                             format: datetime
-                            example: "2024-05-30T15:03:55.157Z"
+                            example: "2024-06-29T08:35:49.951Z"
                           updatedAt:
                             type: string
                             format: datetime
-                            example: "2024-05-30T15:19:46.595Z"
-
+                            example: "2024-06-29T09:08:58.113Z"
                       passengers:
                         type: array
                         items:
@@ -2905,12 +2896,13 @@ paths:
                           properties:
                             id:
                               type: string
-                              example: c5824e80-4ac4-4c2f-aa28-8c41b7ac9cb7
+                              example: 3a686093-36cb-488b-beb4-6880c7c7787f
                             name:
                               type: string
-                              example: adi irawan
+                              example: Vina
                             birthdate:
                               type: string
+                              format: datetime
                               example: "2003-09-13T00:00:00.000Z"
                             identity_id:
                               type: string
@@ -2920,24 +2912,24 @@ paths:
                               example: Indonesia
                             category_id:
                               type: string
-                              example: c30c1aaa-b00f-4e42-bdbd-79a54166c817
+                              example: b4c2b31b-5cda-4329-8b5b-8b2aa472065f
                             booking_id:
                               type: string
-                              example: 93e52099-aef2-42a6-ad8e-97abe6829ec4
+                              example: b78fc7f8-b77a-47c6-abb2-838bb3162bb9
                             createdAt:
                               type: string
                               format: datetime
-                              example: "2024-05-30T15:03:55.157Z"
+                              example: "2024-06-29T08:35:49.951Z"
                             updatedAt:
                               type: string
                               format: datetime
-                              example: "2024-05-30T15:03:55.157Z"
+                              example: "2024-06-29T08:35:49.951Z"
                             category:
                               type: object
                               properties:
                                 id:
                                   type: string
-                                  example: 136df8f3-df1a-4588-9c75-ddf2a3a9ef48
+                                  example: b4c2b31b-5cda-4329-8b5b-8b2aa472065f
                                 type:
                                   type: string
                                   example: adult
@@ -2947,21 +2939,20 @@ paths:
                                 createdAt:
                                   type: string
                                   format: datetime
-                                  example: "2024-06-19T08:03:26.199Z"
+                                  example: "2024-06-25T03:04:19.687Z"
                                 updatedAt:
                                   type: string
                                   format: datetime
-                                  example: "2024-06-19T08:03:26.199Z"
-
+                                  example: "2024-06-25T03:04:19.687Z"
                       flight_class:
                         type: object
                         properties:
                           id:
                             type: string
-                            example: 73b9b84b-2997-4eb0-b9c1-46ea8f0f11bb
+                            example: 0f189bbd-74b9-4e89-9bef-f7daaf58afe7
                           flight_id:
                             type: string
-                            example: d33eb61c-47a0-4153-b526-bd4d8d49f46b
+                            example: b57403ed-9660-41bf-93f1-0bfffaeffe0e
                           name:
                             type: string
                             example: ECONOMY
@@ -2970,15 +2961,160 @@ paths:
                             example: 1000000
                           available_seats:
                             type: integer
-                            example: 60
+                            example: 45
                           createdAt:
                             type: string
                             format: datetime
-                            example: "2024-05-29T15:39:04.106Z"
+                            example: "2024-06-25T03:04:38.557Z"
                           updatedAt:
                             type: string
                             format: datetime
-                            example: "2024-05-29T15:39:04.106Z"
+                            example: "2024-06-29T08:26:45.045Z"
+                          flight:
+                            type: object
+                            properties:
+                              id:
+                                type: string
+                                example: b57403ed-9660-41bf-93f1-0bfffaeffe0e
+                              plane_code:
+                                type: string
+                                example: AF-1717
+                              from_code:
+                                type: string
+                                example: CGK
+                              to_code:
+                                type: string
+                                example: JOG
+                              departureAt:
+                                type: string
+                                format: datetime
+                                example: "2024-07-07T14:04:12.000Z"
+                              arriveAt:
+                                type: string
+                                format: datetime
+                                example: "2024-07-07T18:07:34.000Z"
+                              is_return:
+                                type: boolean
+                                example: false
+                              return_departureAt:
+                                type: string
+                                example: null
+                              return_arriveAt:
+                                type: string
+                                example: null
+                              flight_type:
+                                type: string
+                                example: DOMESTIC
+                              createdAt:
+                                type: string
+                                format: datetime
+                                example: "2024-06-25T03:04:38.557Z"
+                              updatedAt:
+                                type: string
+                                format: datetime
+                                example: "2024-06-25T03:04:38.557Z"
+                              from:
+                                type: object
+                                properties:
+                                  id:
+                                    type: string
+                                    example: 701d7080-0a56-4acf-b980-6a787e436e8f
+                                  airport_code:
+                                    type: string
+                                    example: CGK
+                                  name:
+                                    type: string
+                                    example: Soekarno-Hatta International Airport
+                                  city:
+                                    type: string
+                                    example: Jakarta
+                                  country:
+                                    type: string
+                                    example: Indonesia
+                                  visited:
+                                    type: integer
+                                    example: 1433
+                                  image_url:
+                                    type: string
+                                    example: https://dynamic-media-cdn.tripadvisor.com/media/photo-o/15/c3/d2/54/jakarta-amazing-tour.jpg?w=600&h=500&s=1
+                                  createdAt:
+                                    type: string
+                                    format: datetime
+                                    example: "2024-06-25T03:04:19.929Z"
+                                  updatedAt:
+                                    type: string
+                                    format: datetime
+                                    example: "2024-06-29T09:34:12.913Z"
+                              plane:
+                                type: object
+                                properties:
+                                  id:
+                                    type: string
+                                    example: 4157a651-ccf5-4d5d-9f15-e3eb670306ec
+                                  plane_code:
+                                    type: string
+                                    example: AF-1717
+                                  airline:
+                                    type: string
+                                    example: Air France
+                                  baggage:
+                                    type: integer
+                                    example: 15
+                                  cabin_baggage:
+                                    type: integer
+                                    example: 5
+                                  economy_seat:
+                                    type: integer
+                                    example: 55
+                                  premium_economy_seat:
+                                    type: integer
+                                    example: 15
+                                  business_seat:
+                                    type: integer
+                                    example: 10
+                                  first_class_seat:
+                                    type: integer
+                                    example: 7
+                                  createdAt:
+                                    type: string
+                                    format: datetime
+                                    example: "2024-06-25T03:04:20.047Z"
+                                  updatedAt:
+                                    type: string
+                                    format: datetime
+                                    example: "2024-06-25T03:04:20.047Z"
+                              to:
+                                type: object
+                                properties:
+                                  id:
+                                    type: string
+                                    example: 0a72804e-e481-466e-87cf-88f9f5e07db2
+                                  airport_code:
+                                    type: string
+                                    example: JOG
+                                  name:
+                                    type: string
+                                    example: Adisucipto International Airport
+                                  city:
+                                    type: string
+                                    example: Yogyakarta
+                                  country:
+                                    type: string
+                                    example: Indonesia
+                                  visited:
+                                    type: integer
+                                    example: 339
+                                  image_url:
+                                    type: string
+                                    example: https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Yogyakarta_Indonesia_Tugu-Yogyakarta-02.jpg/1200px-Yogyakarta_Indonesia_Tugu-Yogyakarta-02.jpg
+                                  createdAt:
+                                    type: string
+                                    format: datetime
+                                    example: "2024-06-25T03:04:19.929Z"
+                                  updatedAt:
+                                    type: string
+                                    format: datetime
+                                    example: "2024-06-29T08:26:45.045Z"
 
         404:
           description: Not Found
@@ -3040,7 +3176,7 @@ paths:
                         example: 24000000
                       qr_url:
                         type: string
-                        example: https://ik.imagekit.io/dewangga/6b48af68-a1c5-4e8e-83d3-3849fb445974_qrcode_uhhH1KvPS.png
+                        example: https://ik.imagekit.io/johndoe/6b48af68-a1c5-4e8e-83d3-3849fb445974_qrcode_uhhH1KvPS.png
                       status:
                         type: string
                         example: ISSUED
