@@ -6,6 +6,11 @@
 2. I Ketut Krisna Kertajaya (Universitas Gunadarma)
 3. Dewangga Nanda Arjuna (UPN Veteran Jawa Timur)
 
+## Account Dummy
+
+Email : user@user.com
+Password : user123
+
 ## Link:
 
 - _URL Main:_ [https://production-dot-binar-project-426902.et.r.appspot.com](https://production-dot-binar-project-426902.et.r.appspot.com)
@@ -13,3 +18,5 @@
 - _API Documentation:_ [https://production-dot-binar-project-426902.et.r.appspot.com/api-docs/](https://production-dot-binar-project-426902.et.r.appspot.com/api-docs/)
 
 - _Github:_ [https://github.com/ketutk/BINAR-PROJECT-GCP/tree/main](https://github.com/ketutk/BINAR-PROJECT-GCP/tree/main)
+
+- _Link PPT:_ [https://www.canva.com/design/DAGJX4_IQwY/TyfWdlkQsviNBjnxgdagbA/edit?utm_content=DAGJX4_IQwY&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton](https://www.canva.com/design/DAGJX4_IQwY/TyfWdlkQsviNBjnxgdagbA/edit?utm_content=DAGJX4_IQwY&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
