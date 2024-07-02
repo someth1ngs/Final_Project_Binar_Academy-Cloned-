@@ -17,6 +17,9 @@ Password : user123
 
 - _API Documentation:_ [https://production-dot-binar-project-426902.et.r.appspot.com/api-docs/](https://production-dot-binar-project-426902.et.r.appspot.com/api-docs/)
 
-- _Github Main Repo (Private):_ [https://github.com/ketutk/BINAR-PROJECT-GCP/tree/main](https://github.com/ketutk/BINAR-PROJECT-GCP/tree/main)
+- _Github Main Repository (Private):_ [https://github.com/ketutk/BINAR-PROJECT-GCP/tree/main](https://github.com/ketutk/BINAR-PROJECT-GCP/tree/main)
 
 - _Link PPT:_ [https://www.canva.com/design/DAGJX4_IQwY/TyfWdlkQsviNBjnxgdagbA/edit?utm_content=DAGJX4_IQwY&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton](https://www.canva.com/design/DAGJX4_IQwY/TyfWdlkQsviNBjnxgdagbA/edit?utm_content=DAGJX4_IQwY&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
+
+# Notes
+This is a Cloned Repo from my Final Project at Binar Academy, i cloned it cause the Project is being Private, and i don't have the access to edit the settings (I'm not the owner), fyi this repository doesn't have a cloned Deploy, instead i credited the official and original deploy from the original repository
