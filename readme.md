@@ -17,6 +17,6 @@ Password : user123
 
 - _API Documentation:_ [https://production-dot-binar-project-426902.et.r.appspot.com/api-docs/](https://production-dot-binar-project-426902.et.r.appspot.com/api-docs/)
 
-- _Github:_ [https://github.com/ketutk/BINAR-PROJECT-GCP/tree/main](https://github.com/ketutk/BINAR-PROJECT-GCP/tree/main)
+- _Github Main Repo (Private):_ [https://github.com/ketutk/BINAR-PROJECT-GCP/tree/main](https://github.com/ketutk/BINAR-PROJECT-GCP/tree/main)
 
 - _Link PPT:_ [https://www.canva.com/design/DAGJX4_IQwY/TyfWdlkQsviNBjnxgdagbA/edit?utm_content=DAGJX4_IQwY&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton](https://www.canva.com/design/DAGJX4_IQwY/TyfWdlkQsviNBjnxgdagbA/edit?utm_content=DAGJX4_IQwY&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
