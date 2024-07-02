@@ -3207,6 +3207,8 @@ paths:
                       - type: string
                         example: Payment already expired
                       - type: string
+                        example: Payment already issued
+                      - type: string
                         example: Missing required field
                   data:
                     example: null
