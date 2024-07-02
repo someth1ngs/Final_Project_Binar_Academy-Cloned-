@@ -51,8 +51,8 @@ exports.updatePayment = async (req, res, next) => {
     // Check if payment is expired
     const isExpired = payment.status === "UNPAID" && new Date(payment.expiredAt) < Date.now();
 
-    // If payment is cancelled or expired, update status to CANCELLED and notify user
-    if (payment.status === "CANCELLED" || isExpired) {
+    // If payment is cancelled, expired, or already issued, return appropriate response
+    if (payment.status === "CANCELLED" || isExpired || payment.status === "ISSUED") {
       if (isExpired) {
         const response = await prisma.payment.update({
           where: {
@@ -68,7 +68,7 @@ exports.updatePayment = async (req, res, next) => {
 
       return res.status(400).json({
         status: false,
-        message: "Payment already expired",
+        message: payment.status === "ISSUED" ? "Payment already issued" : "Payment already expired",
         data: null,
       });
     }
