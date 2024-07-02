@@ -2186,7 +2186,7 @@ paths:
               properties:
                 flight_class_id:
                   type: string
-                  example: d04f9507-9b17-4fbf-a149-218206499556
+                  example: c8c132fe-7131-4786-8807-38d6aa1b1901
                 include_return:
                   type: boolean
                   example: false
