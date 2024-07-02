@@ -1,9 +1,14 @@
 # <a href="https://git.io/typing-svg"><img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&size=32&duration=2500&pause=1000&color=00E5FF&vCenter=true&random=false&width=435&lines=%F0%9F%A7%BE+Final+Project+KM6;%F0%9F%8F%AB+Binar+Academy;%F0%9F%92%BB+NgeFly.com" alt="Typing SVG" /></a>
 
-# Notes
-This is a Cloned Repo from my Original Final Project at Binar Academy, i cloned cause the Project is being Private, and i don't have the access to edit the settings (I'm not the owner), fyi this repository doesn't have a cloned Deploy, instead i credited the official and original deploy from the original repository
+# Notes (English)
+This is a Cloned Repository from my Original Final Project at Binar Academy, i cloned cause the original Project is being Private, and i don't have the access to edit the settings (I'm not the owner), fyi this cloned repository doesn't have a Deploy, instead i credited the official and original deploy from the original repository
 
 i make this solely purpose is to publicly my project for Final Report "Kampus Merdeka"
+
+# Catatan (Bahasa Indonesia)
+Ini adalah Repositori yang sudah saya Kloning dari Proyek Akhir asli saya di Binar Academy, saya kloning karena Proyek yang original bersifat Pribadi (atau tidak bisa dilihat publik), dan saya tidak memiliki akses untuk mengedit pengaturan-nya (saya bukan pemiliknya), karena kloning repositori ini tidak memiliki Deploy, sebagai gantinya saya mengkreditkan deployment resmi dan asli dari repositori asli
+
+tujuan saya membuat ini semata-mata adalah untuk mempublikasikan proyek saya untuk Laporan Akhir "Kampus Merdeka"
 
 ## Anggota Kelompok BEJS:
 
