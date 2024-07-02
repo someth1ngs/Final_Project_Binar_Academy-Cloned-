@@ -23,3 +23,5 @@ Password : user123
 
 # Notes
 This is a Cloned Repo from my Final Project at Binar Academy, i cloned it cause the Project is being Private, and i don't have the access to edit the settings (I'm not the owner), fyi this repository doesn't have a cloned Deploy, instead i credited the official and original deploy from the original repository
+
+i make this solely purpose is to publicly my project for Final Report "Kampus Merdeka"
